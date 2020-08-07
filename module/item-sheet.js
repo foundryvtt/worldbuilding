@@ -20,7 +20,7 @@ export class SimpleItemSheet extends ItemSheet {
   /** @override */
   getData() {
     const data = super.getData();
-    data.dtypes = ["String", "Number", "Boolean"];
+    data.dtypes = ["String", "Number", "Boolean", "Formula"];
     for ( let attr of Object.values(data.data.attributes) ) {
       attr.isCheckbox = attr.dtype === "Boolean";
     }
@@ -97,7 +97,7 @@ export class SimpleItemSheet extends ItemSheet {
       obj[k] = v;
       return obj;
     }, {});
-    
+
     // Remove attributes which are no longer used
     for ( let k of Object.keys(this.object.data.data.attributes) ) {
       if ( !attributes.hasOwnProperty(k) ) attributes[`-=${k}`] = null;

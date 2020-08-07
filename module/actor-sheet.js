@@ -21,7 +21,7 @@ export class SimpleActorSheet extends ActorSheet {
   /** @override */
   getData() {
     const data = super.getData();
-    data.dtypes = ["String", "Number", "Boolean"];
+    data.dtypes = ["String", "Number", "Boolean", "Formula"];
     for ( let attr of Object.values(data.data.attributes) ) {
       attr.isCheckbox = attr.dtype === "Boolean";
     }
@@ -112,7 +112,7 @@ export class SimpleActorSheet extends ActorSheet {
       obj[k] = v;
       return obj;
     }, {});
-    
+
     // Remove attributes which are no longer used
     for ( let k of Object.keys(this.object.data.data.attributes) ) {
       if ( !attributes.hasOwnProperty(k) ) attributes[`-=${k}`] = null;
@@ -123,7 +123,7 @@ export class SimpleActorSheet extends ActorSheet {
       obj[e[0]] = e[1];
       return obj;
     }, {_id: this.object._id, "data.attributes": attributes});
-    
+
     // Update the Actor
     return this.object.update(formData);
   }

@@ -34,6 +34,12 @@ export class SimpleActorSheet extends ActorSheet {
 	activateListeners(html) {
     super.activateListeners(html);
 
+    // Handle rollable attributes.
+    html.find('.items .rollable').click(ev => {
+      let r = new Roll($(ev.currentTarget).data('roll'), this.actor.getRollData());
+      r.roll().toMessage();
+    });
+
     // Everything below here is only needed if the sheet is editable
     if (!this.options.editable) return;
 

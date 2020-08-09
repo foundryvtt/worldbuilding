@@ -94,6 +94,11 @@
 .worldbuilding .item-list .item-controls {
   flex: 0 0 36px;
 }
+.worldbuilding .item-list .item-button {
+  height: 100%;
+  line-height: 1;
+  font-size: 11px;
+}
 .worldbuilding .attributes-header {
   padding: 5px;
   margin: 5px 0;

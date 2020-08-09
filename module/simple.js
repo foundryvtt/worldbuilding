@@ -82,4 +82,11 @@ Hooks.once("init", async function() {
     }
   }
 
+  /**
+   * Slugify a string.
+   */
+  Handlebars.registerHelper('slugify', function(value) {
+    return value.slugify({strict: true});
+  });
+
 });

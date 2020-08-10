@@ -82,9 +82,15 @@ export class SimpleActorSheet extends ActorSheet {
 
     // Add new attribute
     if ( action === "create" ) {
-      const nk = Object.keys(attrs).length + 1;
+      const objKeys = Object.keys(attrs);
+      let nk = Object.keys(attrs).length + 1;
+      let newValue = `attr${nk}`;
       let newKey = document.createElement("div");
-      newKey.innerHTML = `<input type="text" name="data.attributes.attr${nk}.key" value="attr${nk}"/>`;
+      while ( objKeys.includes(newValue) ) {
+        ++nk;
+        newValue = `attr${nk}`;
+      };
+      newKey.innerHTML = `<input type="text" name="data.attributes.attr${nk}.key" value="${newValue}"/>`;
       newKey = newKey.children[0];
       form.appendChild(newKey);
       await this._onSubmit(event);

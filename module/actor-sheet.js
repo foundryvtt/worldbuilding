@@ -25,6 +25,7 @@ export class SimpleActorSheet extends ActorSheet {
     for ( let attr of Object.values(data.data.attributes) ) {
       attr.isCheckbox = attr.dtype === "Boolean";
     }
+    data.shorthand = !!game.settings.get("worldbuilding", "macroShorthand");
     return data;
   }
 
@@ -33,6 +34,19 @@ export class SimpleActorSheet extends ActorSheet {
   /** @override */
 	activateListeners(html) {
     super.activateListeners(html);
+
+    // Handle rollable attributes.
+    html.find('.items .rollable').click(ev => {
+      let button = $(ev.currentTarget);
+      let r = new Roll(button.data('roll'), this.actor.getRollData());
+      const li = button.parents(".item");
+      const item = this.actor.getOwnedItem(li.data("itemId"));
+      r.roll().toMessage({
+        user: game.user._id,
+        speaker: ChatMessage.getSpeaker({ actor: this.actor }),
+        flavor: `<h2>${item.name}</h2><h3>${button.text()}</h3>`
+      });
+    });
 
     // Everything below here is only needed if the sheet is editable
     if (!this.options.editable) return;

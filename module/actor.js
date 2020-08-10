@@ -8,28 +8,145 @@ export class SimpleActor extends Actor {
   getRollData() {
     const data = super.getRollData();
     const shorthand = game.settings.get("worldbuilding", "macroShorthand");
+    const formulaAttributes = [];
 
-    // Re-map all attributes onto the base roll data
+    // Handle formula attributes when the short syntax is disabled.
+    this._applyShorthand(data, formulaAttributes, shorthand);
+
+    // Map all items data using their slugified names
+    this._applyItems(data, shorthand);
+
+    // Evaluate formula attributes after all other attributes have been handled,
+    // including items.
+    this._applyFormulaReplacements(data, formulaAttributes, shorthand);
+
+    // Remove the attributes if necessary.
     if ( !!shorthand ) {
-      for ( let [k, v] of Object.entries(data.attributes) ) {
-        if ( !(k in data) ) data[k] = v.value;
-      }
       delete data.attributes;
+      delete data.attr;
+      delete data.abil;
     }
 
+    return data;
+  }
+
+  /**
+   * Apply shorthand syntax to actor roll data.
+   * @param {Object} data The actor's data object.
+   * @param {Array} formulaAttributes Array of attributes that are derived formulas.
+   * @param {Boolean} shorthand Whether or not the shorthand syntax is used.
+   */
+  _applyShorthand(data, formulaAttributes, shorthand) {
+    // Handle formula attributes when the short syntax is disabled.
+    for ( let [k, v] of Object.entries(data.attributes) ) {
+      // Make an array of formula attributes for later reference.
+      if ( v.dtype == "Formula" ) formulaAttributes.push(k);
+      // Add shortened version of the attributes.
+      if ( !!shorthand ) {
+        if ( !(k in data) ) {
+          data[k] = v.value;
+        }
+      }
+    }
+  }
+
+  /**
+   * Add items to the actor roll data object. Handles regular and shorthand
+   * syntax, and calculates derived formula attributes on the items.
+   * @param {Object} data The actor's data object.
+   * @param {Boolean} shorthand Whether or not the shorthand syntax is used.
+   */
+  _applyItems(data, shorthand) {
     // Map all items data using their slugified names
     data.items = this.data.items.reduce((obj, i) => {
       let key = i.name.slugify({strict: true});
       let itemData = duplicate(i.data);
-      if ( !!shorthand ) {
-        for ( let [k, v] of Object.entries(itemData.attributes) ) {
-          if ( !(k in itemData) ) itemData[k] = v.value;
+      const itemAttributes = [];
+
+      // Add items to shorthand and note which ones are formula attributes.
+      for ( let [k, v] of Object.entries(itemData.attributes) ) {
+        if ( v.dtype == "Formula" ) itemAttributes.push(k);
+        // Add shortened version of the attributes.
+        if ( !!shorthand ) {
+          if ( !(k in itemData) ) {
+            itemData[k] = v.value;
+          }
         }
-        delete itemData["attributes"];
       }
+
+      // Evaluate formula attributes after all other attributes have been handled.
+      for ( let k of itemAttributes ) {
+        if ( itemData.attributes[k].value ) {
+          itemData.attributes[k].value = this._replaceData(itemData.attributes[k].value, itemData);
+          itemData.attributes[k].value = this._replaceData(itemData.attributes[k].value, data, {missing: "0"});
+          // TODO: Replace with:
+          // itemData.attributes[k].value = Roll.replaceFormulaData(itemData.attributes[k].value, itemData);
+          // itemData.attributes[k].value = Roll.replaceFormulaData(itemData.attributes[k].value, data, {missing: "0"});
+        }
+
+        // Duplicate values to shorthand.
+        if ( !!shorthand ) {
+          itemData[k] = itemData.attributes[k].value;
+        }
+      }
+
+      // Delete the original attributes key if using the shorthand syntax.
+      if ( !!shorthand ) {
+        delete itemData.attributes;
+      }
+
       obj[key] = itemData;
       return obj;
     }, {});
-    return data;
+  }
+
+  /**
+   * Apply replacements for derived formula attributes.
+   * @param {Object} data The actor's data object.
+   * @param {Array} formulaAttributes Array of attributes that are derived formulas.
+   * @param {Boolean} shorthand Whether or not the shorthand syntax is used.
+   */
+  _applyFormulaReplacements(data, formulaAttributes, shorthand) {
+    // Evaluate formula attributes after all other attributes have been handled,
+    // including items.
+    for ( let k of formulaAttributes ) {
+      if ( data.attributes[k].value ) {
+        data.attributes[k].value = this._replaceData(data.attributes[k].value, data, {missing: "0"});
+        // TODO: Replace with:
+        // data.attributes[k].value = Roll.replaceFormulaData(data.attributes[k].value, data, {missing: "0"});
+      }
+
+      // Duplicate values to shorthand.
+      if ( !!shorthand ) {
+        data[k] = data.attributes[k].value;
+      }
+    }
+  }
+
+  /**
+   * Replace referenced data attributes in the roll formula with the syntax `@attr` with the corresponding key from
+   * the provided `data` object. This is a temporary helper function that will be replaced with Roll.replaceFormulaData()
+   * in Foundry 0.7.1.
+   *
+   * @param {String} formula    The original formula within which to replace.
+   * @param {Object} data       Data object to use for value replacements.
+   * @param {Object} missing    Value to use as missing replacements, such as {missing: "0"}.
+   * @return {String} The formula with attributes replaced with values.
+   */
+  _replaceData(formula, data, {missing=null}={}) {
+    // Exit early if the formula is invalid.
+    if ( typeof formula != "string" ) {
+      return 0;
+    }
+
+    // Replace attributes with their numeric equivalents.
+    let dataRgx = new RegExp(/@([a-z.0-9_\-]+)/gi);
+    let rollFormula = formula.replace(dataRgx, (match, term) => {
+      // Replace matches with the value, or the missing value.
+      let value = getProperty(data, term);
+      return value ? String(value).trim() : (missing != null ? missing : `@${term}`);
+    });
+
+    return rollFormula;
   }
 }

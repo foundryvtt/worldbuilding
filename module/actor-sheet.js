@@ -53,6 +53,9 @@ export class SimpleActorSheet extends ActorSheet {
 
     // Add or Remove Attribute
     html.find(".attributes").on("click", ".attribute-control", this._onClickAttributeControl.bind(this));
+
+    // Fix issues with focus tabbing on attribute forms.
+    this._handleFocus(html);
   }
 
   /* -------------------------------------------- */
@@ -112,7 +115,7 @@ export class SimpleActorSheet extends ActorSheet {
       obj[k] = v;
       return obj;
     }, {});
-    
+
     // Remove attributes which are no longer used
     for ( let k of Object.keys(this.object.data.data.attributes) ) {
       if ( !attributes.hasOwnProperty(k) ) attributes[`-=${k}`] = null;
@@ -123,8 +126,47 @@ export class SimpleActorSheet extends ActorSheet {
       obj[e[0]] = e[1];
       return obj;
     }, {_id: this.object._id, "data.attributes": attributes});
-    
+
     // Update the Actor
     return this.object.update(formData);
+  }
+
+  /* -------------------------------------------- */
+  _handleFocus(html) {
+    // Disable the default input behavior so that only inputs in the header
+    // area trigger form updates and re-renders. This allows us to only trigger
+    // re-renders on the attribute tab if the tab is changed or the form is
+    // closed.
+    html.off("change", "input,select,textarea");
+    html.on("change", ".sheet-header input, .sheet-header select, .sheet-header textarea", this._onChangeInput.bind(this));
+
+    // When the user changes tabs, update the actor data.
+    html.find('.tabs a.item').on('click', event => {
+      this._onSubmit(event);
+    });
+
+    // If the user tabs into the last column, automatically create a new
+    // attribute row for them.
+    $(window).keyup(async e => {
+      var code = (e.keyCode ? e.keyCode : e.which);
+      if (code == 9 && html.find('.attribute:last-child select:focus').length) {
+        const attrs = this.object.data.data.attributes;
+        const form = this.form;
+
+        // Add new attribute
+        const nk = Object.keys(attrs).length + 1;
+        let newKey = document.createElement("div");
+        newKey.innerHTML = `<input type="text" name="data.attributes.attr${nk}.key" value="attr${nk}"/>`;
+        newKey = newKey.children[0];
+        form.appendChild(newKey);
+        await this._onSubmit(event);
+
+        // Reapply focus to the last element due to the re-render.
+        setTimeout(() => {
+          let newHtml = $(document).find(`.app[data-appid="${this.appId}"]`);
+          newHtml.find('.attribute:nth-last-child(2) select').focus();
+        }, 150);
+      }
+    });
   }
 }

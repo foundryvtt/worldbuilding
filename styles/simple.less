@@ -87,10 +87,11 @@
     overflow-y: auto;
 
     .item {
-      height: 30px;
+      min-height: 30px;
       line-height: 24px;
       padding: 3px 0;
       border-bottom: 1px solid #BBB;
+      align-items: stretch;
 
       img {
         flex: 0 0 24px;
@@ -106,10 +107,20 @@
       flex: 0 0 36px;
     }
 
+    .item-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      flex-direction: row;
+      align-items: center;
+      flex: 2;
+      justify-content: flex-start;
+    }
+
     .item-button {
-      height: 100%;
       line-height: 1;
       font-size: 11px;
+      flex: none;
+      width: auto;
     }
   }
 

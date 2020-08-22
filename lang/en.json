@@ -5,5 +5,9 @@
   "SETTINGS.SimpleInitFormulaL": "Enter an initiative formula, such as d20+@dex",
 
   "SIMPLE.NotifyInitFormulaUpdated": "Initiative formula was updated to:",
-  "SIMPLE.NotifyInitFormulaInvalid": "Initiative formula was invalid:"
+  "SIMPLE.NotifyInitFormulaInvalid": "Initiative formula was invalid:",
+
+  "SIMPLE.ResourceMin": "Min",
+  "SIMPLE.ResourceValue": "Value",
+  "SIMPLE.ResourceMax": "Max"
 }

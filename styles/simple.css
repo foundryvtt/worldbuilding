@@ -144,6 +144,17 @@
   line-height: 28px;
   border: none;
 }
+.worldbuilding .attributes-list .attribute-col label {
+  font-size: 10px;
+  text-align: center;
+  line-height: 1;
+}
+.worldbuilding .attributes-list .attribute-col input {
+  font-size: 11px;
+  text-align: center;
+  line-height: 1;
+  height: 50%;
+}
 .worldbuilding.sheet.actor {
   min-width: 560px;
   min-height: 420px;

@@ -42,10 +42,30 @@
             {{#each data.attributes as |attr key|}}
                 <li class="attribute flexrow" data-attribute="{{key}}">
                     <input class="attribute-key" type="text" name="data.attributes.{{key}}.key" value="{{key}}"/>
+                    {{!-- Handle booleans. --}}
                     {{#if attr.isCheckbox}}
                     <label class="attribute-value checkbox"><input type="checkbox" name="data.attributes.{{key}}.value" {{checked attr.value}}/></label>
                     {{else}}
-                    <input class="attribute-value" type="text" name="data.attributes.{{key}}.value" value="{{attr.value}}" data-dtype="{{attr.dtype}}"/>
+                      {{!-- Handle resources. --}}
+                      {{#if attr.isResource}}
+                        <div class="attribute-group flexrow">
+                          <span class="attribute-col flexcol">
+                            <label for="data.attributes.{{key}}.min">Min</label>
+                            <input class="attribute-value" type="text" name="data.attributes.{{key}}.min" value="{{attr.min}}" data-dtype="{{attr.dtype}}"/>
+                          </span>
+                          <span class="attribute-col flexcol">
+                            <label for="data.attributes.{{key}}.value">Current</label>
+                            <input class="attribute-value" type="text" name="data.attributes.{{key}}.value" value="{{attr.value}}" data-dtype="{{attr.dtype}}"/>
+                          </span>
+                          <span class="attribute-col flexcol">
+                            <label for="data.attributes.{{key}}.max">Max</label>
+                            <input class="attribute-value" type="text" name="data.attributes.{{key}}.max" value="{{attr.max}}" data-dtype="{{attr.dtype}}"/>
+                          </span>
+                        </div>
+                      {{!-- Handle other input types. --}}
+                      {{else}}
+                        <input class="attribute-value" type="text" name="data.attributes.{{key}}.value" value="{{attr.value}}" data-dtype="{{attr.dtype}}"/>
+                      {{/if}}
                     {{/if}}
                     <input class="attribute-label" type="text" name="data.attributes.{{key}}.label" value="{{attr.label}}"/>
                     <select class="attribute-dtype" name="data.attributes.{{key}}.dtype">

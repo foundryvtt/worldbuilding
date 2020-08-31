@@ -1,0 +1,16 @@
+<form id="entity-create" autocomplete="off" onsubmit="event.preventDefault();">
+    <div class="form-group">
+        <label>{{localize "Name"}}</label>
+        <input type="text" name="name" placeholder="{{localize 'ENTITY.CreateNew'}} {{upper}}"/>
+    </div>
+
+    <div class="form-group">
+        <label>{{localize "Type"}}</label>
+        <select name="type">
+        {{#each types}}
+            <option value="{{this.value}}">{{this.label}}</option>
+        {{/each}}
+        </select>
+        <p class="notes">{{localize "ENTITY.TypeHint"}}</p>
+    </div>
+</form>

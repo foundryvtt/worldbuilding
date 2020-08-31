@@ -9,5 +9,9 @@
 
   "SIMPLE.ResourceMin": "Min",
   "SIMPLE.ResourceValue": "Value",
-  "SIMPLE.ResourceMax": "Max"
+  "SIMPLE.ResourceMax": "Max",
+
+  "SIMPLE.DefineTemplate": "Define as Template",
+  "SIMPLE.UnsetTemplate": "Unset Template",
+  "SIMPLE.NoTemplate": "No Template"
 }

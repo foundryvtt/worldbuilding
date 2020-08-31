@@ -1,3 +1,5 @@
+import { ATTRIBUTE_TYPES } from "./constants.js";
+
 /**
  * Extend the basic ItemSheet with some very simple modifications
  * @extends {ItemSheet}
@@ -20,7 +22,7 @@ export class SimpleItemSheet extends ItemSheet {
   /** @override */
   getData() {
     const data = super.getData();
-    data.dtypes = ["String", "Number", "Boolean", "Formula", "Resource"];
+    data.dtypes = ATTRIBUTE_TYPES;
     for ( let attr of Object.values(data.data.attributes) ) {
       attr.isCheckbox = attr.dtype === "Boolean";
       attr.isResource = attr.dtype === "Resource";

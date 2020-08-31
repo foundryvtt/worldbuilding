@@ -1,3 +1,5 @@
+import { ATTRIBUTE_TYPES } from "./constants.js";
+
 /**
  * Extend the basic ActorSheet with some very simple modifications
  * @extends {ActorSheet}
@@ -21,7 +23,7 @@ export class SimpleActorSheet extends ActorSheet {
   /** @override */
   getData() {
     const data = super.getData();
-    data.dtypes = ["String", "Number", "Boolean", "Formula", "Resource"];
+    data.dtypes = ATTRIBUTE_TYPES;
     for ( let attr of Object.values(data.data.attributes) ) {
       attr.isCheckbox = attr.dtype === "Boolean";
       attr.isResource = attr.dtype === "Resource";

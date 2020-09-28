@@ -150,20 +150,14 @@
   position: sticky;
   top: 0;
   left: 0;
-  right: 0;
-  padding: 5px;
+  align-items: center;
+  padding: 0 5px;
   margin: 5px 0;
   background: #cfcdc2;
   border: 1px solid #AAA;
   border-radius: 2px;
-  text-align: center;
+  text-align: left;
   font-weight: bold;
-}
-.worldbuilding .attributes-header .attribute-label {
-  flex: 1.5;
-}
-.worldbuilding .attributes-header .attribute-control {
-  flex: 0 0 20px;
 }
 .worldbuilding .attributes-list {
   list-style: none;
@@ -199,20 +193,24 @@
 .worldbuilding .group-header input[type="text"]:focus::placeholder {
   opacity: 1;
 }
+.worldbuilding .group-controls {
+  margin: 5px;
+}
 .worldbuilding .groups-list {
   list-style: none;
   margin: 0;
   padding: 0;
 }
 .worldbuilding .group {
-  margin: 20px 0;
+  margin: 5px 0 0;
   padding: 0;
 }
 .worldbuilding .group-header {
+  align-items: center;
   background: rgba(0, 0, 0, 0.05);
   border: 1px solid #AAA;
   border-radius: 2px;
-  padding: 5px;
+  padding: 2px 5px;
 }
 .worldbuilding .group-key,
 .worldbuilding .group-label {
@@ -224,12 +222,15 @@
   margin-right: 6px;
 }
 .worldbuilding .group-key {
-  flex: 0 0 126px;
   opacity: 0.75;
 }
+.worldbuilding .group-label {
+  flex: 2;
+}
 .worldbuilding .group-dtype {
+  height: 24px;
+  flex: 0 0 116px;
   margin: 0 5px;
-  flex: 0;
 }
 .worldbuilding.sheet.actor {
   min-width: 560px;

@@ -5,6 +5,15 @@
 export class SimpleActor extends Actor {
 
   /** @override */
+  prepareData() {
+    super.prepareData();
+    this.data.data.groups = this.data.data.groups || {};
+    this.data.data.attributes = this.data.data.attributes || {};
+  }
+
+  /* -------------------------------------------- */
+
+  /** @override */
   getRollData() {
     const data = super.getRollData();
     const shorthand = game.settings.get("worldbuilding", "macroShorthand");

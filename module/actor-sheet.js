@@ -36,17 +36,16 @@ export class SimpleActorSheet extends ActorSheet {
     data.data.ungroupedAttributes = {};
 
     // Build an array of sorted group keys.
-    let groupKeys = Object.keys(data.data.groups).sort((a, b) => {
-      // Attempt to sort by the label, but fall back to the key.
-      let aSort = data.data.groups[a].label ? data.data.groups[a].label : a;
-      let bSort = data.data.groups[b].label ? data.data.groups[b].label : b;
+    const groups = data.data.groups || {};
+    let groupKeys = Object.keys(groups).sort((a, b) => {
+      let aSort = groups[a].label ?? a;
+      let bSort = groups[b].label ?? b;
       return aSort.localeCompare(bSort);
     });
 
-    // Iterate over the sorted groups to add their attributes..
-    groupKeys.forEach(key => {
-      // Retrieve the group.
-      let group = data.data.attributes[key];
+    // Iterate over the sorted groups to add their attributes.
+    for ( let key of groupKeys ) {
+      let group = data.data.attributes[key] || {};
 
       // Initialize the attributes container for this group.
       if ( !data.data.groups[key]['attributes'] ) data.data.groups[key]['attributes'] = {};
@@ -58,7 +57,7 @@ export class SimpleActorSheet extends ActorSheet {
         group[attr]['isResource'] = group[attr]['dtype'] === 'Resource';
         data.data.groups[key]['attributes'][attr] = group[attr];
       });
-    });
+    }
 
     // Sort the remaining attributes attributes.
     Object.keys(data.data.attributes).filter(a => !groupKeys.includes(a)).sort((a, b) => a.localeCompare(b)).forEach(key => {

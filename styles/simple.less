@@ -172,22 +172,14 @@
     position: sticky;
     top: 0;
     left: 0;
-    right: 0;
-    padding: 5px;
+    align-items: center;
+    padding: 0 5px;
     margin: 5px 0;
     background: #cfcdc2;
     border: 1px solid #AAA;
     border-radius: 2px;
-    text-align: center;
+    text-align: left;
     font-weight: bold;
-
-    .attribute-label {
-      flex: 1.5;
-    }
-
-    .attribute-control {
-      flex: 0 0 20px;
-    }
   }
 
   .attributes-list {
@@ -235,6 +227,10 @@
     }
   }
 
+  .group-controls {
+    margin: 5px;
+  }
+
   .groups-list {
     list-style: none;
     margin: 0;
@@ -242,15 +238,16 @@
   }
 
   .group {
-    margin: 20px 0;
+    margin: 5px 0 0;
     padding: 0;
   }
 
   .group-header {
+    align-items: center;
     background: rgba(0, 0, 0, 0.05);
     border: 1px solid #AAA;
     border-radius: 2px;
-    padding: 5px;
+    padding: 2px 5px;
   }
 
   .group-key,
@@ -264,13 +261,17 @@
   }
 
   .group-key {
-    flex: 0 0 126px;
     opacity: 0.75;
   }
 
+  .group-label {
+    flex: 2;
+  }
+
   .group-dtype {
+    height: 24px;
+    flex: 0 0 116px;
     margin: 0 5px;
-    flex: 0;
   }
 }
 

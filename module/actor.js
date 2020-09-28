@@ -25,6 +25,7 @@ export class SimpleActor extends Actor {
       delete data.attributes;
       delete data.attr;
       delete data.abil;
+      delete data.groups;
     }
 
     return data;
@@ -44,7 +45,18 @@ export class SimpleActor extends Actor {
       // Add shortened version of the attributes.
       if ( !!shorthand ) {
         if ( !(k in data) ) {
-          data[k] = v.value;
+          // Non-grouped attributes.
+          if ( v.dtype ) {
+            data[k] = v.value;
+          }
+          // Grouped attributes.
+          else {
+            data[k] = {};
+            for ( let [attrKey, attrValue] of Object.entries(v) ) {
+              data[k][attrKey] = attrValue.value;
+              if ( attrValue.dtype == "Formula" ) formulaAttributes.push(`${k}.${attrKey}`);
+            }
+          }
         }
       }
     }
@@ -110,15 +122,43 @@ export class SimpleActor extends Actor {
     // Evaluate formula attributes after all other attributes have been handled,
     // including items.
     for ( let k of formulaAttributes ) {
+      // Grouped attributes are included as `group.attr`, so we need to split
+      // them into new keys.
+      let attr = null;
+      if ( k.includes('.') ) {
+        let attrKey = k.split('.');
+        k = attrKey[0];
+        attr = attrKey[1];
+      }
+      // Non-grouped attributes.
       if ( data.attributes[k].value ) {
         data.attributes[k].value = this._replaceData(data.attributes[k].value, data, {missing: "0"});
         // TODO: Replace with:
         // data.attributes[k].value = Roll.replaceFormulaData(data.attributes[k].value, data, {missing: "0"});
       }
+      // Grouped attributes.
+      else {
+        if ( attr ) {
+          data.attributes[k][attr].value = this._replaceData(data.attributes[k][attr].value, data, {missing: "0"});
+        }
+      }
 
       // Duplicate values to shorthand.
       if ( !!shorthand ) {
-        data[k] = data.attributes[k].value;
+        // Non-grouped attributes.
+        if ( data.attributes[k].value ) {
+          data[k] = data.attributes[k].value;
+        }
+        // Grouped attributes.
+        else {
+          if ( attr ) {
+            // Initialize a group key in case it doesn't exist.
+            if ( !data[k] ) {
+              data[k] = {};
+            }
+            data[k][attr] = data.attributes[k][attr].value;
+          }
+        }
       }
     }
   }

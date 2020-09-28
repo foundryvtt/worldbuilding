@@ -1,15 +1,15 @@
 <form class="{{cssClass}}" autocomplete="off">
     <header class="sheet-header">
-        <img class="profile-img" src="{{item.img}}" data-edit="img" title="{{item.name}}"/>
+        <img class="profile-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" />
         <div class="header-fields">
-            <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="Name"/></h1>
+            <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="Name" /></h1>
             <div class="resource">
-            	<label>Quantity</label>
-                <input type="text" name="data.quantity" value="{{data.quantity}}" data-dtype="Number"/>
+                <label>Quantity</label>
+                <input type="text" name="data.quantity" value="{{data.quantity}}" data-dtype="Number" />
             </div>
             <div class="resource">
-            	<label>Weight</label>
-                <input type="text" name="data.weight" value="{{data.weight}}" data-dtype="Number"/>
+                <label>Weight</label>
+                <input type="text" name="data.weight" value="{{data.weight}}" data-dtype="Number" />
             </div>
         </div>
     </header>
@@ -31,6 +31,7 @@
         {{!-- Attributes Tab --}}
         <div class="tab attributes" data-group="primary" data-tab="attributes">
             <header class="attributes-header flexrow">
+                <span class="attribute-roll"></span>
                 <span class="attribute-key">Attribute Key</span>
                 <span class="attribute-value">Value</span>
                 <span class="attribute-label">Label</span>

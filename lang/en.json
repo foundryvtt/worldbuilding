@@ -6,6 +6,8 @@
 
   "SIMPLE.NotifyInitFormulaUpdated": "Initiative formula was updated to:",
   "SIMPLE.NotifyInitFormulaInvalid": "Initiative formula was invalid:",
+  "SIMPLE.NotifyGroupDuplicate": "Attribute group already exists.",
+  "SIMPLE.NotifyGroupAlphanumeric": "Attribute group names may not contain spaces or periods.",
 
   "SIMPLE.ResourceMin": "Min",
   "SIMPLE.ResourceValue": "Value",
@@ -13,5 +15,16 @@
 
   "SIMPLE.DefineTemplate": "Define as Template",
   "SIMPLE.UnsetTemplate": "Unset Template",
-  "SIMPLE.NoTemplate": "No Template"
+  "SIMPLE.NoTemplate": "No Template",
+
+  "SIMPLE.AttributeKey": "Attribute Key",
+  "SIMPLE.AttributeValue": "Value",
+  "SIMPLE.AttributeLabel": "Label",
+  "SIMPLE.AttributeDtype": "Data Type",
+
+  "SIMPLE.DeleteGroup": "Delete group?",
+  "SIMPLE.DeleteGroupContent": "Do you wish to delete this group? This will delete the following group and all attributes included in it: ",
+
+  "SIMPLE.Create": "Create",
+  "SIMPLE.New": "New"
 }

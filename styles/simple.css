@@ -109,10 +109,51 @@
   flex: none;
   width: auto;
 }
+.worldbuilding .attributes {
+  position: relative;
+}
+.worldbuilding .attributes .attribute-control,
+.worldbuilding .attributes .group-control {
+  flex: 0 0 20px;
+  text-align: center;
+  line-height: 28px;
+  border: none;
+}
+.worldbuilding .attributes .attribute-roll {
+  flex: 0 0 20px;
+  text-align: center;
+  border-bottom: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.worldbuilding .attributes .group-prefix {
+  height: 31px;
+  margin-right: 10px;
+}
+.worldbuilding .attributes .button {
+  width: 100%;
+  flex: 1;
+  margin: 0;
+  background: rgba(0, 0, 0, 0.1);
+  border: 2px groove #f0f0e0;
+  border-radius: 3px;
+  font-size: 14px;
+  line-height: 28px;
+  display: block;
+}
+.worldbuilding .attributes .attribute-key {
+  background: transparent;
+  border: none;
+}
 .worldbuilding .attributes-header {
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
   padding: 5px;
   margin: 5px 0;
-  background: rgba(0, 0, 0, 0.05);
+  background: #cfcdc2;
   border: 1px solid #AAA;
   border-radius: 2px;
   text-align: center;
@@ -138,12 +179,6 @@
   border-radius: 0;
   border-bottom: 1px solid #AAA;
 }
-.worldbuilding .attributes-list a.attribute-control {
-  flex: 0 0 20px;
-  text-align: center;
-  line-height: 28px;
-  border: none;
-}
 .worldbuilding .attributes-list .attribute-col label {
   font-size: 10px;
   text-align: center;
@@ -154,6 +189,47 @@
   text-align: center;
   line-height: 1;
   height: 50%;
+}
+.worldbuilding .attribute input[type="text"]::placeholder,
+.worldbuilding .group-header input[type="text"]::placeholder {
+  opacity: 0;
+  transition: opacity 0.25s ease-in-out;
+}
+.worldbuilding .attribute input[type="text"]:focus::placeholder,
+.worldbuilding .group-header input[type="text"]:focus::placeholder {
+  opacity: 1;
+}
+.worldbuilding .groups-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.worldbuilding .group {
+  margin: 20px 0;
+  padding: 0;
+}
+.worldbuilding .group-header {
+  background: rgba(0, 0, 0, 0.05);
+  border: 1px solid #AAA;
+  border-radius: 2px;
+  padding: 5px;
+}
+.worldbuilding .group-key,
+.worldbuilding .group-label {
+  font-weight: bold;
+  border: none;
+  border-bottom: 1px solid #AAA;
+  background: transparent;
+  border-radius: 0;
+  margin-right: 6px;
+}
+.worldbuilding .group-key {
+  flex: 0 0 126px;
+  opacity: 0.75;
+}
+.worldbuilding .group-dtype {
+  margin: 0 5px;
+  flex: 0;
 }
 .worldbuilding.sheet.actor {
   min-width: 560px;

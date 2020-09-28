@@ -13,7 +13,8 @@
       "min": 0,
       "max": 5
     },
-    "attributes": {}
+    "attributes": {},
+    "groups": {}
   }
 },
 "Item": {
@@ -22,7 +23,8 @@
     "description": "",
     "quantity": 1,
     "weight": 0,
-    "attributes": {}
+    "attributes": {},
+    "groups": {}
   }
 }
 }

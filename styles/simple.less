@@ -125,10 +125,57 @@
   }
 
   /* Attributes */
+  .attributes {
+    position: relative;
+
+    .attribute-control,
+    .group-control {
+      flex: 0 0 20px;
+      text-align: center;
+      line-height: 28px;
+      border: none;
+    }
+
+    .attribute-roll {
+      flex: 0 0 20px;
+      text-align: center;
+      border-bottom: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .group-prefix {
+      height: 31px;
+      margin-right: 10px;
+    }
+
+    .button {
+      width: 100%;
+      flex: 1;
+      margin: 0;
+      background: rgba(0, 0, 0, 0.1);
+      border: 2px groove #f0f0e0;
+      border-radius: 3px;
+      font-size: 14px;
+      line-height: 28px;
+      display: block;
+    }
+
+    .attribute-key {
+      background: transparent;
+      border: none;
+    }
+  }
+
   .attributes-header {
+    position: sticky;
+    top: 0;
+    left: 0;
+    right: 0;
     padding: 5px;
     margin: 5px 0;
-    background: rgba(0, 0, 0, 0.05);
+    background: #cfcdc2;
     border: 1px solid #AAA;
     border-radius: 2px;
     text-align: center;
@@ -158,13 +205,6 @@
       border-bottom: 1px solid #AAA;
     }
 
-    a.attribute-control {
-      flex: 0 0 20px;
-      text-align: center;
-      line-height: 28px;
-      border: none;
-    }
-
     .attribute-col {
       label {
         font-size: 10px;
@@ -179,6 +219,58 @@
         height: 50%;
       }
     }
+  }
+
+  .attribute,
+  .group-header {
+    input[type="text"] {
+      &::placeholder {
+        opacity: 0;
+        transition: opacity 0.25s ease-in-out;
+      }
+
+      &:focus::placeholder {
+        opacity: 1;
+      }
+    }
+  }
+
+  .groups-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .group {
+    margin: 20px 0;
+    padding: 0;
+  }
+
+  .group-header {
+    background: rgba(0, 0, 0, 0.05);
+    border: 1px solid #AAA;
+    border-radius: 2px;
+    padding: 5px;
+  }
+
+  .group-key,
+  .group-label {
+    font-weight: bold;
+    border: none;
+    border-bottom: 1px solid #AAA;
+    background: transparent;
+    border-radius: 0;
+    margin-right: 6px;
+  }
+
+  .group-key {
+    flex: 0 0 126px;
+    opacity: 0.75;
+  }
+
+  .group-dtype {
+    margin: 0 5px;
+    flex: 0;
   }
 }
 

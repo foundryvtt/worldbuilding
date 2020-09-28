@@ -9,11 +9,15 @@ import { SimpleActor } from "./actor.js";
 import { SimpleItemSheet } from "./item-sheet.js";
 import { SimpleActorSheet } from "./actor-sheet.js";
 import { preloadHandlebarsTemplates } from "./templates.js";
+import { createWorldbuildingMacro, rollAttrMacro } from "./macro.js";
 
 /* -------------------------------------------- */
 /*  Foundry VTT Initialization                  */
 /* -------------------------------------------- */
 
+/**
+ * Init hook.
+ */
 Hooks.once("init", async function() {
   console.log(`Initializing Simple Worldbuilding System`);
 
@@ -24,6 +28,12 @@ Hooks.once("init", async function() {
   CONFIG.Combat.initiative = {
     formula: "1d20",
     decimals: 2
+  };
+
+  game.worldbuilding = {
+    SimpleActor,
+    createWorldbuildingMacro,
+    rollAttrMacro,
   };
 
   // Define custom Entity classes
@@ -93,6 +103,11 @@ Hooks.once("init", async function() {
   // Preload template partials.
   preloadHandlebarsTemplates();
 });
+
+/**
+ * Macrobar hook.
+ */
+Hooks.on("hotbarDrop", (bar, data, slot) => createWorldbuildingMacro(data, slot));
 
 /**
  * Adds the actor template context menu.
@@ -205,7 +220,7 @@ async function _simpleDirectoryTemplates(entityType = 'actor') {
   // Setup entity data.
   let type = entityType == 'actor' ? 'character' : 'item';
   let createData = {
-    name: `New ${ent}`,
+    name: `${game.i18n.localize("SIMPLE.New")} ${ent}`,
     type: type,
     folder: event.currentTarget.dataset.folder
   };
@@ -231,40 +246,35 @@ async function _simpleDirectoryTemplates(entityType = 'actor') {
         dlg = await renderTemplate(`systems/worldbuilding/templates/sidebar/entity-create.html`, templateData);
 
     // Render the confirmation dialog window
-    new Dialog({
-      title: `Create ${createData.name}`,
+    Dialog.confirm({
+      title: `${game.i18n.localize("SIMPLE.Create")} ${createData.name}`,
       content: dlg,
-      buttons: {
-        create: {
-          icon: '<i class="fas fa-check"></i>',
-          label: `Create ${ent}`,
-          callback: html => {
-            // Get the form data.
-            const form = html[0].querySelector("form");
-            mergeObject(createData, validateForm(form));
+      yes: html => {
+        // Get the form data.
+        const form = html[0].querySelector("form");
+        mergeObject(createData, validateForm(form));
 
-            // Store the type and name values, and retrieve the template entity.
-            let templateActor = entityCollection.getName(createData.type);
+        // Store the type and name values, and retrieve the template entity.
+        let templateActor = entityCollection.getName(createData.type);
 
-            // If there's a template entity, handle the data.
-            if (templateActor) {
-              // Update the object with the existing template's values.
-              createData = mergeObject(templateActor.data, createData, {inplace: false});
-              createData.type = templateActor.data.type;
-              // Clear the flag so that this doesn't become a new template.
-              delete createData.flags.worldbuilding.isTemplate;
-            }
-            // Otherwise, restore to a valid entity type (character/item).
-            else {
-              createData.type = type;
-            }
-
-            cls.create(createData, {renderSheet: true});
-          }
+        // If there's a template entity, handle the data.
+        if (templateActor) {
+          // Update the object with the existing template's values.
+          createData = mergeObject(templateActor.data, createData, {inplace: false});
+          createData.type = templateActor.data.type;
+          // Clear the flag so that this doesn't become a new template.
+          delete createData.flags.worldbuilding.isTemplate;
         }
+        // Otherwise, restore to a valid entity type (character/item).
+        else {
+          createData.type = type;
+        }
+
+        cls.create(createData, {renderSheet: true});
       },
-      default: "create"
-    }).render(true);
+      no: () => {},
+      defaultYes: false
+    });
   }
   // Otherwise, just create a blank entity.
   else {

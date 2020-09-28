@@ -1,41 +1,55 @@
-<ol class="attributes-list">
-{{#each attributes as |attr key|}}
-    <li class="attribute flexrow" data-attribute="{{key}}">
-        <input class="attribute-key" type="text" name="data.attributes.{{key}}.key" value="{{key}}"/>
-        {{!-- Handle booleans. --}}
-        {{#if attr.isCheckbox}}
-        <label class="attribute-value checkbox"><input type="checkbox" name="data.attributes.{{key}}.value" {{checked attr.value}}/></label>
-        {{else}}
-          {{!-- Handle resources. --}}
-          {{#if attr.isResource}}
-            <div class="attribute-group flexrow">
-              <span class="attribute-col flexcol">
-                <label for="data.attributes.{{key}}.min">{{localize "SIMPLE.ResourceMin"}}</label>
-                <input class="attribute-value" type="text" name="data.attributes.{{key}}.min" value="{{attr.min}}" data-dtype="{{attr.dtype}}"/>
-              </span>
-              <span class="attribute-col flexcol">
-                <label for="data.attributes.{{key}}.value">{{localize "SIMPLE.ResourceValue"}}</label>
-                <input class="attribute-value" type="text" name="data.attributes.{{key}}.value" value="{{attr.value}}" data-dtype="{{attr.dtype}}"/>
-              </span>
-              <span class="attribute-col flexcol">
-                <label for="data.attributes.{{key}}.max">{{localize "SIMPLE.ResourceMax"}}</label>
-                <input class="attribute-value" type="text" name="data.attributes.{{key}}.max" value="{{attr.max}}" data-dtype="{{attr.dtype}}"/>
-              </span>
+<section class="attributes-group">
+    <ol class="attributes-list">
+        {{#each attributes as |attr key|}}
+        <li class="attribute flexrow" data-attribute="{{#if attr.group}}{{attr.group}}.{{/if}}{{key}}">
+            <div class="attribute-key-wrapper flexrow">
+                {{#if (eq attr.dtype "Formula")}}
+                    <a class="attribute-roll" data-label="{{attr.label}}" data-roll="{{attr.value}}"><i class="fas fa-dice-d20"></i></a>
+                {{/if}}
+                <input class="attribute-key" type="text" name="data.attributes.{{#if attr.group}}{{attr.group}}.{{/if}}{{key}}.key" value="{{key}}" placeholder="{{localize "SIMPLE.AttributeKey"}}"/>
             </div>
-          {{!-- Handle other input types. --}}
-          {{else}}
-            <input class="attribute-value" type="text" name="data.attributes.{{key}}.value" value="{{attr.value}}" data-dtype="{{attr.dtype}}"/>
-          {{/if}}
-        {{/if}}
-        <input class="attribute-label" type="text" name="data.attributes.{{key}}.label" value="{{attr.label}}"/>
-        <select class="attribute-dtype" name="data.attributes.{{key}}.dtype">
-            {{#select attr.dtype}}
-            {{#each ../dtypes as |t|}}
-            <option value="{{t}}">{{t}}</option>
-            {{/each}}
-            {{/select}}
-        </select>
-        <a class="attribute-control" data-action="delete"><i class="fas fa-trash"></i></a>
-    </li>
-  {{/each}}
-</ol>
+            {{!-- Handle booleans. --}}
+            {{#if attr.isCheckbox}}
+            <label class="attribute-value checkbox"><input type="checkbox" name="data.attributes.{{#if attr.group}}{{attr.group}}.{{/if}}{{key}}.value"
+                    {{checked attr.value}} /></label>
+            {{else}}
+            {{!-- Handle resources. --}}
+            {{#if attr.isResource}}
+            <div class="attribute-group flexrow">
+                <span class="attribute-col flexcol">
+                    <label for="data.attributes.{{#if attr.group}}{{attr.group}}.{{/if}}{{key}}.min">{{localize "SIMPLE.ResourceMin"}}</label>
+                    <input class="attribute-value" type="text" name="data.attributes.{{#if attr.group}}{{attr.group}}.{{/if}}{{key}}.min" value="{{attr.min}}"
+                        data-dtype="Number" />
+                </span>
+                <span class="attribute-col flexcol">
+                    <label for="data.attributes.{{#if attr.group}}{{attr.group}}.{{/if}}{{key}}.value">{{localize "SIMPLE.ResourceValue"}}</label>
+                    <input class="attribute-value" type="text" name="data.attributes.{{#if attr.group}}{{attr.group}}.{{/if}}{{key}}.value"
+                        value="{{attr.value}}" data-dtype="Number" />
+                </span>
+                <span class="attribute-col flexcol">
+                    <label for="data.attributes.{{#if attr.group}}{{attr.group}}.{{/if}}{{key}}.max">{{localize "SIMPLE.ResourceMax"}}</label>
+                    <input class="attribute-value" type="text" name="data.attributes.{{#if attr.group}}{{attr.group}}.{{/if}}{{key}}.max" value="{{attr.max}}"
+                        data-dtype="Number" />
+                </span>
+            </div>
+            {{!-- Handle other input types. --}}
+            {{else}}
+            <input class="attribute-value" type="text" name="data.attributes.{{#if attr.group}}{{attr.group}}.{{/if}}{{key}}.value" value="{{attr.value}}"
+                data-dtype="{{attr.dtype}}" placeholder="{{localize "SIMPLE.AttributeValue"}}"/>
+            {{/if}}
+            {{/if}}
+            <input class="attribute-label" type="text" name="data.attributes.{{#if attr.group}}{{attr.group}}.{{/if}}{{key}}.label" value="{{attr.label}}"
+                placeholder="{{localize "SIMPLE.AttributeLabel"}}"/>
+            <select class="attribute-dtype" name="data.attributes.{{#if attr.group}}{{attr.group}}.{{/if}}{{key}}.dtype">
+                {{#select attr.dtype}}
+                {{#each ../dtypes as |t|}}
+                <option value="{{t}}">{{t}}</option>
+                {{/each}}
+                {{/select}}
+            </select>
+            <input type="hidden" name="data.attributes.{{#if attr.group}}{{attr.group}}.{{/if}}{{key}}.group" value="{{attr.group}}" />
+            <a class="attribute-control" data-action="delete"><i class="fas fa-trash"></i></a>
+        </li>
+        {{/each}}
+    </ol>
+</section>

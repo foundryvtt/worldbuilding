@@ -3,7 +3,7 @@
         {{#each attributes as |attr key|}}
         <li class="attribute flexrow" data-attribute="{{#if attr.group}}{{attr.group}}.{{/if}}{{key}}">
             <div class="attribute-key-wrapper flexrow">
-                {{#if (eq attr.dtype "Formula")}}
+                {{#if attr.isFormula}}
                     <a class="attribute-roll" data-label="{{attr.label}}" data-roll="{{attr.value}}"><i class="fas fa-dice-d20"></i></a>
                 {{/if}}
                 <input class="attribute-key" type="text" name="data.attributes.{{#if attr.group}}{{attr.group}}.{{/if}}{{key}}.key" value="{{key}}" placeholder="{{localize "SIMPLE.AttributeKey"}}"/>

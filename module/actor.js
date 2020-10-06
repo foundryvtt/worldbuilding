@@ -1,3 +1,5 @@
+import { EntitySheetHelper } from "./helper.js";
+
 /**
  * Extend the base Actor entity by defining a custom roll data structure which is ideal for the Simple system.
  * @extends {Actor}
@@ -18,15 +20,18 @@ export class SimpleActor extends Actor {
     const data = super.getRollData();
     const shorthand = game.settings.get("worldbuilding", "macroShorthand");
     const formulaAttributes = [];
+    const itemAttributes = [];
 
     // Handle formula attributes when the short syntax is disabled.
     this._applyShorthand(data, formulaAttributes, shorthand);
 
     // Map all items data using their slugified names
-    this._applyItems(data, shorthand);
+    this._applyItems(data, itemAttributes, shorthand);
 
-    // Evaluate formula attributes after all other attributes have been handled,
-    // including items.
+    // Evaluate formula replacements on items.
+    this._applyItemsFormulaReplacements(data, itemAttributes, shorthand);
+
+    // Evaluate formula attributes after all other attributes have been handled, including items.
     this._applyFormulaReplacements(data, formulaAttributes, shorthand);
 
     // Remove the attributes if necessary.
@@ -61,9 +66,9 @@ export class SimpleActor extends Actor {
           // Grouped attributes.
           else {
             data[k] = {};
-            for ( let [attrKey, attrValue] of Object.entries(v) ) {
-              data[k][attrKey] = attrValue.value;
-              if ( attrValue.dtype == "Formula" ) formulaAttributes.push(`${k}.${attrKey}`);
+            for ( let [gk, gv] of Object.entries(v) ) {
+              data[k][gk] = gv.value;
+              if ( gv.dtype == "Formula" ) formulaAttributes.push(`${k}.${gk}`);
             }
           }
         }
@@ -77,37 +82,42 @@ export class SimpleActor extends Actor {
    * @param {Object} data The actor's data object.
    * @param {Boolean} shorthand Whether or not the shorthand syntax is used.
    */
-  _applyItems(data, shorthand) {
+  _applyItems(data, itemAttributes, shorthand) {
     // Map all items data using their slugified names
     data.items = this.data.items.reduce((obj, i) => {
       let key = i.name.slugify({strict: true});
       let itemData = duplicate(i.data);
-      const itemAttributes = [];
 
       // Add items to shorthand and note which ones are formula attributes.
       for ( let [k, v] of Object.entries(itemData.attributes) ) {
-        if ( v.dtype == "Formula" ) itemAttributes.push(k);
+        // When building the attribute list, prepend the item name for later use.
+        if ( v.dtype == "Formula" ) itemAttributes.push(`${key}..${k}`);
         // Add shortened version of the attributes.
         if ( !!shorthand ) {
           if ( !(k in itemData) ) {
-            itemData[k] = v.value;
+            // Non-grouped item attributes.
+            if ( v.dtype ) {
+              itemData[k] = v.value;
+            }
+            // Grouped item attributes.
+            else {
+              if ( !itemData[k] ) itemData[k] = {};
+              for ( let [gk, gv] of Object.entries(v) ) {
+                itemData[k][gk] = gv.value;
+                if ( gv.dtype == "Formula" ) itemAttributes.push(`${key}..${k}.${gk}`);
+              }
+            }
           }
         }
-      }
-
-      // Evaluate formula attributes after all other attributes have been handled.
-      for ( let k of itemAttributes ) {
-        if ( itemData.attributes[k].value ) {
-          itemData.attributes[k].value = this._replaceData(itemData.attributes[k].value, itemData);
-          itemData.attributes[k].value = this._replaceData(itemData.attributes[k].value, data, {missing: "0"});
-          // TODO: Replace with:
-          // itemData.attributes[k].value = Roll.replaceFormulaData(itemData.attributes[k].value, itemData);
-          // itemData.attributes[k].value = Roll.replaceFormulaData(itemData.attributes[k].value, data, {missing: "0"});
-        }
-
-        // Duplicate values to shorthand.
-        if ( !!shorthand ) {
-          itemData[k] = itemData.attributes[k].value;
+        // Handle non-shorthand version of grouped attributes.
+        else {
+          if ( !v.dtype ) {
+            if ( !itemData[k] ) itemData[k] = {};
+            for ( let [gk, gv] of Object.entries(v) ) {
+              itemData[k][gk] = gv.value;
+              if ( gv.dtype == "Formula" ) itemAttributes.push(`${key}..${k}.${gk}`);
+            }
+          }
         }
       }
 
@@ -119,6 +129,50 @@ export class SimpleActor extends Actor {
       obj[key] = itemData;
       return obj;
     }, {});
+  }
+
+  _applyItemsFormulaReplacements(data, itemAttributes, shorthand) {
+    for ( let k of itemAttributes ) {
+      // Get the item name and separate the key.
+      let item = null;
+      let itemKey = k.split('..');
+      item = itemKey[0];
+      k = itemKey[1];
+
+      // Handle group keys.
+      let gk = null;
+      if ( k.includes('.') ) {
+        let attrKey = k.split('.');
+        k = attrKey[0];
+        gk = attrKey[1];
+      }
+
+      let formula = '';
+      if ( !!shorthand ) {
+        // Handle grouped attributes first.
+        if ( data.items[item][k][gk] ) {
+          formula = data.items[item][k][gk];
+          data.items[item][k][gk] = EntitySheetHelper.replaceData(formula.replace('@item.', `@items.${item}.`), data, {missing: "0"});
+        }
+        // Handle non-grouped attributes.
+        else if ( data.items[item][k] ) {
+          formula = data.items[item][k];
+          data.items[item][k] = EntitySheetHelper.replaceData(formula.replace('@item.', `@items.${item}.`), data, {missing: "0"});
+        }
+      }
+      else {
+        // Handle grouped attributes first.
+        if ( data.items[item]['attributes'][k][gk] ) {
+          formula = data.items[item]['attributes'][k][gk]['value'];
+          data.items[item]['attributes'][k][gk]['value'] = EntitySheetHelper.replaceData(formula.replace('@item.', `@items.${item}.attributes.`), data, {missing: "0"});
+        }
+        // Handle non-grouped attributes.
+        else if ( data.items[item]['attributes'][k]['value'] ) {
+          formula = data.items[item]['attributes'][k]['value'];
+          data.items[item]['attributes'][k]['value'] = EntitySheetHelper.replaceData(formula.replace('@item.', `@items.${item}.attributes.`), data, {missing: "0"});
+        }
+      }
+    }
   }
 
   /**
@@ -140,22 +194,22 @@ export class SimpleActor extends Actor {
         attr = attrKey[1];
       }
       // Non-grouped attributes.
-      if ( data.attributes[k].value ) {
-        data.attributes[k].value = this._replaceData(data.attributes[k].value, data, {missing: "0"});
+      if ( data.attributes[k]?.value ) {
+        data.attributes[k].value = EntitySheetHelper.replaceData(data.attributes[k].value, data, {missing: "0"});
         // TODO: Replace with:
         // data.attributes[k].value = Roll.replaceFormulaData(data.attributes[k].value, data, {missing: "0"});
       }
       // Grouped attributes.
       else {
         if ( attr ) {
-          data.attributes[k][attr].value = this._replaceData(data.attributes[k][attr].value, data, {missing: "0"});
+          data.attributes[k][attr].value = EntitySheetHelper.replaceData(data.attributes[k][attr].value, data, {missing: "0"});
         }
       }
 
       // Duplicate values to shorthand.
       if ( !!shorthand ) {
         // Non-grouped attributes.
-        if ( data.attributes[k].value ) {
+        if ( data.attributes[k]?.value ) {
           data[k] = data.attributes[k].value;
         }
         // Grouped attributes.
@@ -170,32 +224,5 @@ export class SimpleActor extends Actor {
         }
       }
     }
-  }
-
-  /**
-   * Replace referenced data attributes in the roll formula with the syntax `@attr` with the corresponding key from
-   * the provided `data` object. This is a temporary helper function that will be replaced with Roll.replaceFormulaData()
-   * in Foundry 0.7.1.
-   *
-   * @param {String} formula    The original formula within which to replace.
-   * @param {Object} data       Data object to use for value replacements.
-   * @param {Object} missing    Value to use as missing replacements, such as {missing: "0"}.
-   * @return {String} The formula with attributes replaced with values.
-   */
-  _replaceData(formula, data, {missing=null}={}) {
-    // Exit early if the formula is invalid.
-    if ( typeof formula != "string" ) {
-      return 0;
-    }
-
-    // Replace attributes with their numeric equivalents.
-    let dataRgx = new RegExp(/@([a-z.0-9_\-]+)/gi);
-    let rollFormula = formula.replace(dataRgx, (match, term) => {
-      // Replace matches with the value, or the missing value.
-      let value = getProperty(data, term);
-      return value ? String(value).trim() : (missing != null ? missing : `@${term}`);
-    });
-
-    return rollFormula;
   }
 }

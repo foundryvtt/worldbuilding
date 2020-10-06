@@ -43,17 +43,34 @@
                     {{!-- Iterate through all attributes on the item and output buttons for any that are formula. --}}
                     <div class="item-buttons">
                         {{#each item.data.attributes as |itemAttr key|}}
-                        {{#if (eq itemAttr.dtype "Formula")}}
-                        {{!-- Use the items.name.key format for shorthand. --}}
-                        {{#if ../../shorthand}}
-                        <button class="item-button rollable" data-roll="@items.{{slugify item.name}}.{{key}}" data-label="{{ itemAttr.label }}"
-                            title="{{itemAttr.value}}">{{itemAttr.label}}</button>
-                        {{!-- Use the items.name.attributes.key.value format otherwise. --}}
+                        {{#if itemAttr.dtype}}
+                            {{#if itemAttr.isFormula}}
+                                {{!-- Use the items.name.key format for shorthand. --}}
+                                {{#if ../../shorthand}}
+                                <button class="item-button rollable" data-roll="@items.{{slugify item.name}}.{{key}}" data-label="{{ itemAttr.label }}"
+                                    title="{{itemAttr.value}}">{{itemAttr.label}}</button>
+                                {{!-- Use the items.name.attributes.key.value format otherwise. --}}
+                                {{else}}
+                                <button class="item-button rollable"
+                                    data-roll="@items.{{slugify item.name}}.attributes.{{key}}.value" data-label="{{ itemAttr.label }}"
+                                    title="{{itemAttr.value}}">{{itemAttr.label}}</button>
+                                {{/if}}
+                            {{/if}}
                         {{else}}
-                        <button class="item-button rollable"
-                            data-roll="@items.{{slugify item.name}}.attributes.{{key}}.value" data-label="{{ itemAttr.label }}"
-                            title="{{itemAttr.value}}">{{itemAttr.label}}</button>
-                        {{/if}}
+                            {{#each itemAttr as |itemGroupedAttr groupedKey|}}
+                                {{#if itemGroupedAttr.isFormula}}
+                                    {{!-- Use the items.name.key format for shorthand. --}}
+                                    {{#if ../../../shorthand}}
+                                    <button class="item-button rollable" data-roll="@items.{{slugify item.name}}.{{key}}.{{groupedKey}}" data-label="{{ itemGroupedAttr.label }}"
+                                        title="{{itemGroupedAttr.value}}">{{itemGroupedAttr.label}}</button>
+                                    {{!-- Use the items.name.attributes.key.value format otherwise. --}}
+                                    {{else}}
+                                    <button class="item-button rollable"
+                                        data-roll="@items.{{slugify item.name}}.attributes.{{key}}.{{groupedKey}}.value" data-label="{{ itemGroupedAttr.label }}"
+                                        title="{{itemGroupedAttr.value}}">{{itemGroupedAttr.label}}</button>
+                                    {{/if}}
+                                {{/if}}
+                            {{/each}}
                         {{/if}}
                         {{/each}}
                     </div>

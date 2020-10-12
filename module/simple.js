@@ -179,23 +179,23 @@ Hooks.on("getItemDirectoryEntryContext", (html, options) => {
 /**
  * Adds the actor template selection dialog.
  */
-ActorDirectory.prototype._onCreate = async (event) => {
+ActorDirectory.prototype._onCreateEntity = async (event) => {
   // Do not allow the creation event to bubble to other listeners
   event.preventDefault();
   event.stopPropagation();
 
-  _simpleDirectoryTemplates('actor');
+  _simpleDirectoryTemplates('actor', event);
 }
 
 /**
  * Adds the item template selection dialog.
  */
-ItemDirectory.prototype._onCreate = async (event) => {
+ItemDirectory.prototype._onCreateEntity = async (event) => {
   // Do not allow the creation event to bubble to other listeners
   event.preventDefault();
   event.stopPropagation();
 
-  _simpleDirectoryTemplates('item');
+  _simpleDirectoryTemplates('item', event);
 }
 
 /**
@@ -205,8 +205,9 @@ ItemDirectory.prototype._onCreate = async (event) => {
  * defined for the entity type.
  *
  * @param {string} entityType - 'actor' or 'item'
+ * @param {MouseEvent} event - Triggering event
  */
-async function _simpleDirectoryTemplates(entityType = 'actor') {
+async function _simpleDirectoryTemplates(entityType = 'actor', event) {
   // Retrieve the collection and class.
   const entityCollection = entityType == 'actor' ? game.actors : game.items;
   const cls = entityType == 'actor' ? Actor : Item;
@@ -252,7 +253,8 @@ async function _simpleDirectoryTemplates(entityType = 'actor') {
       yes: html => {
         // Get the form data.
         const form = html[0].querySelector("form");
-        mergeObject(createData, validateForm(form));
+        const fd = new FormDataExtended(form);
+        mergeObject(createData, fd.toObject());
 
         // Store the type and name values, and retrieve the template entity.
         let templateActor = entityCollection.getName(createData.type);

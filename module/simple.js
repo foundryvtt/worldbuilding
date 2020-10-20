@@ -9,7 +9,7 @@ import { SimpleActor } from "./actor.js";
 import { SimpleItemSheet } from "./item-sheet.js";
 import { SimpleActorSheet } from "./actor-sheet.js";
 import { preloadHandlebarsTemplates } from "./templates.js";
-import { createWorldbuildingMacro, rollAttrMacro } from "./macro.js";
+import { createWorldbuildingMacro } from "./macro.js";
 
 /* -------------------------------------------- */
 /*  Foundry VTT Initialization                  */
@@ -32,8 +32,7 @@ Hooks.once("init", async function() {
 
   game.worldbuilding = {
     SimpleActor,
-    createWorldbuildingMacro,
-    rollAttrMacro,
+    createWorldbuildingMacro
   };
 
   // Define custom Entity classes

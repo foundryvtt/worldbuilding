@@ -23,41 +23,8 @@ export class SimpleItemSheet extends ItemSheet {
   /** @override */
   getData() {
     const data = super.getData();
-
-    // Handle attribute groups.
     EntitySheetHelper.getAttributeData(data);
-
     return data;
-  }
-
-  /* -------------------------------------------- */
-
-  /** @override */
-  async _onSubmit(event, {updateData=null, preventClose=false, preventRender=false}={}) {
-    let attr = EntitySheetHelper.onSubmit(event);
-
-    // Submit the form if attr is true or an attr key.
-    if ( attr ) {
-      await super._onSubmit(event, {updateData: updateData, preventClose: preventClose, preventRender: preventRender});
-
-      // If attr is a key and not just true, set a very short timeout and retrigger focus after the original element is deleted and the new one is inserted.
-      if ( attr !== true) {
-        setTimeout(() => {
-          $(`input[name="${attr}"]`).parents('.attribute').find('.attribute-value').focus();
-        }, 10);
-      }
-    }
-  }
-
-  /* -------------------------------------------- */
-
-  /** @override */
-  setPosition(options={}) {
-    const position = super.setPosition(options);
-    const sheetBody = this.element.find(".sheet-body");
-    const bodyHeight = position.height - 192;
-    sheetBody.css("height", bodyHeight);
-    return position;
   }
 
   /* -------------------------------------------- */
@@ -66,11 +33,11 @@ export class SimpleItemSheet extends ItemSheet {
 	activateListeners(html) {
     super.activateListeners(html);
 
-    // Handle rollable attributes.
-    html.find(".attributes").on("click", "a.attribute-roll", EntitySheetHelper.onAttributeRoll.bind(this));
-
     // Everything below here is only needed if the sheet is editable
     if (!this.options.editable) return;
+
+    // Rollable attributes
+    html.find(".attributes").on("click", "a.attribute-roll", EntitySheetHelper.onAttributeRoll.bind(this));
 
     // Add draggable for macros.
     html.find(".attributes a.attribute-roll").each((i, a) => {

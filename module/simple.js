@@ -176,110 +176,66 @@ Hooks.on("getItemDirectoryEntryContext", (html, options) => {
 });
 
 
-/**
- * Adds the actor template selection dialog.
- */
-ActorDirectory.prototype._onCreateEntity = async (event) => {
-  // Do not allow the creation event to bubble to other listeners
+async function _onCreateEntity(event) {
   event.preventDefault();
   event.stopPropagation();
-
-  _simpleDirectoryTemplates('actor', event);
+  return _simpleDirectoryTemplates(this, event);
 }
-
-/**
- * Adds the item template selection dialog.
- */
-ItemDirectory.prototype._onCreateEntity = async (event) => {
-  // Do not allow the creation event to bubble to other listeners
-  event.preventDefault();
-  event.stopPropagation();
-
-  _simpleDirectoryTemplates('item', event);
-}
+ActorDirectory.prototype._onCreateEntity = _onCreateEntity; // For 0.7.x+
+ItemDirectory.prototype._onCreateEntity = _onCreateEntity;
+ActorDirectory.prototype._onCreate = _onCreateEntity; // TODO: for 0.6.6
+ItemDirectory.prototype._onCreate = _onCreateEntity;
 
 /**
  * Display the entity template dialog.
  *
- * Helper function to display a dialog if there are multiple template types
- * defined for the entity type.
- *
- * @param {string} entityType - 'actor' or 'item'
+ * Helper function to display a dialog if there are multiple template types defined for the entity type.
+ * TODO: Refactor in 0.7.x to play more nicely with the Entity.createDialog method
+ *1
+ * @param {EntityCollection} entityType - The sidebar tab
  * @param {MouseEvent} event - Triggering event
  */
-async function _simpleDirectoryTemplates(entityType = 'actor', event) {
-  // Retrieve the collection and class.
-  const entityCollection = entityType == 'actor' ? game.actors : game.items;
-  const cls = entityType == 'actor' ? Actor : Item;
+async function _simpleDirectoryTemplates(collection, event) {
 
-  // Query for all entities of this type using the "isTemplate" flag.
-  let entities = entityCollection.filter(a => a.data.flags?.worldbuilding?.isTemplate === true);
-
-  // Initialize variables related to the entity class.
+  // Retrieve the collection and find any available templates
+  const entityCollection = collection.tabName === "actors" ? game.actors : game.items;
+  const cls = collection.tabName === "actors" ? Actor : Item;
+  let templates = entityCollection.filter(a => a.getFlag("worldbuilding", "isTemplate"));
   let ent = game.i18n.localize(cls.config.label);
 
-  // Setup entity data.
-  let type = entityType == 'actor' ? 'character' : 'item';
+  // Setup default creation data
+  let type = collection.tabName === "actors" ? 'character' : 'item';
   let createData = {
     name: `${game.i18n.localize("SIMPLE.New")} ${ent}`,
     type: type,
     folder: event.currentTarget.dataset.folder
   };
+  if ( !templates.length ) return cls.create(createData, {renderSheet: true});
 
-  // If there's more than one entity template type, create a form.
-  if (entities.length > 0) {
-    // Build an array of types for the form, including an empty default.
-    let types = [{
-      value: null,
-      label: game.i18n.localize("SIMPLE.NoTemplate")
-    }];
+  // Build an array of types for the form, including an empty default.
+  let types = [{
+    value: null,
+    label: game.i18n.localize("SIMPLE.NoTemplate")
+  }].concat(templates.map(a => { return { value: a.id, label: a.name } }));
 
-    // Append each of the user-defined actor/item types.
-    types = types.concat(entities.map(a => {
-      return {
-        value: a.data.name,
-        label: a.data.name
+  // Render the confirmation dialog window
+  const templateData = {upper: ent, lower: ent.toLowerCase(), types: types};
+  const dlg = await renderTemplate(`systems/worldbuilding/templates/sidebar/entity-create.html`, templateData);
+  return Dialog.confirm({
+    title: `${game.i18n.localize("SIMPLE.Create")} ${createData.name}`,
+    content: dlg,
+    yes: html => {
+      const form = html[0].querySelector("form");
+      const template = entityCollection.get(form.type.value);
+      if ( template ) {
+        createData = mergeObject(template.data, createData, {inplace: false});
+        createData.type = template.data.type;
+        delete createData.flags.worldbuilding.isTemplate;
       }
-    }));
-
-    // Render the entity creation form
-    let templateData = {upper: ent, lower: ent.toLowerCase(), types: types},
-        dlg = await renderTemplate(`systems/worldbuilding/templates/sidebar/entity-create.html`, templateData);
-
-    // Render the confirmation dialog window
-    Dialog.confirm({
-      title: `${game.i18n.localize("SIMPLE.Create")} ${createData.name}`,
-      content: dlg,
-      yes: html => {
-        // Get the form data.
-        const form = html[0].querySelector("form");
-        const fd = new FormDataExtended(form);
-        mergeObject(createData, fd.toObject());
-
-        // Store the type and name values, and retrieve the template entity.
-        let templateActor = entityCollection.getName(createData.type);
-
-        // If there's a template entity, handle the data.
-        if (templateActor) {
-          // Update the object with the existing template's values.
-          createData = mergeObject(templateActor.data, createData, {inplace: false});
-          createData.type = templateActor.data.type;
-          // Clear the flag so that this doesn't become a new template.
-          delete createData.flags.worldbuilding.isTemplate;
-        }
-        // Otherwise, restore to a valid entity type (character/item).
-        else {
-          createData.type = type;
-        }
-
-        cls.create(createData, {renderSheet: true});
-      },
-      no: () => {},
-      defaultYes: false
-    });
-  }
-  // Otherwise, just create a blank entity.
-  else {
-    cls.create(createData, {renderSheet: true});
-  }
+      createData.name = form.name.value;
+      return cls.create(createData, {renderSheet: true});
+    },
+    no: () => {},
+    defaultYes: false
+  });
 }

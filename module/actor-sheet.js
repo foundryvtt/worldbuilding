@@ -24,11 +24,7 @@ export class SimpleActorSheet extends ActorSheet {
   /** @override */
   getData() {
     const data = super.getData();
-
-    // Handle attribute groups.
     EntitySheetHelper.getAttributeData(data);
-
-    // Add shorthand.
     data.shorthand = !!game.settings.get("worldbuilding", "macroShorthand");
     return data;
   }
@@ -39,14 +35,12 @@ export class SimpleActorSheet extends ActorSheet {
   activateListeners(html) {
     super.activateListeners(html);
 
-    // Handle rollable items.
-    html.find(".items .rollable").on("click", this._onItemRoll.bind(this));
-
-    // Handle rollable attributes.
-    html.find(".attributes").on("click", "a.attribute-roll", EntitySheetHelper.onAttributeRoll.bind(this));
-
     // Everything below here is only needed if the sheet is editable
     if ( !this.options.editable ) return;
+
+    // Handle rollable items and attributes
+    html.find(".items .rollable").on("click", this._onItemRoll.bind(this));
+    html.find(".attributes").on("click", "a.attribute-roll", EntitySheetHelper.onAttributeRoll.bind(this));
 
     // Update Inventory Item
     html.find('.item-edit').click(ev => {
@@ -80,36 +74,6 @@ export class SimpleActorSheet extends ActorSheet {
 
   /* -------------------------------------------- */
 
-  /** @override */
-  async _onSubmit(event, {updateData=null, preventClose=false, preventRender=false}={}) {
-    let attr = EntitySheetHelper.onSubmit(event);
-
-    // Submit the form if attr is true or an attr key.
-    if ( attr ) {
-      await super._onSubmit(event, {updateData: updateData, preventClose: preventClose, preventRender: preventRender});
-
-      // If attr is a key and not just true, set a very short timeout and retrigger focus after the original element is deleted and the new one is inserted.
-      if ( attr !== true) {
-        setTimeout(() => {
-          $(`input[name="${attr}"]`).parents('.attribute').find('.attribute-value').focus();
-        }, 10);
-      }
-    }
-  }
-
-  /* -------------------------------------------- */
-
-  /** @override */
-  setPosition(options={}) {
-    const position = super.setPosition(options);
-    const sheetBody = this.element.find(".sheet-body");
-    const bodyHeight = position.height - 192;
-    sheetBody.css("height", bodyHeight);
-    return position;
-  }
-
-  /* -------------------------------------------- */
-
   /**
    * Listen for roll buttons on items.
    * @param {MouseEvent} event    The originating left click event
@@ -126,14 +90,12 @@ export class SimpleActorSheet extends ActorSheet {
     });
   }
 
+  /* -------------------------------------------- */
+
   /** @override */
   _updateObject(event, formData) {
-
-    // Handle attribute and group updates.
     formData = EntitySheetHelper.updateAttributes(formData, this);
     formData = EntitySheetHelper.updateGroups(formData, this);
-
-    // Update the Actor with the new form values.
     return this.object.update(formData);
   }
 

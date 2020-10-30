@@ -181,7 +181,8 @@ export class EntitySheetHelper {
     const label = button.closest(".attribute").querySelector(".attribute-label")?.value;
     const chatLabel = label ?? button.parentElement.querySelector(".attribute-key").value;
     const shorthand = game.settings.get("worldbuilding", "macroShorthand");
-    const rollData = this.object.getRollData();
+    // Use the actor for rollData so that formulas are always in reference to the parent actor.
+    const rollData = this.actor.getRollData();
     let formula = button.closest(".attribute").querySelector(".attribute-value")?.value;
 
     // If there's a formula, attempt to roll it.
@@ -531,9 +532,14 @@ export class EntitySheetHelper {
     let dataRgx = new RegExp(/@([a-z.0-9_\-]+)/gi);
     let rollFormula = formula.replace(dataRgx, (match, term) => {
       let value = getProperty(data, term);
-      if ( value === null ) return "0";
-      if ( String(value).includes('@') ) return value;
-      else return `@${term}`;
+      // If there was a value returned, trim and return it.
+      if ( value ) {
+        return String(value).trim();
+      }
+      // Otherwise, return either the missing replacement value, or the original @attr string for later replacement.
+      else {
+        return missing != null ? missing : `@${term}`;
+      }
     });
     return rollFormula;
   }

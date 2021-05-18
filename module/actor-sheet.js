@@ -1,4 +1,5 @@
 import { EntitySheetHelper } from "./helper.js";
+import {ATTRIBUTE_TYPES} from "./constants.js";
 
 /**
  * Extend the basic ActorSheet with some very simple modifications
@@ -6,9 +7,9 @@ import { EntitySheetHelper } from "./helper.js";
  */
 export class SimpleActorSheet extends ActorSheet {
 
-  /** @override */
+  /** @inheritdoc */
   static get defaultOptions() {
-    return mergeObject(super.defaultOptions, {
+    return foundry.utils.mergeObject(super.defaultOptions, {
       classes: ["worldbuilding", "sheet", "actor"],
       template: "systems/worldbuilding/templates/actor-sheet.html",
       width: 600,
@@ -21,42 +22,35 @@ export class SimpleActorSheet extends ActorSheet {
 
   /* -------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   getData() {
-    const data = super.getData();
-    EntitySheetHelper.getAttributeData(data);
-    data.shorthand = !!game.settings.get("worldbuilding", "macroShorthand");
-    return data;
+    const context = super.getData();
+    EntitySheetHelper.getAttributeData(context.data);
+    context.shorthand = !!game.settings.get("worldbuilding", "macroShorthand");
+    context.systemData = context.data.data;
+    context.dtypes = ATTRIBUTE_TYPES;
+    return context;
   }
 
   /* -------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   activateListeners(html) {
     super.activateListeners(html);
 
     // Everything below here is only needed if the sheet is editable
-    if ( !this.options.editable ) return;
+    if ( !this.isEditable ) return;
 
-    // Handle rollable items and attributes
-    html.find(".items .rollable").on("click", this._onItemRoll.bind(this));
+    // Attribute Management
+    html.find(".attributes").on("click", ".attribute-control", EntitySheetHelper.onClickAttributeControl.bind(this));
+    html.find(".groups").on("click", ".group-control", EntitySheetHelper.onClickAttributeGroupControl.bind(this));
     html.find(".attributes").on("click", "a.attribute-roll", EntitySheetHelper.onAttributeRoll.bind(this));
 
-    // Update Inventory Item
-    html.find('.item-edit').click(ev => {
-      const li = $(ev.currentTarget).parents(".item");
-      const item = this.actor.getOwnedItem(li.data("itemId"));
-      item.sheet.render(true);
-    });
+    // Item Controls
+    html.find(".item-control").click(this._onItemControl.bind(this));
+    html.find(".items .rollable").on("click", this._onItemRoll.bind(this));
 
-    // Delete Inventory Item
-    html.find('.item-delete').click(ev => {
-      const li = $(ev.currentTarget).parents(".item");
-      this.actor.deleteOwnedItem(li.data("itemId"));
-      li.slideUp(200, () => this.render(false));
-    });
-
-    // Add draggable for macros.
+    // Add draggable for Macro creation
     html.find(".attributes a.attribute-roll").each((i, a) => {
       a.setAttribute("draggable", true);
       a.addEventListener("dragstart", ev => {
@@ -64,12 +58,33 @@ export class SimpleActorSheet extends ActorSheet {
         ev.dataTransfer.setData('text/plain', JSON.stringify(dragData));
       }, false);
     });
+  }
 
-    // Add or Remove Attribute
-    html.find(".attributes").on("click", ".attribute-control", EntitySheetHelper.onClickAttributeControl.bind(this));
+  /* -------------------------------------------- */
 
-    // Add attribute groups.
-    html.find(".groups").on("click", ".group-control", EntitySheetHelper.onClickAttributeGroupControl.bind(this));
+  /**
+   * Handle click events for Item control buttons within the Actor Sheet
+   * @param event
+   * @private
+   */
+  _onItemControl(event) {
+    event.preventDefault();
+
+    // Obtain event data
+    const button = event.currentTarget;
+    const li = button.closest(".item");
+    const item = this.actor.items.get(li?.dataset.itemId);
+
+    // Handle different actions
+    switch ( button.dataset.action ) {
+      case "create":
+        const cls = getDocumentClass("Item");
+        return cls.create({name: game.i18n.localize("SIMPLE.ItemNew"), type: "item"}, {parent: this.actor});
+      case "edit":
+        return item.sheet.render(true);
+      case "delete":
+        return item.delete();
+    }
   }
 
   /* -------------------------------------------- */
@@ -80,11 +95,11 @@ export class SimpleActorSheet extends ActorSheet {
    */
   _onItemRoll(event) {
     let button = $(event.currentTarget);
-    let r = new Roll(button.data('roll'), this.actor.getRollData());
     const li = button.parents(".item");
-    const item = this.actor.getOwnedItem(li.data("itemId"));
-    r.roll().toMessage({
-      user: game.user._id,
+    const item = this.actor.items.get(li.data("itemId"));
+    let r = new Roll(button.data('roll'), this.actor.getRollData());
+    return r.toMessage({
+      user: game.user.id,
       speaker: ChatMessage.getSpeaker({ actor: this.actor }),
       flavor: `<h2>${item.name}</h2><h3>${button.text()}</h3>`
     });
@@ -92,11 +107,11 @@ export class SimpleActorSheet extends ActorSheet {
 
   /* -------------------------------------------- */
 
-  /** @override */
-  _updateObject(event, formData) {
-    formData = EntitySheetHelper.updateAttributes(formData, this);
-    formData = EntitySheetHelper.updateGroups(formData, this);
-    return this.object.update(formData);
+  /** @inheritdoc */
+  _getSubmitData(updateData) {
+    let formData = super._getSubmitData(updateData);
+    formData = EntitySheetHelper.updateAttributes(formData, this.object);
+    formData = EntitySheetHelper.updateGroups(formData, this.object);
+    return formData;
   }
-
 }

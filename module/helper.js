@@ -3,7 +3,6 @@ import { ATTRIBUTE_TYPES } from "./constants.js";
 export class EntitySheetHelper {
 
   static getAttributeData(data) {
-    data.dtypes = ATTRIBUTE_TYPES;
 
     // Determine attribute type.
     for ( let attr of Object.values(data.data.attributes) ) {
@@ -61,7 +60,7 @@ export class EntitySheetHelper {
                 // Add label fallback.
                 if ( !gv.label ) gv.label = gk;
                 // Add formula bool.
-                if ( gv.dtype == "Formula" ) {
+                if ( gv.dtype === "Formula" ) {
                   gv.isFormula = true;
                 }
                 else {
@@ -75,7 +74,7 @@ export class EntitySheetHelper {
             // Add label fallback.
             if ( !v.label ) v.label = k;
             // Add formula bool.
-            if ( v.dtype == "Formula" ) {
+            if ( v.dtype === "Formula" ) {
               v.isFormula = true;
             }
             else {
@@ -94,7 +93,7 @@ export class EntitySheetHelper {
     // Closing the form/sheet will also trigger a submit, so only evaluate if this is an event.
     if ( event.currentTarget ) {
       // Exit early if this isn't a named attribute.
-      if ( event.currentTarget.tagName.toLowerCase() == 'input' && !event.currentTarget.hasAttribute('name')) {
+      if ( (event.currentTarget.tagName.toLowerCase() === 'input') && !event.currentTarget.hasAttribute('name')) {
         return false;
       }
 
@@ -108,7 +107,7 @@ export class EntitySheetHelper {
         // Prevent attributes that already exist as groups.
         let groups = document.querySelectorAll('.group-key');
         for ( let i = 0; i < groups.length; i++ ) {
-          if (groups[i].value == val) {
+          if (groups[i].value === val) {
             ui.notifications.error(game.i18n.localize("SIMPLE.NotifyAttrDuplicate") + ` (${val})`);
             el.value = oldVal;
             attrError = true;
@@ -132,23 +131,20 @@ export class EntitySheetHelper {
   /**
    * Listen for click events on an attribute control to modify the composition of attributes in the sheet
    * @param {MouseEvent} event    The originating left click event
-   * @private
    */
   static async onClickAttributeControl(event) {
     event.preventDefault();
     const a = event.currentTarget;
     const action = a.dataset.action;
-
-    // Perform create and delete actions.
     switch ( action ) {
       case "create":
-        EntitySheetHelper.createAttribute(event, this);
-        break;
+        return EntitySheetHelper.createAttribute(event, this);
       case "delete":
-        EntitySheetHelper.deleteAttribute(event, this);
-        break;
+        return EntitySheetHelper.deleteAttribute(event, this);
     }
   }
+
+  /* -------------------------------------------- */
 
   /**
    * Listen for click events and modify attribute groups.
@@ -158,14 +154,11 @@ export class EntitySheetHelper {
     event.preventDefault();
     const a = event.currentTarget;
     const action = a.dataset.action;
-
     switch ( action ) {
       case "create-group":
-        EntitySheetHelper.createAttributeGroup(event, this);
-        break;
+        return EntitySheetHelper.createAttributeGroup(event, this);
       case "delete-group":
-        EntitySheetHelper.deleteAttributeGroup(event, this);
-        break;
+        return EntitySheetHelper.deleteAttributeGroup(event, this);
     }
   }
 
@@ -181,24 +174,24 @@ export class EntitySheetHelper {
     const label = button.closest(".attribute").querySelector(".attribute-label")?.value;
     const chatLabel = label ?? button.parentElement.querySelector(".attribute-key").value;
     const shorthand = game.settings.get("worldbuilding", "macroShorthand");
+
     // Use the actor for rollData so that formulas are always in reference to the parent actor.
     const rollData = this.actor.getRollData();
     let formula = button.closest(".attribute").querySelector(".attribute-value")?.value;
 
     // If there's a formula, attempt to roll it.
     if ( formula ) {
-      // Get the machine safe version of the item name.
       let replacement = null;
       if ( formula.includes('@item.') && this.item ) {
-        let itemName = this.item.name.slugify({strict: true});
+        let itemName = this.item.name.slugify({strict: true}); // Get the machine safe version of the item name.
         replacement = !!shorthand ? `@items.${itemName}.` : `@items.${itemName}.attributes.`;
         formula = formula.replace('@item.', replacement);
       }
-      formula = EntitySheetHelper.replaceData(formula, rollData, {missing: null});
-      // Replace `@item` shorthand with the item name and make the roll.
+
+      // Create the roll and the corresponding message
       let r = new Roll(formula, rollData);
-      r.roll().toMessage({
-        user: game.user._id,
+      return r.toMessage({
+        user: game.user.id,
         speaker: ChatMessage.getSpeaker({ actor: this.actor }),
         flavor: `${chatLabel}`
       });
@@ -218,7 +211,7 @@ export class EntitySheetHelper {
    */
   static getAttributeHtml(items, index, group = false) {
     // Initialize the HTML.
-    let result = '<div>';
+    let result = '<div style="display: none;">';
     // Iterate over the supplied keys and build their inputs (including whether or not they need a group key).
     for (let [key, item] of Object.entries(items)) {
       result = result + `<input type="${item.type}" name="data.attributes${group ? '.' + group : '' }.attr${index}.${key}" value="${item.value}"/>`;
@@ -231,12 +224,13 @@ export class EntitySheetHelper {
 
   /**
    * Validate whether or not a group name can be used.
-   * @param {string} groupName Groupname to validate
+   * @param {string} groupName    The candidate group name to validate
+   * @param {Document} document   The Actor or Item instance within which the group is being defined
    * @returns {boolean}
    */
-  static validateGroup(groupName, entity) {
-    let groups = Object.keys(entity.object.data.data.groups);
-    let attributes = Object.keys(entity.object.data.data.attributes).filter(a => !groups.includes(a));
+  static validateGroup(groupName, document) {
+    let groups = Object.keys(document.data.data.groups || {});
+    let attributes = Object.keys(document.data.data.attributes).filter(a => !groups.includes(a));
 
     // Check for duplicate group keys.
     if ( groups.includes(groupName) ) {
@@ -255,7 +249,6 @@ export class EntitySheetHelper {
       ui.notifications.error(game.i18n.localize("SIMPLE.NotifyGroupAlphanumeric"));
       return false;
     }
-
     return true;
   }
 
@@ -283,7 +276,7 @@ export class EntitySheetHelper {
     while ( objKeys.includes(newValue) ) {
       ++nk;
       newValue = `attr${nk}`;
-    };
+    }
 
     // Build options for construction HTML inputs.
     let htmlItems = {
@@ -364,7 +357,7 @@ export class EntitySheetHelper {
     const form = app.form;
     let newValue = $(a).siblings('.group-prefix').val();
     // Verify the new group key is valid, and use it to create the group.
-    if ( newValue.length > 0 && EntitySheetHelper.validateGroup(newValue, app) ) {
+    if ( newValue.length > 0 && EntitySheetHelper.validateGroup(newValue, app.object) ) {
       let newKey = document.createElement("div");
       newKey.innerHTML = `<input type="text" name="data.groups.${newValue}.key" value="${newValue}"/>`;
       // Append the form element and submit the form.
@@ -373,6 +366,8 @@ export class EntitySheetHelper {
       await app._onSubmit(event);
     }
   }
+
+  /* -------------------------------------------- */
 
   /**
    * Delete an attribute group.
@@ -410,15 +405,15 @@ export class EntitySheetHelper {
 
   /**
    * Update attributes when updating an actor object.
-   *
-   * @param {Object} formData Form data object to modify keys and values for.
-   * @returns {Object} updated formData object.
+   * @param {object} formData       The form data object to modify keys and values for.
+   * @param {Document} document     The Actor or Item document within which attributes are being updated
+   * @returns {object}              The updated formData object.
    */
-  static updateAttributes(formData, entity) {
+  static updateAttributes(formData, document) {
     let groupKeys = [];
 
     // Handle the free-form attributes list
-    const formAttrs = expandObject(formData).data.attributes || {};
+    const formAttrs = foundry.utils.expandObject(formData)?.data?.attributes || {};
     const attributes = Object.values(formAttrs).reduce((obj, v) => {
       let attrs = [];
       let group = null;
@@ -453,14 +448,14 @@ export class EntitySheetHelper {
     }, {});
 
     // Remove attributes which are no longer used
-    for ( let k of Object.keys(entity.object.data.data.attributes) ) {
+    for ( let k of Object.keys(document.data.data.attributes) ) {
       if ( !attributes.hasOwnProperty(k) ) attributes[`-=${k}`] = null;
     }
 
     // Remove grouped attributes which are no longer used.
     for ( let group of groupKeys) {
-      if ( entity.object.data.data.attributes[group] ) {
-        for ( let k of Object.keys(entity.object.data.data.attributes[group]) ) {
+      if ( document.data.data.attributes[group] ) {
+        for ( let k of Object.keys(document.data.data.attributes[group]) ) {
           if ( !attributes[group].hasOwnProperty(k) ) attributes[group][`-=${k}`] = null;
         }
       }
@@ -470,18 +465,20 @@ export class EntitySheetHelper {
     formData = Object.entries(formData).filter(e => !e[0].startsWith("data.attributes")).reduce((obj, e) => {
       obj[e[0]] = e[1];
       return obj;
-    }, {_id: entity.object._id, "data.attributes": attributes});
+    }, {_id: document.id, "data.attributes": attributes});
 
     return formData;
   }
 
+  /* -------------------------------------------- */
+
   /**
    * Update attribute groups when updating an actor object.
-   *
-   * @param {Object} formData Form data object to modify keys and values for.
-   * @returns {Object} updated formData object.
+   * @param {object} formData       The form data object to modify keys and values for.
+   * @param {Document} document     The Actor or Item document within which attributes are being updated
+   * @returns {object}              The updated formData object.
    */
-  static updateGroups(formData, entity) {
+  static updateGroups(formData, document) {
     // Handle the free-form groups list
     const formGroups = expandObject(formData).data.groups || {};
     const groups = Object.values(formGroups).reduce((obj, v) => {
@@ -498,7 +495,7 @@ export class EntitySheetHelper {
     }, {});
 
     // Remove groups which are no longer used
-    for ( let k of Object.keys(entity.object.data.data.groups) ) {
+    for ( let k of Object.keys(document.data.data.groups) ) {
       if ( !groups.hasOwnProperty(k) ) groups[`-=${k}`] = null;
     }
 
@@ -506,42 +503,71 @@ export class EntitySheetHelper {
     formData = Object.entries(formData).filter(e => !e[0].startsWith("data.groups")).reduce((obj, e) => {
       obj[e[0]] = e[1];
       return obj;
-    }, {_id: entity.object._id, "data.groups": groups});
-
+    }, {_id: document.id, "data.groups": groups});
     return formData;
   }
 
   /* -------------------------------------------- */
 
   /**
-   * Replace referenced data attributes in the roll formula with the syntax `@attr` with the corresponding key from
-   * the provided `data` object. This is a temporary helper function that will be replaced with Roll.replaceFormulaData()
-   * in Foundry 0.7.1.
-   *
-   * @param {String} formula    The original formula within which to replace.
-   * @param {Object} data       Data object to use for value replacements.
-   * @param {Object} missing    Value to use as missing replacements, such as {missing: "0"}.
-   * @return {String} The formula with attributes replaced with values.
+   * @see ClientDocumentMixin.createDialog
    */
-  static replaceData(formula, data, {missing=null,depth=1}={}) {
-    // Exit early if the formula is invalid.
-    if ( typeof formula != "string" || depth < 1) {
-      return 0;
-    }
-    // Replace attributes with their numeric equivalents.
-    let dataRgx = new RegExp(/@([a-z.0-9_\-]+)/gi);
-    let rollFormula = formula.replace(dataRgx, (match, term) => {
-      let value = getProperty(data, term);
-      // If there was a value returned, trim and return it.
-      if ( value ) {
-        return String(value).trim();
-      }
-      // Otherwise, return either the missing replacement value, or the original @attr string for later replacement.
-      else {
-        return missing != null ? missing : `@${term}`;
-      }
-    });
-    return rollFormula;
-  }
+  static async createDialog(data={}, options={}) {
 
+    // Collect data
+    const documentName = this.metadata.name;
+    const folders = game.folders.filter(f => (f.data.type === documentName) && f.displayed);
+    const label = game.i18n.localize(this.metadata.label);
+    const title = game.i18n.format("ENTITY.Create", {entity: label});
+
+    // Identify the template Actor types
+    const collection = game.collections.get(this.documentName);
+    const templates = collection.filter(a => a.getFlag("worldbuilding", "isTemplate"));
+    const defaultType = this.metadata.types[0];
+    const types = {
+      [defaultType]: game.i18n.localize("SIMPLE.NoTemplate")
+    }
+    for ( let a of templates ) {
+      types[a.id] = a.name;
+    }
+
+    // Render the entity creation form
+    const html = await renderTemplate(`templates/sidebar/entity-create.html`, {
+      name: data.name || game.i18n.format("ENTITY.New", {entity: label}),
+      folder: data.folder,
+      folders: folders,
+      hasFolders: folders.length > 1,
+      type: data.type || templates[0]?.id || "",
+      types: types,
+      hasTypes: true
+    });
+
+    // Render the confirmation dialog window
+    return Dialog.prompt({
+      title: title,
+      content: html,
+      label: title,
+      callback: html => {
+
+        // Get the form data
+        const form = html[0].querySelector("form");
+        const fd = new FormDataExtended(form);
+        let createData = fd.toObject();
+
+        // Merge with template data
+        const template = collection.get(form.type.value);
+        if ( template ) {
+          createData = foundry.utils.mergeObject(template.toObject(), createData);
+          createData.type = template.data.type;
+          delete createData.flags.worldbuilding.isTemplate;
+        }
+
+        // Merge provided override data
+        createData = foundry.utils.mergeObject(createData, data);
+        return this.create(createData, {renderSheet: true});
+      },
+      rejectClose: false,
+      options: options
+    });
+  }
 }

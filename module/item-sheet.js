@@ -1,4 +1,5 @@
 import { EntitySheetHelper } from "./helper.js";
+import {ATTRIBUTE_TYPES} from "./constants.js";
 
 /**
  * Extend the basic ItemSheet with some very simple modifications
@@ -6,9 +7,9 @@ import { EntitySheetHelper } from "./helper.js";
  */
 export class SimpleItemSheet extends ItemSheet {
 
-  /** @override */
+  /** @inheritdoc */
   static get defaultOptions() {
-    return mergeObject(super.defaultOptions, {
+    return foundry.utils.mergeObject(super.defaultOptions, {
       classes: ["worldbuilding", "sheet", "item"],
       template: "systems/worldbuilding/templates/item-sheet.html",
       width: 520,
@@ -20,26 +21,30 @@ export class SimpleItemSheet extends ItemSheet {
 
   /* -------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   getData() {
-    const data = super.getData();
-    EntitySheetHelper.getAttributeData(data);
-    return data;
+    const context = super.getData();
+    EntitySheetHelper.getAttributeData(context.data);
+    context.systemData = context.data.data;
+    context.dtypes = ATTRIBUTE_TYPES;
+    return context;
   }
 
   /* -------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
 	activateListeners(html) {
     super.activateListeners(html);
 
     // Everything below here is only needed if the sheet is editable
-    if (!this.options.editable) return;
+    if ( !this.isEditable ) return;
 
-    // Rollable attributes
+    // Attribute Management
+    html.find(".attributes").on("click", ".attribute-control", EntitySheetHelper.onClickAttributeControl.bind(this));
+    html.find(".groups").on("click", ".group-control", EntitySheetHelper.onClickAttributeGroupControl.bind(this));
     html.find(".attributes").on("click", "a.attribute-roll", EntitySheetHelper.onAttributeRoll.bind(this));
 
-    // Add draggable for macros.
+    // Add draggable for Macro creation
     html.find(".attributes a.attribute-roll").each((i, a) => {
       a.setAttribute("draggable", true);
       a.addEventListener("dragstart", ev => {
@@ -47,24 +52,15 @@ export class SimpleItemSheet extends ItemSheet {
         ev.dataTransfer.setData('text/plain', JSON.stringify(dragData));
       }, false);
     });
-
-    // Add or Remove Attribute
-    html.find(".attributes").on("click", ".attribute-control", EntitySheetHelper.onClickAttributeControl.bind(this));
-
-    // Add attribute groups.
-    html.find(".groups").on("click", ".group-control", EntitySheetHelper.onClickAttributeGroupControl.bind(this));
   }
 
   /* -------------------------------------------- */
 
   /** @override */
-  _updateObject(event, formData) {
-
-    // Handle attribute and group updates.
-    formData = EntitySheetHelper.updateAttributes(formData, this);
-    formData = EntitySheetHelper.updateGroups(formData, this);
-
-    // Update the Actor with the new form values.
-    return this.object.update(formData);
+  _getSubmitData(updateData) {
+    let formData = super._getSubmitData(updateData);
+    formData = EntitySheetHelper.updateAttributes(formData, this.object);
+    formData = EntitySheetHelper.updateGroups(formData, this.object);
+    return formData;
   }
 }

@@ -5,6 +5,7 @@
 
 // Import Modules
 import { SimpleActor } from "./actor.js";
+import { SimpleItem } from "./item.js";
 import { SimpleItemSheet } from "./item-sheet.js";
 import { SimpleActorSheet } from "./actor-sheet.js";
 import { preloadHandlebarsTemplates } from "./templates.js";
@@ -35,7 +36,8 @@ Hooks.once("init", async function() {
   };
 
   // Define custom Entity classes
-  CONFIG.Actor.entityClass = SimpleActor;
+  CONFIG.Actor.documentClass = SimpleActor;
+  CONFIG.Item.documentClass = SimpleItem;
 
   // Register sheet application classes
   Actors.unregisterSheet("core", ActorSheet);
@@ -74,21 +76,12 @@ Hooks.once("init", async function() {
    * @param {boolean} notify - Whether or not to post nofications.
    */
   function _simpleUpdateInit(formula, notify = false) {
-    // If the formula is valid, use it.
-    try {
-      new Roll(formula).roll();
-      CONFIG.Combat.initiative.formula = formula;
-      if (notify) {
-        ui.notifications.notify(game.i18n.localize("SIMPLE.NotifyInitFormulaUpdated") + ` ${formula}`);
-      }
+    const isValid = Roll.validate(formula);
+    if ( !isValid ) {
+      if ( notify ) ui.notifications.error(`${game.i18n.localize("SIMPLE.NotifyInitFormulaInvalid")}: ${formula}`);
+      return;
     }
-    // Otherwise, fall back to a d20.
-    catch (error) {
-      CONFIG.Combat.initiative.formula = "1d20";
-      if (notify) {
-        ui.notifications.error(game.i18n.localize("SIMPLE.NotifyInitFormulaInvalid") + ` ${formula}`);
-      }
-    }
+    CONFIG.Combat.initiative.formula = formula;
   }
 
   /**
@@ -98,8 +91,8 @@ Hooks.once("init", async function() {
     return value.slugify({strict: true});
   });
 
-  // Preload template partials.
-  preloadHandlebarsTemplates();
+  // Preload template partials
+  await preloadHandlebarsTemplates();
 });
 
 /**
@@ -172,68 +165,3 @@ Hooks.on("getItemDirectoryEntryContext", (html, options) => {
     }
   });
 });
-
-
-async function _onCreateEntity(event) {
-  event.preventDefault();
-  event.stopPropagation();
-  return _simpleDirectoryTemplates(this, event);
-}
-ActorDirectory.prototype._onCreateEntity = _onCreateEntity; // For 0.7.x+
-ItemDirectory.prototype._onCreateEntity = _onCreateEntity;
-ActorDirectory.prototype._onCreate = _onCreateEntity; // TODO: for 0.6.6
-ItemDirectory.prototype._onCreate = _onCreateEntity;
-
-/**
- * Display the entity template dialog.
- *
- * Helper function to display a dialog if there are multiple template types defined for the entity type.
- * TODO: Refactor in 0.7.x to play more nicely with the Entity.createDialog method
- *1
- * @param {EntityCollection} entityType - The sidebar tab
- * @param {MouseEvent} event - Triggering event
- */
-async function _simpleDirectoryTemplates(collection, event) {
-
-  // Retrieve the collection and find any available templates
-  const entityCollection = collection.tabName === "actors" ? game.actors : game.items;
-  const cls = collection.tabName === "actors" ? Actor : Item;
-  let templates = entityCollection.filter(a => a.getFlag("worldbuilding", "isTemplate"));
-  let ent = game.i18n.localize(cls.config.label);
-
-  // Setup default creation data
-  let type = collection.tabName === "actors" ? 'character' : 'item';
-  let createData = {
-    name: `${game.i18n.localize("SIMPLE.New")} ${ent}`,
-    type: type,
-    folder: event.currentTarget.dataset.folder
-  };
-  if ( !templates.length ) return cls.create(createData, {renderSheet: true});
-
-  // Build an array of types for the form, including an empty default.
-  let types = [{
-    value: null,
-    label: game.i18n.localize("SIMPLE.NoTemplate")
-  }].concat(templates.map(a => { return { value: a.id, label: a.name } }));
-
-  // Render the confirmation dialog window
-  const templateData = {upper: ent, lower: ent.toLowerCase(), types: types};
-  const dlg = await renderTemplate(`systems/worldbuilding/templates/sidebar/entity-create.html`, templateData);
-  return Dialog.confirm({
-    title: `${game.i18n.localize("SIMPLE.Create")} ${createData.name}`,
-    content: dlg,
-    yes: html => {
-      const form = html[0].querySelector("form");
-      const template = entityCollection.get(form.type.value);
-      if ( template ) {
-        createData = mergeObject(template.data, createData, {inplace: false});
-        createData.type = template.data.type;
-        delete createData.flags.worldbuilding.isTemplate;
-      }
-      createData.name = form.name.value;
-      return cls.create(createData, {renderSheet: true});
-    },
-    no: () => {},
-    defaultYes: false
-  });
-}

@@ -2,18 +2,20 @@
 
     {{!-- Sheet Header --}}
     <header class="sheet-header">
-        <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="100" width="100" />
+        <img class="profile-img" src="{{data.img}}" data-edit="img" title="{{data.name}}" height="100" width="100" />
         <div class="header-fields">
-            <h1 class="charname"><input name="name" type="text" value="{{actor.name}}" placeholder="Name" /></h1>
+            <h1 class="charname">
+                <input name="name" type="text" value="{{data.name}}" placeholder="Name" />
+            </h1>
             <div class="resource">
-                <input type="text" name="data.health.value" value="{{data.health.value}}" data-dtype="Number" />
+                <input type="number" name="data.health.value" value="{{systemData.health.value}}"/>
                 <span> / </span>
-                <input type="text" name="data.health.max" value="{{data.health.max}}" data-dtype="Number" />
+                <input type="number" name="data.health.max" value="{{systemData.health.max}}"/>
             </div>
             <div class="resource">
-                <input type="text" name="data.power.value" value="{{data.power.value}}" data-dtype="Number" />
+                <input type="number" name="data.power.value" value="{{systemData.power.value}}"/>
                 <span> / </span>
-                <input type="text" name="data.power.max" value="{{data.power.max}}" data-dtype="Number" />
+                <input type="number" name="data.power.max" value="{{systemData.power.max}}"/>
             </div>
         </div>
     </header>
@@ -29,14 +31,14 @@
     <section class="sheet-body">
 
         {{!-- Biography Tab --}}
-        <div class="tab biography" data-group="primary" data-tab="description">
-            {{editor content=data.biography target="data.biography" button=true owner=owner editable=editable}}
+        <div class="tab description" data-group="primary" data-tab="description">
+            {{editor content=systemData.biography target="data.biography" button=true owner=owner editable=editable rollData=rollData}}
         </div>
 
         {{!-- Owned Items Tab --}}
         <div class="tab items" data-group="primary" data-tab="items">
             <ol class="item-list">
-                {{#each actor.items as |item id|}}
+                {{#each data.items as |item id|}}
                 <li class="item flexrow" data-item-id="{{item._id}}">
                     <img src="{{item.img}}" title="{{item.name}}" width="24" height="24" />
                     <h4 class="item-name">{{item.name}}</h4>
@@ -75,12 +77,15 @@
                         {{/each}}
                     </div>
                     <div class="item-controls">
-                        <a class="item-control item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
-                        <a class="item-control item-delete" title="Delete Item"><i class="fas fa-trash"></i></a>
+                        <a class="item-control" title="{{ localize "SIMPLE.ItemEdit" }}" data-action="edit"><i class="fas fa-edit"></i></a>
+                        <a class="item-control" title="{{ localize "SIMPLE.ItemDelete" }}" data-action="delete"><i class="fas fa-trash"></i></a>
                     </div>
                 </li>
                 {{/each}}
             </ol>
+            <p>
+                <a class="item-control" title="{{ localize "SIMPLE.ItemCreate" }}" data-action="create"><i class="fas fa-plus"></i> {{ localize "SIMPLE.ItemCreate" }}</a>
+            </p>
         </div>
 
         {{!-- Attributes Tab --}}
@@ -94,14 +99,14 @@
             </header>
 
             {{!-- Render the attribute list partial. --}}
-            {{> "systems/worldbuilding/templates/parts/sheet-attributes.html" attributes=data.ungroupedAttributes dtypes=dtypes}}
+            {{> "systems/worldbuilding/templates/parts/sheet-attributes.html" attributes=systemData.ungroupedAttributes dtypes=dtypes}}
 
             {{!-- Render the grouped attributes partial and control. --}}
             <div class="groups">
-                {{> "systems/worldbuilding/templates/parts/sheet-groups.html" attributes=data.groupedAttributes groups=data.groups dtypes=dtypes}}
+                {{> "systems/worldbuilding/templates/parts/sheet-groups.html" attributes=systemData.groupedAttributes groups=systemData.groups dtypes=dtypes}}
 
                 <div class="group-controls flexrow">
-                    <input class="group-prefix" type="text" val=""/>
+                    <input class="group-prefix" type="text" value=""/>
                     <a class="button group-control" data-action="create-group"><i class="fas fa-plus"></i>Add Attribute Group</a>
                 </div>
             </div>

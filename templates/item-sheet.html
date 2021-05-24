@@ -1,15 +1,17 @@
 <form class="flexcol {{cssClass}}" autocomplete="off">
     <header class="sheet-header">
-        <img class="profile-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" />
+        <img class="profile-img" src="{{data.img}}" data-edit="img" title="{{data.name}}" />
         <div class="header-fields">
-            <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="Name" /></h1>
+            <h1 class="charname">
+                <input name="name" type="text" value="{{data.name}}" placeholder="Name" />
+            </h1>
             <div class="resource">
                 <label>Quantity</label>
-                <input type="text" name="data.quantity" value="{{data.quantity}}" data-dtype="Number" />
+                <input type="number" name="data.quantity" value="{{systemData.quantity}}"/>
             </div>
             <div class="resource">
                 <label>Weight</label>
-                <input type="text" name="data.weight" value="{{data.weight}}" data-dtype="Number" />
+                <input type="number" name="data.weight" value="{{systemData.weight}}"/>
             </div>
         </div>
     </header>
@@ -25,7 +27,7 @@
 
         {{!-- Description Tab --}}
         <div class="tab" data-group="primary" data-tab="description">
-            {{editor content=data.description target="data.description" button=true owner=owner editable=editable}}
+            {{editor content=systemData.description target="data.description" button=true owner=owner editable=editable rollData=rollData}}
         </div>
 
         {{!-- Attributes Tab --}}
@@ -39,14 +41,13 @@
             </header>
 
             {{!-- Render the attribute list partial. --}}
-            {{> "systems/worldbuilding/templates/parts/sheet-attributes.html" attributes=data.ungroupedAttributes dtypes=dtypes}}
+            {{> "systems/worldbuilding/templates/parts/sheet-attributes.html" attributes=systemData.ungroupedAttributes dtypes=dtypes}}
 
             {{!-- Render the grouped attributes partial and control. --}}
             <div class="groups">
-                {{> "systems/worldbuilding/templates/parts/sheet-groups.html" attributes=data.groupedAttributes groups=data.groups dtypes=dtypes}}
-
+                {{> "systems/worldbuilding/templates/parts/sheet-groups.html" attributes=systemData.groupedAttributes groups=systemData.groups dtypes=dtypes}}
                 <div class="group-controls flexrow">
-                    <input class="group-prefix" type="text" val=""/>
+                    <input class="group-prefix" type="text" value=""/>
                     <a class="button group-control" data-action="create-group"><i class="fas fa-plus"></i>Add Attribute Group</a>
                 </div>
             </div>

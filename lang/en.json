@@ -4,8 +4,13 @@
   "SETTINGS.SimpleInitFormulaN": "Initiative Formula",
   "SETTINGS.SimpleInitFormulaL": "Enter an initiative formula, such as d20+@dex",
 
-  "SIMPLE.NotifyInitFormulaUpdated": "Initiative formula was updated to:",
-  "SIMPLE.NotifyInitFormulaInvalid": "Initiative formula was invalid:",
+  "SIMPLE.ItemCreate": "Create Item",
+  "SIMPLE.ItemEdit": "Edit Item",
+  "SIMPLE.ItemDelete": "Delete Item",
+  "SIMPLE.ItemNew": "New Item",
+
+  "SIMPLE.NotifyInitFormulaUpdated": "Initiative formula was updated to",
+  "SIMPLE.NotifyInitFormulaInvalid": "Initiative formula was invalid",
   "SIMPLE.NotifyGroupDuplicate": "Attribute group already exists.",
   "SIMPLE.NotifyGroupAttrDuplicate": "Attribute group already exists as an attribute.",
   "SIMPLE.NotifyGroupAlphanumeric": "Attribute group names may not contain spaces or periods.",

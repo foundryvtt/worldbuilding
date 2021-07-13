@@ -24,7 +24,7 @@
                 <span class="attribute-col flexcol">
                     <label for="data.attributes.{{#if attr.group}}{{attr.group}}.{{/if}}{{key}}.value">{{localize "SIMPLE.ResourceValue"}}</label>
                     <input class="attribute-value" type="text" name="data.attributes.{{#if attr.group}}{{attr.group}}.{{/if}}{{key}}.value"
-                        value="{{attr.value}}" data-dtype="Number" />
+                        min="{{attr.min}}" value="{{attr.value}}" max="{{attr.max}}" data-dtype="Number" />
                 </span>
                 <span class="attribute-col flexcol">
                     <label for="data.attributes.{{#if attr.group}}{{attr.group}}.{{/if}}{{key}}.max">{{localize "SIMPLE.ResourceMax"}}</label>

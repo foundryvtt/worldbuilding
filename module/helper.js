@@ -417,6 +417,15 @@ export class EntitySheetHelper {
     const attributes = Object.values(formAttrs).reduce((obj, v) => {
       let attrs = [];
       let group = null;
+
+      // Perform a simple validation for whether a Resource object's value exceeds its minimum or maximums
+      for (let k of Object.values(formAttrs)) {
+        if (k.dtype === "Resource"){
+        if (k.min && (k.value > k.max)) {k.value = k.max}
+        if (k.max && (k.value < k.min)) {k.value = k.min}
+        }
+      }
+      
       // Handle attribute keys for grouped attributes.
       if ( !v["key"] ) {
         attrs = Object.keys(v);

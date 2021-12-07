@@ -3,13 +3,13 @@
   "types": ["character"],
   "character": {
     "biography": "",
-    "punkty_wspomnien"{
-        ["Punkty wspomnień"],
+    "punkty_wspomnien": {
+        "description": "Punkty wspomnień",
         "value":3,
         "min": 0,
     },
     "punkty_wplywu": {
-        ["Punkty wpływu"]
+       "description": "Punkty wpływu",
       "value": 5,
       "min": 0,
      

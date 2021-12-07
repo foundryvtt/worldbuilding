@@ -1,0 +1,31 @@
+{
+"Actor": {
+  "types": ["character"],
+  "character": {
+    "biography": "",
+    "punkty_wspomnien"{
+        ["Punkty wspomnień"],
+        "value":3,
+        "min": 0,
+    },
+    "punkty_wplywu": {
+        ["Punkty wpływu"]
+      "value": 5,
+      "min": 0,
+     
+    },
+    "attributes": {},
+    "groups": {}
+  }
+},
+"Item": {
+  "types": ["item"],
+  "item": {
+    "description": "",
+    "quantity": 1,
+    "weight": 0,
+    "attributes": {},
+    "groups": {}
+  }
+}
+}

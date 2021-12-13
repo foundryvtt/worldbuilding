@@ -532,7 +532,7 @@ export class EntitySheetHelper {
     }
 
     // Render the document creation form
-    const useEntity = foundry.utils.isNewerVersion("9", game.version ?? game.data.version);
+    const useEntity = game.worldbuilding.useEntity;
     const template = `templates/sidebar/${useEntity ? "entity" : "document" }-create.html`;
     const html = await renderTemplate(template, {
       name: data.name || game.i18n.format("DOCUMENT.New", {type: label}),

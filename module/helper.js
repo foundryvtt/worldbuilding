@@ -518,7 +518,7 @@ export class EntitySheetHelper {
     const documentName = this.metadata.name;
     const folders = game.folders.filter(f => (f.data.type === documentName) && f.displayed);
     const label = game.i18n.localize(this.metadata.label);
-    const title = game.i18n.format("ENTITY.Create", {entity: label});
+    const title = game.i18n.format("DOCUMENT.Create", {type: label});
 
     // Identify the template Actor types
     const collection = game.collections.get(this.documentName);
@@ -531,9 +531,11 @@ export class EntitySheetHelper {
       types[a.id] = a.name;
     }
 
-    // Render the entity creation form
-    const html = await renderTemplate(`templates/sidebar/entity-create.html`, {
-      name: data.name || game.i18n.format("ENTITY.New", {entity: label}),
+    // Render the document creation form
+    const useEntity = foundry.utils.isNewerVersion("9", game.version ?? game.data.version);
+    const template = `templates/sidebar/${useEntity ? "entity" : "document" }-create.html`;
+    const html = await renderTemplate(template, {
+      name: data.name || game.i18n.format("DOCUMENT.New", {type: label}),
       folder: data.folder,
       folders: folders,
       hasFolders: folders.length > 1,

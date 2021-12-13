@@ -32,7 +32,8 @@ Hooks.once("init", async function() {
 
   game.worldbuilding = {
     SimpleActor,
-    createWorldbuildingMacro
+    createWorldbuildingMacro,
+    useEntity: foundry.utils.isNewerVersion("9", game.version ?? game.data.version)
   };
 
   // Define custom Document classes
@@ -104,16 +105,17 @@ Hooks.on("hotbarDrop", (bar, data, slot) => createWorldbuildingMacro(data, slot)
  * Adds the actor template context menu.
  */
 Hooks.on("getActorDirectoryEntryContext", (html, options) => {
+  const idAttr = game.worldbuilding.useEntity ? "entityId" : "documentId";
   // Define an actor as a template.
   options.push({
     name: game.i18n.localize("SIMPLE.DefineTemplate"),
     icon: '<i class="fas fa-stamp"></i>',
     condition: li => {
-      const actor = game.actors.get(li.data("documentId"));
+      const actor = game.actors.get(li.data(idAttr));
       return !actor.getFlag("worldbuilding", "isTemplate");
     },
     callback: li => {
-      const actor = game.actors.get(li.data("documentId"));
+      const actor = game.actors.get(li.data(idAttr));
       actor.setFlag("worldbuilding", "isTemplate", true);
     }
   });
@@ -123,11 +125,11 @@ Hooks.on("getActorDirectoryEntryContext", (html, options) => {
     name: game.i18n.localize("SIMPLE.UnsetTemplate"),
     icon: '<i class="fas fa-times"></i>',
     condition: li => {
-      const actor = game.actors.get(li.data("documentId"));
+      const actor = game.actors.get(li.data(idAttr));
       return actor.getFlag("worldbuilding", "isTemplate");
     },
     callback: li => {
-      const actor = game.actors.get(li.data("documentId"));
+      const actor = game.actors.get(li.data(idAttr));
       actor.setFlag("worldbuilding", "isTemplate", false);
     }
   });
@@ -137,16 +139,17 @@ Hooks.on("getActorDirectoryEntryContext", (html, options) => {
  * Adds the item template context menu.
  */
 Hooks.on("getItemDirectoryEntryContext", (html, options) => {
+  const idAttr = game.worldbuilding.useEntity ? "entityId" : "documentId";
   // Define an item as a template.
   options.push({
     name: game.i18n.localize("SIMPLE.DefineTemplate"),
     icon: '<i class="fas fa-stamp"></i>',
     condition: li => {
-      const item = game.items.get(li.data("documentId"));
+      const item = game.items.get(li.data(idAttr));
       return !item.getFlag("worldbuilding", "isTemplate");
     },
     callback: li => {
-      const item = game.items.get(li.data("documentId"));
+      const item = game.items.get(li.data(idAttr));
       item.setFlag("worldbuilding", "isTemplate", true);
     }
   });
@@ -156,11 +159,11 @@ Hooks.on("getItemDirectoryEntryContext", (html, options) => {
     name: game.i18n.localize("SIMPLE.UnsetTemplate"),
     icon: '<i class="fas fa-times"></i>',
     condition: li => {
-      const item = game.items.get(li.data("documentId"));
+      const item = game.items.get(li.data(idAttr));
       return item.getFlag("worldbuilding", "isTemplate");
     },
     callback: li => {
-      const item = game.items.get(li.data("documentId"));
+      const item = game.items.get(li.data(idAttr));
       item.setFlag("worldbuilding", "isTemplate", false);
     }
   });

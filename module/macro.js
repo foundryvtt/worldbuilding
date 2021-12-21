@@ -8,7 +8,7 @@
 export async function createWorldbuildingMacro(data, slot) {
   const command = `const roll = new Roll("${data.roll}", actor ? actor.getRollData() : {});
   roll.toMessage({speaker, flavor: "${data.label}"});`;
-  let macro = game.macros.find(m => (m.name === item.label) && (m.command === command));
+  let macro = game.macros.find(m => (m.name === data.label) && (m.command === command));
   if (!macro) {
     macro = await Macro.create({
       name: data.label,

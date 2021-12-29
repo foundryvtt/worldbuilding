@@ -244,6 +244,12 @@ export class EntitySheetHelper {
       return false;
     }
 
+    // Check for reserved group names.
+    if ( ["attr", "attributes"].includes(groupName) ) {
+      ui.notifications.error(game.i18n.format("SIMPLE.NotifyGroupReserved", {key: groupName}));
+      return false;
+    }
+
     // Check for whitespace or periods.
     if ( groupName.match(/[\s|\.]/i) ) {
       ui.notifications.error(game.i18n.localize("SIMPLE.NotifyGroupAlphanumeric"));
@@ -488,15 +494,19 @@ export class EntitySheetHelper {
       }
       // Trim and clean up.
       let k = v["key"].trim();
-      if ( /[\s\.]/.test(k) )  return ui.notifications.error("Group keys may not contain spaces or periods");
+      if ( /[\s\.]/.test(k) )  return ui.notifications.error(game.i18n.localize("SIMPLE.NotifyGroupAlphanumeric"));
+      // Handle reserved keys.
+      if ( ["attr", "attributes"].includes(k) )  return ui.notifications.error(game.i18n.format("SIMPLE.NotifyGroupReserved", {key: k}));
       delete v["key"];
       obj[k] = v;
       return obj;
     }, {});
 
     // Remove groups which are no longer used
-    for ( let k of Object.keys(document.data.data.groups) ) {
-      if ( !groups.hasOwnProperty(k) ) groups[`-=${k}`] = null;
+    if (groups) {
+      for ( let k of Object.keys(document.data.data.groups)) {
+        if ( !groups.hasOwnProperty(k) ) groups[`-=${k}`] = null;
+      }
     }
 
     // Re-combine formData

@@ -10,7 +10,7 @@ import { SimpleItemSheet } from "./item-sheet.js";
 import { SimpleActorSheet } from "./actor-sheet.js";
 import { preloadHandlebarsTemplates } from "./templates.js";
 import { createWorldbuildingMacro } from "./macro.js";
-import { SWBTokenDocument } from "./swb-tokendocument.js";
+import { SimpleTokenDocument } from "./simpletokendocument.js";
 
 /* -------------------------------------------- */
 /*  Foundry VTT Initialization                  */
@@ -42,7 +42,7 @@ Hooks.once("init", async function() {
   CONFIG.Item.documentClass = SimpleItem;
   
   // Update TokenDocument with overrided getBarAttribute method
-  CONFIG.Token.documentClass = SWBTokenDocument;
+  CONFIG.Token.documentClass = SimpleTokenDocument;
 
   // Register sheet application classes
   Actors.unregisterSheet("core", ActorSheet);

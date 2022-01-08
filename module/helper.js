@@ -487,6 +487,7 @@ export class EntitySheetHelper {
   static updateGroups(formData, document) {
     // Handle the free-form groups list
     const formGroups = expandObject(formData).data.groups || {};
+    const documentGroups = Object.keys(document.data.data.groups || {});
     const groups = Object.values(formGroups).reduce((obj, v) => {
       // If there are duplicate groups, collapse them.
       if ( Array.isArray(v["key"]) ) {
@@ -494,11 +495,15 @@ export class EntitySheetHelper {
       }
       // Trim and clean up.
       let k = v["key"].trim();
-      if ( /[\s\.]/.test(k) )  return ui.notifications.error(game.i18n.localize("SIMPLE.NotifyGroupAlphanumeric"));
-      // Handle reserved keys.
-      if ( ["attr", "attributes"].includes(k) )  return ui.notifications.error(game.i18n.format("SIMPLE.NotifyGroupReserved", {key: k}));
+      // Validate groups.
+      let isValidGroup = true;
+      // Skip validation for existing/duplicate groups since they're collapsed above.
+      if ( !documentGroups.includes(k) ) {
+        isValidGroup = this.validateGroup(k, document);
+      }
+      // Delete the key and add the group to the reducer if valid.
       delete v["key"];
-      obj[k] = v;
+      if (isValidGroup)  obj[k] = v;
       return obj;
     }, {});
 

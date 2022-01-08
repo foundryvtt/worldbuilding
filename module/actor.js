@@ -210,11 +210,11 @@ export class SimpleActor extends Actor {
       }
       // Non-grouped attributes.
       if ( data.attributes[k]?.value ) {
-        data.attributes[k].value = Roll.replaceFormulaData('' + data.attributes[k].value, data);
+        data.attributes[k].value = Roll.replaceFormulaData(String(data.attributes[k].value), data);
       }
       // Grouped attributes.
       else if ( attr ) {
-        data.attributes[k][attr].value = Roll.replaceFormulaData('' + data.attributes[k][attr].value, data);
+        data.attributes[k][attr].value = Roll.replaceFormulaData(String(data.attributes[k][attr].value), data);
       }
 
       // Duplicate values to shorthand.

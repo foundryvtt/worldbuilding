@@ -11,6 +11,7 @@ export class SimpleItem extends Item {
     super.prepareDerivedData();
     this.data.data.groups = this.data.data.groups || {};
     this.data.data.attributes = this.data.data.attributes || {};
+    EntitySheetHelper.clampResourceValues(this.data.data.attributes);
   }
 
   /* -------------------------------------------- */

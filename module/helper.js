@@ -244,6 +244,12 @@ export class EntitySheetHelper {
       return false;
     }
 
+    // Check for reserved group names.
+    if ( ["attr", "attributes"].includes(groupName) ) {
+      ui.notifications.error(game.i18n.format("SIMPLE.NotifyGroupReserved", {key: groupName}));
+      return false;
+    }
+
     // Check for whitespace or periods.
     if ( groupName.match(/[\s|\.]/i) ) {
       ui.notifications.error(game.i18n.localize("SIMPLE.NotifyGroupAlphanumeric"));
@@ -481,6 +487,7 @@ export class EntitySheetHelper {
   static updateGroups(formData, document) {
     // Handle the free-form groups list
     const formGroups = expandObject(formData).data.groups || {};
+    const documentGroups = Object.keys(document.data.data.groups || {});
     const groups = Object.values(formGroups).reduce((obj, v) => {
       // If there are duplicate groups, collapse them.
       if ( Array.isArray(v["key"]) ) {
@@ -488,15 +495,23 @@ export class EntitySheetHelper {
       }
       // Trim and clean up.
       let k = v["key"].trim();
-      if ( /[\s\.]/.test(k) )  return ui.notifications.error("Group keys may not contain spaces or periods");
+      // Validate groups.
+      let isValidGroup = true;
+      // Skip validation for existing/duplicate groups since they're collapsed above.
+      if ( !documentGroups.includes(k) ) {
+        isValidGroup = this.validateGroup(k, document);
+      }
+      // Delete the key and add the group to the reducer if valid.
       delete v["key"];
-      obj[k] = v;
+      if (isValidGroup)  obj[k] = v;
       return obj;
     }, {});
 
     // Remove groups which are no longer used
-    for ( let k of Object.keys(document.data.data.groups) ) {
-      if ( !groups.hasOwnProperty(k) ) groups[`-=${k}`] = null;
+    if (groups) {
+      for ( let k of Object.keys(document.data.data.groups)) {
+        if ( !groups.hasOwnProperty(k) ) groups[`-=${k}`] = null;
+      }
     }
 
     // Re-combine formData

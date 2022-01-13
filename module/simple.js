@@ -115,7 +115,7 @@ Hooks.on("getActorDirectoryEntryContext", (html, options) => {
     icon: '<i class="fas fa-stamp"></i>',
     condition: li => {
       const actor = game.actors.get(li.data(idAttr));
-      return !actor.getFlag("worldbuilding", "isTemplate");
+      return !actor.isTemplate;
     },
     callback: li => {
       const actor = game.actors.get(li.data(idAttr));
@@ -129,7 +129,7 @@ Hooks.on("getActorDirectoryEntryContext", (html, options) => {
     icon: '<i class="fas fa-times"></i>',
     condition: li => {
       const actor = game.actors.get(li.data(idAttr));
-      return actor.getFlag("worldbuilding", "isTemplate");
+      return actor.isTemplate;
     },
     callback: li => {
       const actor = game.actors.get(li.data(idAttr));
@@ -149,7 +149,7 @@ Hooks.on("getItemDirectoryEntryContext", (html, options) => {
     icon: '<i class="fas fa-stamp"></i>',
     condition: li => {
       const item = game.items.get(li.data(idAttr));
-      return !item.getFlag("worldbuilding", "isTemplate");
+      return !item.isTemplate;
     },
     callback: li => {
       const item = game.items.get(li.data(idAttr));
@@ -163,7 +163,7 @@ Hooks.on("getItemDirectoryEntryContext", (html, options) => {
     icon: '<i class="fas fa-times"></i>',
     condition: li => {
       const item = game.items.get(li.data(idAttr));
-      return item.getFlag("worldbuilding", "isTemplate");
+      return item.isTemplate;
     },
     callback: li => {
       const item = game.items.get(li.data(idAttr));

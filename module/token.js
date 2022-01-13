@@ -1,10 +1,10 @@
 /**
- * Extend the base TokenDocument to allow resource to support resource type attributes.
+ * Extend the base TokenDocument to support resource type attributes.
  * @extends {TokenDocument}
  */
 export class SimpleTokenDocument extends TokenDocument {
   /** @inheritdoc */
-	getBarAttribute(barName, {alternative}={}) {
+  getBarAttribute(barName, {alternative}={}) {
     const data = super.getBarAttribute(barName, {alternative});
     const attr = alternative || this.data[barName]?.attribute;
     if ( !data || !attr || !this.actor ) return data;
@@ -12,6 +12,20 @@ export class SimpleTokenDocument extends TokenDocument {
     if ( "min" in current ) data.min = parseInt(current.min || 0);
     data.editable = true;
     return data;
+  }
+
+  /* -------------------------------------------- */
+
+  static getTrackedAttributes(data, _path=[]) {
+    if ( data || _path.length ) return super.getTrackedAttributes(data, _path);
+    data = {};
+    for ( const model of Object.values(game.system.model.Actor) ) {
+      foundry.utils.mergeObject(data, model);
+    }
+    for ( const actor of game.actors ) {
+      if ( actor.isTemplate ) foundry.utils.mergeObject(data, actor.toObject().data);
+    }
+    return super.getTrackedAttributes(data);
   }
 }
 

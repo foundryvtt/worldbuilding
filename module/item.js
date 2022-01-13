@@ -11,6 +11,7 @@ export class SimpleItem extends Item {
     super.prepareDerivedData();
     this.data.data.groups = this.data.data.groups || {};
     this.data.data.attributes = this.data.data.attributes || {};
+    EntitySheetHelper.clampResourceValues(this.data.data.attributes);
   }
 
   /* -------------------------------------------- */
@@ -18,5 +19,15 @@ export class SimpleItem extends Item {
   /** @override */
   static async createDialog(data={}, options={}) {
     return EntitySheetHelper.createDialog.call(this, data, options);
+  }
+
+  /* -------------------------------------------- */
+
+  /**
+   * Is this Item used as a template for other Items?
+   * @type {boolean}
+   */
+  get isTemplate() {
+    return !!this.getFlag("worldbuilding", "isTemplate");
   }
 }

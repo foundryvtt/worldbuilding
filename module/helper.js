@@ -587,4 +587,21 @@ export class EntitySheetHelper {
       options: options
     });
   }
+
+  /* -------------------------------------------- */
+
+  /**
+   * Ensure the resource values are within the specified min and max.
+   * @param {object} attrs  The Document's attributes.
+   */
+  static clampResourceValues(attrs) {
+    const flat = foundry.utils.flattenObject(attrs);
+    for ( const [attr, value] of Object.entries(flat) ) {
+      const parts = attr.split(".");
+      if ( parts.pop() !== "value" ) continue;
+      const current = foundry.utils.getProperty(attrs, parts.join("."));
+      if ( current?.dtype !== "Resource" ) continue;
+      foundry.utils.setProperty(attrs, attr, Math.clamped(value, current.min || 0, current.max || 0));
+    }
+  }
 }

@@ -10,7 +10,7 @@ import { SimpleItemSheet } from "./item-sheet.js";
 import { SimpleActorSheet } from "./actor-sheet.js";
 import { preloadHandlebarsTemplates } from "./templates.js";
 import { createWorldbuildingMacro } from "./macro.js";
-import { SimpleTokenDocument } from "./simpletokendocument.js";
+import { SimpleToken, SimpleTokenDocument } from "./token.js";
 
 /* -------------------------------------------- */
 /*  Foundry VTT Initialization                  */
@@ -40,9 +40,8 @@ Hooks.once("init", async function() {
   // Define custom Document classes
   CONFIG.Actor.documentClass = SimpleActor;
   CONFIG.Item.documentClass = SimpleItem;
-  
-  // Update TokenDocument with overrided getBarAttribute method
   CONFIG.Token.documentClass = SimpleTokenDocument;
+  CONFIG.Token.objectClass = SimpleToken;
 
   // Register sheet application classes
   Actors.unregisterSheet("core", ActorSheet);
@@ -116,7 +115,7 @@ Hooks.on("getActorDirectoryEntryContext", (html, options) => {
     icon: '<i class="fas fa-stamp"></i>',
     condition: li => {
       const actor = game.actors.get(li.data(idAttr));
-      return !actor.getFlag("worldbuilding", "isTemplate");
+      return !actor.isTemplate;
     },
     callback: li => {
       const actor = game.actors.get(li.data(idAttr));
@@ -130,7 +129,7 @@ Hooks.on("getActorDirectoryEntryContext", (html, options) => {
     icon: '<i class="fas fa-times"></i>',
     condition: li => {
       const actor = game.actors.get(li.data(idAttr));
-      return actor.getFlag("worldbuilding", "isTemplate");
+      return actor.isTemplate;
     },
     callback: li => {
       const actor = game.actors.get(li.data(idAttr));
@@ -150,7 +149,7 @@ Hooks.on("getItemDirectoryEntryContext", (html, options) => {
     icon: '<i class="fas fa-stamp"></i>',
     condition: li => {
       const item = game.items.get(li.data(idAttr));
-      return !item.getFlag("worldbuilding", "isTemplate");
+      return !item.isTemplate;
     },
     callback: li => {
       const item = game.items.get(li.data(idAttr));
@@ -164,7 +163,7 @@ Hooks.on("getItemDirectoryEntryContext", (html, options) => {
     icon: '<i class="fas fa-times"></i>',
     condition: li => {
       const item = game.items.get(li.data(idAttr));
-      return item.getFlag("worldbuilding", "isTemplate");
+      return item.isTemplate;
     },
     callback: li => {
       const item = game.items.get(li.data(idAttr));

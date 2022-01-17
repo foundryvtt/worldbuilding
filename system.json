@@ -2,7 +2,7 @@
   "name": "worldbuilding",
   "title": "Simple World-Building",
   "description": "A minimalist game system which provides configurable Actor and Item templates to support free-form system agnostic game-play.",
-  "version": "0.6.3",
+  "version": "0.6.4",
   "minimumCoreVersion": "0.8.9",
   "compatibleCoreVersion": "9",
   "author": "Atropos",
@@ -22,6 +22,6 @@
   "secondaryTokenAttribute": "power",
   "url": "https://gitlab.com/foundrynet/worldbuilding/",
   "manifest": "https://gitlab.com/foundrynet/worldbuilding/raw/0.6.x/system.json",
-  "download": "https://gitlab.com/foundrynet/worldbuilding/-/archive/release-063/worldbuilding-release-063.zip",
+  "download": "https://gitlab.com/foundrynet/worldbuilding/-/archive/release-064/worldbuilding-release-064.zip",
   "license": "LICENSE.txt"
 }

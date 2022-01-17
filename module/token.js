@@ -9,7 +9,7 @@ export class SimpleTokenDocument extends TokenDocument {
     const attr = alternative || this.data[barName]?.attribute;
     if ( !data || !attr || !this.actor ) return data;
     const current = foundry.utils.getProperty(this.actor.data.data, attr);
-    if ( "min" in current ) data.min = parseInt(current.min || 0);
+    if ( current?.dtype === "Resource" ) data.min = parseInt(current.min || 0);
     data.editable = true;
     return data;
   }

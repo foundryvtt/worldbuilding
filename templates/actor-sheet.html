@@ -38,49 +38,63 @@
         {{!-- Owned Items Tab --}}
         <div class="tab items" data-group="primary" data-tab="items">
             <ol class="item-list">
-                {{#each data.items as |item id|}}
-                <li class="item flexrow" data-item-id="{{item._id}}">
-                    <img src="{{item.img}}" title="{{item.name}}" width="24" height="24" />
-                    <h4 class="item-name">{{item.name}}</h4>
-                    {{!-- Iterate through all attributes on the item and output buttons for any that are formula. --}}
-                    <div class="item-buttons">
-                        {{#each item.data.attributes as |itemAttr key|}}
-                        {{#if itemAttr.dtype}}
-                            {{#if itemAttr.isFormula}}
-                                {{!-- Use the items.name.key format for shorthand. --}}
-                                {{#if ../../shorthand}}
-                                <button class="item-button rollable" data-roll="@items.{{slugify item.name}}.{{key}}" data-label="{{ itemAttr.label }}"
-                                    title="{{itemAttr.value}}">{{itemAttr.label}}</button>
-                                {{!-- Use the items.name.attributes.key.value format otherwise. --}}
-                                {{else}}
-                                <button class="item-button rollable"
-                                    data-roll="@items.{{slugify item.name}}.attributes.{{key}}.value" data-label="{{ itemAttr.label }}"
-                                    title="{{itemAttr.value}}">{{itemAttr.label}}</button>
-                                {{/if}}
+                {{#each this.itemCategories as |category|}}
+                    <li>
+                        <details>
+                            {{#if category}}
+                            <summary class="item-category-label">{{category}}</summary>
+                            {{else}}
+                            <summary class="item-category-label">{{localize "SIMPLE.Uncategorized"}}</summary>
                             {{/if}}
-                        {{else}}
-                            {{#each itemAttr as |itemGroupedAttr groupedKey|}}
-                                {{#if itemGroupedAttr.isFormula}}
-                                    {{!-- Use the items.name.key format for shorthand. --}}
-                                    {{#if ../../../shorthand}}
-                                    <button class="item-button rollable" data-roll="@items.{{slugify item.name}}.{{key}}.{{groupedKey}}" data-label="{{ itemGroupedAttr.label }}"
-                                        title="{{itemGroupedAttr.value}}">{{itemGroupedAttr.label}}</button>
-                                    {{!-- Use the items.name.attributes.key.value format otherwise. --}}
-                                    {{else}}
-                                    <button class="item-button rollable"
-                                        data-roll="@items.{{slugify item.name}}.attributes.{{key}}.{{groupedKey}}.value" data-label="{{ itemGroupedAttr.label }}"
-                                        title="{{itemGroupedAttr.value}}">{{itemGroupedAttr.label}}</button>
-                                    {{/if}}
+                            {{#each ../data.items as |item id|}}
+                            {{log item.data.attributes.category.label}}
+                            {{#if (eq item.data.attributes.category.label category)}}
+                                <li class="item flexrow" data-item-id="{{item._id}}">
+                                    <img src="{{item.img}}" title="{{item.name}}" width="24" height="24" />
+                                    <h4 class="item-name">{{item.name}}</h4>
+                                    {{!-- Iterate through all attributes on the item and output buttons for any that are formula. --}}
+                                    <div class="item-buttons">
+                                        {{#each item.data.attributes as |itemAttr key|}}
+                                        {{#if itemAttr.dtype}}
+                                            {{#if itemAttr.isFormula}}
+                                                {{!-- Use the items.name.key format for shorthand. --}}
+                                                {{#if ../../shorthand}}
+                                                <button class="item-button rollable" data-roll="@items.{{slugify item.name}}.{{key}}" data-label="{{ itemAttr.label }}"
+                                                    title="{{itemAttr.value}}">{{itemAttr.label}}</button>
+                                                {{!-- Use the items.name.attributes.key.value format otherwise. --}}
+                                                {{else}}
+                                                <button class="item-button rollable"
+                                                    data-roll="@items.{{slugify item.name}}.attributes.{{key}}.value" data-label="{{ itemAttr.label }}"
+                                                    title="{{itemAttr.value}}">{{itemAttr.label}}</button>
+                                                {{/if}}
+                                            {{/if}}
+                                        {{else}}
+                                            {{#each itemAttr as |itemGroupedAttr groupedKey|}}
+                                                {{#if itemGroupedAttr.isFormula}}
+                                                    {{!-- Use the items.name.key format for shorthand. --}}
+                                                    {{#if ../../../shorthand}}
+                                                    <button class="item-button rollable" data-roll="@items.{{slugify item.name}}.{{key}}.{{groupedKey}}" data-label="{{ itemGroupedAttr.label }}"
+                                                        title="{{itemGroupedAttr.value}}">{{itemGroupedAttr.label}}</button>
+                                                    {{!-- Use the items.name.attributes.key.value format otherwise. --}}
+                                                    {{else}}
+                                                    <button class="item-button rollable"
+                                                        data-roll="@items.{{slugify item.name}}.attributes.{{key}}.{{groupedKey}}.value" data-label="{{ itemGroupedAttr.label }}"
+                                                        title="{{itemGroupedAttr.value}}">{{itemGroupedAttr.label}}</button>
+                                                    {{/if}}
+                                                {{/if}}
+                                            {{/each}}
+                                        {{/if}}
+                                        {{/each}}
+                                    </div>
+                                    <div class="item-controls">
+                                        <a class="item-control" title="{{ localize "SIMPLE.ItemEdit" }}" data-action="edit"><i class="fas fa-edit"></i></a>
+                                        <a class="item-control" title="{{ localize "SIMPLE.ItemDelete" }}" data-action="delete"><i class="fas fa-trash"></i></a>
+                                    </div>
+                                </li>
                                 {{/if}}
                             {{/each}}
-                        {{/if}}
-                        {{/each}}
-                    </div>
-                    <div class="item-controls">
-                        <a class="item-control" title="{{ localize "SIMPLE.ItemEdit" }}" data-action="edit"><i class="fas fa-edit"></i></a>
-                        <a class="item-control" title="{{ localize "SIMPLE.ItemDelete" }}" data-action="delete"><i class="fas fa-trash"></i></a>
-                    </div>
-                </li>
+                        </details>
+                    </li>
                 {{/each}}
             </ol>
             <p>

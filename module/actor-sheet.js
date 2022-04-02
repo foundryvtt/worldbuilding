@@ -29,6 +29,8 @@ export class SimpleActorSheet extends ActorSheet {
     context.shorthand = !!game.settings.get("worldbuilding", "macroShorthand");
     context.systemData = context.data.data;
     context.dtypes = ATTRIBUTE_TYPES;
+    context.itemCategories = this._getItemCategories();
+
     return context;
   }
 
@@ -113,5 +115,34 @@ export class SimpleActorSheet extends ActorSheet {
     formData = EntitySheetHelper.updateAttributes(formData, this.object);
     formData = EntitySheetHelper.updateGroups(formData, this.object);
     return formData;
+  }
+
+  /* -------------------------------------------- */
+
+  /**
+   * @private
+   * @returns An array with all category fields from the actor's items.
+   */
+  _getItemCategories()
+  {
+    // Gather category-labels from all items. Starting with a Set
+    // to make sure each entry is only sampled once.
+    const unorderedCategories = new Set();
+    this.actor.items.forEach(el => {
+      unorderedCategories.add(el.data.data.attributes.category?.label);
+    });
+
+    // If an user has set a category field without filling the label,
+    // it will come back as '' here, but as 'category' in the handlebars
+    // template. There's no use for an empty cateogry label, so we'll add
+    // the name 'category' to the list so the item gets still rendered.
+    if(unorderedCategories.has(''))
+    {
+      unorderedCategories.delete('');
+      unorderedCategories.add('category');
+    }
+
+    // Turn Set into array to use sorting functionality.
+    return Array.from(unorderedCategories).sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()));
   }
 }

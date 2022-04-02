@@ -92,6 +92,9 @@
   flex: 0 0 24px;
   margin-right: 5px;
 }
+.worldbuilding .item-list .item-category-label {
+  font-weight: bold;
+}
 .worldbuilding .item-list .item-name {
   margin: 0;
 }

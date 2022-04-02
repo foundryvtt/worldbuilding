@@ -40,14 +40,13 @@
             <ol class="item-list">
                 {{#each this.itemCategories as |category|}}
                     <li>
-                        <details>
+                        <details open>
                             {{#if category}}
                             <summary class="item-category-label">{{category}}</summary>
                             {{else}}
                             <summary class="item-category-label">{{localize "SIMPLE.Uncategorized"}}</summary>
                             {{/if}}
                             {{#each ../data.items as |item id|}}
-                            {{log item.data.attributes.category.label}}
                             {{#if (eq item.data.attributes.category.label category)}}
                                 <li class="item flexrow" data-item-id="{{item._id}}">
                                     <img src="{{item.img}}" title="{{item.name}}" width="24" height="24" />

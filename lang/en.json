@@ -29,6 +29,8 @@
   "SIMPLE.AttributeValue": "Value",
   "SIMPLE.AttributeLabel": "Label",
   "SIMPLE.AttributeDtype": "Data Type",
+  
+  "SIMPLE.Uncategorized": "Uncategorized",
 
   "SIMPLE.DeleteGroup": "Delete group?",
   "SIMPLE.DeleteGroupContent": "Do you wish to delete this group? This will delete the following group and all attributes included in it: ",

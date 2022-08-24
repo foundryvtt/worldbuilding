@@ -1,11 +1,10 @@
-import { ATTRIBUTE_TYPES } from "./constants.js";
 
 export class EntitySheetHelper {
 
   static getAttributeData(data) {
 
     // Determine attribute type.
-    for ( let attr of Object.values(data.data.attributes) ) {
+    for ( let attr of Object.values(data.system.attributes) ) {
       if ( attr.dtype ) {
         attr.isCheckbox = attr.dtype === "Boolean";
         attr.isResource = attr.dtype === "Resource";
@@ -14,10 +13,10 @@ export class EntitySheetHelper {
     }
 
     // Initialize ungrouped attributes for later.
-    data.data.ungroupedAttributes = {};
+    data.system.ungroupedAttributes = {};
 
     // Build an array of sorted group keys.
-    const groups = data.data.groups || {};
+    const groups = data.system.groups || {};
     let groupKeys = Object.keys(groups).sort((a, b) => {
       let aSort = groups[a].label ?? a;
       let bSort = groups[b].label ?? b;
@@ -26,10 +25,10 @@ export class EntitySheetHelper {
 
     // Iterate over the sorted groups to add their attributes.
     for ( let key of groupKeys ) {
-      let group = data.data.attributes[key] || {};
+      let group = data.system.attributes[key] || {};
 
       // Initialize the attributes container for this group.
-      if ( !data.data.groups[key]['attributes'] ) data.data.groups[key]['attributes'] = {};
+      if ( !data.system.groups[key]['attributes'] ) data.system.groups[key]['attributes'] = {};
 
       // Sort the attributes within the group, and then iterate over them.
       Object.keys(group).sort((a, b) => a.localeCompare(b)).forEach(attr => {
@@ -39,20 +38,20 @@ export class EntitySheetHelper {
         group[attr]['isCheckbox'] = group[attr]['dtype'] === 'Boolean';
         group[attr]['isResource'] = group[attr]['dtype'] === 'Resource';
         group[attr]['isFormula'] = group[attr]['dtype'] === 'Formula';
-        data.data.groups[key]['attributes'][attr] = group[attr];
+        data.system.groups[key]['attributes'][attr] = group[attr];
       });
     }
 
-    // Sort the remaining attributes attributes.
-    Object.keys(data.data.attributes).filter(a => !groupKeys.includes(a)).sort((a, b) => a.localeCompare(b)).forEach(key => {
-      data.data.ungroupedAttributes[key] = data.data.attributes[key];
-    });
+    // Sort the remaining attributes.
+    const keys = Object.keys(data.system.attributes).filter(a => !groupKeys.includes(a));
+    keys.sort((a, b) => a.localeCompare(b));
+    for ( const key of keys ) data.system.ungroupedAttributes[key] = data.system.attributes[key];
 
     // Modify attributes on items.
     if ( data.items ) {
       data.items.forEach(item => {
         // Iterate over attributes.
-        for ( let [k, v] of Object.entries(item.data.attributes) ) {
+        for ( let [k, v] of Object.entries(item.system.attributes) ) {
           // Grouped attributes.
           if ( !v.dtype ) {
             for ( let [gk, gv] of Object.entries(v) ) {
@@ -212,9 +211,9 @@ export class EntitySheetHelper {
   static getAttributeHtml(items, index, group = false) {
     // Initialize the HTML.
     let result = '<div style="display: none;">';
-    // Iterate over the supplied keys and build their inputs (including whether or not they need a group key).
+    // Iterate over the supplied keys and build their inputs (including whether they need a group key).
     for (let [key, item] of Object.entries(items)) {
-      result = result + `<input type="${item.type}" name="data.attributes${group ? '.' + group : '' }.attr${index}.${key}" value="${item.value}"/>`;
+      result = result + `<input type="${item.type}" name="system.attributes${group ? '.' + group : '' }.attr${index}.${key}" value="${item.value}"/>`;
     }
     // Close the HTML and return.
     return result + '</div>';
@@ -229,8 +228,8 @@ export class EntitySheetHelper {
    * @returns {boolean}
    */
   static validateGroup(groupName, document) {
-    let groups = Object.keys(document.data.data.groups || {});
-    let attributes = Object.keys(document.data.data.attributes).filter(a => !groups.includes(a));
+    let groups = Object.keys(document.system.groups || {});
+    let attributes = Object.keys(document.system.attributes).filter(a => !groups.includes(a));
 
     // Check for duplicate group keys.
     if ( groups.includes(groupName) ) {
@@ -270,8 +269,8 @@ export class EntitySheetHelper {
     const a = event.currentTarget;
     const group = a.dataset.group;
     let dtype = a.dataset.dtype;
-    const attrs = app.object.data.data.attributes;
-    const groups = app.object.data.data.groups;
+    const attrs = app.object.system.attributes;
+    const groups = app.object.system.groups;
     const form = app.form;
 
     // Determine the new attribute key for ungrouped attributes.
@@ -365,7 +364,7 @@ export class EntitySheetHelper {
     // Verify the new group key is valid, and use it to create the group.
     if ( newValue.length > 0 && EntitySheetHelper.validateGroup(newValue, app.object) ) {
       let newKey = document.createElement("div");
-      newKey.innerHTML = `<input type="text" name="data.groups.${newValue}.key" value="${newValue}"/>`;
+      newKey.innerHTML = `<input type="text" name="system.groups.${newValue}.key" value="${newValue}"/>`;
       // Append the form element and submit the form.
       newKey = newKey.children[0];
       form.appendChild(newKey);
@@ -419,7 +418,7 @@ export class EntitySheetHelper {
     let groupKeys = [];
 
     // Handle the free-form attributes list
-    const formAttrs = foundry.utils.expandObject(formData)?.data?.attributes || {};
+    const formAttrs = foundry.utils.expandObject(formData)?.system?.attributes || {};
     const attributes = Object.values(formAttrs).reduce((obj, v) => {
       let attrs = [];
       let group = null;
@@ -454,24 +453,24 @@ export class EntitySheetHelper {
     }, {});
 
     // Remove attributes which are no longer used
-    for ( let k of Object.keys(document.data.data.attributes) ) {
+    for ( let k of Object.keys(document.system.attributes) ) {
       if ( !attributes.hasOwnProperty(k) ) attributes[`-=${k}`] = null;
     }
 
     // Remove grouped attributes which are no longer used.
     for ( let group of groupKeys) {
-      if ( document.data.data.attributes[group] ) {
-        for ( let k of Object.keys(document.data.data.attributes[group]) ) {
+      if ( document.system.attributes[group] ) {
+        for ( let k of Object.keys(document.system.attributes[group]) ) {
           if ( !attributes[group].hasOwnProperty(k) ) attributes[group][`-=${k}`] = null;
         }
       }
     }
 
     // Re-combine formData
-    formData = Object.entries(formData).filter(e => !e[0].startsWith("data.attributes")).reduce((obj, e) => {
+    formData = Object.entries(formData).filter(e => !e[0].startsWith("system.attributes")).reduce((obj, e) => {
       obj[e[0]] = e[1];
       return obj;
-    }, {_id: document.id, "data.attributes": attributes});
+    }, {_id: document.id, "system.attributes": attributes});
 
     return formData;
   }
@@ -485,40 +484,26 @@ export class EntitySheetHelper {
    * @returns {object}              The updated formData object.
    */
   static updateGroups(formData, document) {
-    // Handle the free-form groups list
-    const formGroups = expandObject(formData).data.groups || {};
-    const documentGroups = Object.keys(document.data.data.groups || {});
-    const groups = Object.values(formGroups).reduce((obj, v) => {
-      // If there are duplicate groups, collapse them.
-      if ( Array.isArray(v["key"]) ) {
-        v["key"] = v["key"][0];
-      }
-      // Trim and clean up.
-      let k = v["key"].trim();
-      // Validate groups.
-      let isValidGroup = true;
-      // Skip validation for existing/duplicate groups since they're collapsed above.
-      if ( !documentGroups.includes(k) ) {
-        isValidGroup = this.validateGroup(k, document);
-      }
-      // Delete the key and add the group to the reducer if valid.
-      delete v["key"];
-      if (isValidGroup)  obj[k] = v;
+    const formGroups = foundry.utils.expandObject(formData).system.groups || {};
+    const documentGroups = Object.keys(document.system.groups || {});
+
+    // Identify valid groups submitted on the form
+    const groups = Object.entries(formGroups).reduce((obj, [k, v]) => {
+      const validGroup = documentGroups.includes(k) || this.validateGroup(k, document);
+      if ( validGroup )  obj[k] = v;
       return obj;
     }, {});
 
     // Remove groups which are no longer used
-    if (groups) {
-      for ( let k of Object.keys(document.data.data.groups)) {
-        if ( !groups.hasOwnProperty(k) ) groups[`-=${k}`] = null;
-      }
+    for ( let k of Object.keys(document.system.groups)) {
+      if ( !groups.hasOwnProperty(k) ) groups[`-=${k}`] = null;
     }
 
     // Re-combine formData
-    formData = Object.entries(formData).filter(e => !e[0].startsWith("data.groups")).reduce((obj, e) => {
+    formData = Object.entries(formData).filter(e => !e[0].startsWith("system.groups")).reduce((obj, e) => {
       obj[e[0]] = e[1];
       return obj;
-    }, {_id: document.id, "data.groups": groups});
+    }, {_id: document.id, "system.groups": groups});
     return formData;
   }
 
@@ -531,7 +516,7 @@ export class EntitySheetHelper {
 
     // Collect data
     const documentName = this.metadata.name;
-    const folders = game.folders.filter(f => (f.data.type === documentName) && f.displayed);
+    const folders = game.folders.filter(f => (f.type === documentName) && f.displayed);
     const label = game.i18n.localize(this.metadata.label);
     const title = game.i18n.format("DOCUMENT.Create", {type: label});
 
@@ -547,8 +532,7 @@ export class EntitySheetHelper {
     }
 
     // Render the document creation form
-    const useEntity = game.worldbuilding.useEntity;
-    const template = `templates/sidebar/${useEntity ? "entity" : "document" }-create.html`;
+    const template = "templates/sidebar/document-create.html";
     const html = await renderTemplate(template, {
       name: data.name || game.i18n.format("DOCUMENT.New", {type: label}),
       folder: data.folder,
@@ -575,7 +559,7 @@ export class EntitySheetHelper {
         const template = collection.get(form.type.value);
         if ( template ) {
           createData = foundry.utils.mergeObject(template.toObject(), createData);
-          createData.type = template.data.type;
+          createData.type = template.type;
           delete createData.flags.worldbuilding.isTemplate;
         }
 

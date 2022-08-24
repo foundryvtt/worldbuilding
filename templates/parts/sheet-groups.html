@@ -2,9 +2,9 @@
     {{#each groups as |group groupKey|}}
     <li class="group" data-group="{{groupKey}}">
         <div class="group-header flexrow">
-            <input class="group-key" type="text" readonly name="data.groups.{{groupKey}}.key" value="{{groupKey}}" />
-            <input class="group-label" type="text" name="data.groups.{{groupKey}}.label" value="{{group.label}}" placeholder="Group Label" />
-            <select class="group-dtype" name="data.groups.{{groupKey}}.dtype">
+            <input class="group-key" type="text" readonly name="system.groups.{{groupKey}}.key" value="{{groupKey}}" />
+            <input class="group-label" type="text" name="system.groups.{{groupKey}}.label" value="{{group.label}}" placeholder="Group Label" />
+            <select class="group-dtype" name="system.groups.{{groupKey}}.dtype">
                 {{#select group.dtype}}
                 {{#each ../dtypes as |t|}}
                 <option value="{{t}}">{{t}}</option>

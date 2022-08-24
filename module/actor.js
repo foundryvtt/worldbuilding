@@ -9,9 +9,9 @@ export class SimpleActor extends Actor {
   /** @inheritdoc */
   prepareDerivedData() {
     super.prepareDerivedData();
-    this.data.data.groups = this.data.data.groups || {};
-    this.data.data.attributes = this.data.data.attributes || {};
-    EntitySheetHelper.clampResourceValues(this.data.data.attributes);
+    this.system.groups = this.system.groups || {};
+    this.system.attributes = this.system.attributes || {};
+    EntitySheetHelper.clampResourceValues(this.system.attributes);
   }
 
   /* -------------------------------------------- */
@@ -39,7 +39,7 @@ export class SimpleActor extends Actor {
   getRollData() {
 
     // Copy the actor's system data
-    const data = this.toObject(false).data;
+    const data = this.toObject(false);
     const shorthand = game.settings.get("worldbuilding", "macroShorthand");
     const formulaAttributes = [];
     const itemAttributes = [];
@@ -47,7 +47,7 @@ export class SimpleActor extends Actor {
     // Handle formula attributes when the short syntax is disabled.
     this._applyShorthand(data, formulaAttributes, shorthand);
 
-    // Map all items data using their slugified names
+    // Map all item data using their slugified names
     this._applyItems(data, itemAttributes, shorthand);
 
     // Evaluate formula replacements on items.
@@ -111,10 +111,10 @@ export class SimpleActor extends Actor {
     // Map all items data using their slugified names
     data.items = this.items.reduce((obj, item) => {
       const key = item.name.slugify({strict: true});
-      const itemData = item.toObject(false).data;
+      const itemData = item.toObject(false);
 
       // Add items to shorthand and note which ones are formula attributes.
-      for ( let [k, v] of Object.entries(itemData.attributes) ) {
+      for ( let [k, v] of Object.entries(itemData.system.attributes) ) {
         // When building the attribute list, prepend the item name for later use.
         if ( v.dtype === "Formula" ) itemAttributes.push(`${key}..${k}`);
         // Add shortened version of the attributes.
@@ -252,11 +252,11 @@ export class SimpleActor extends Actor {
 
   /** @inheritdoc */
   async modifyTokenAttribute(attribute, value, isDelta = false, isBar = true) {
-    const current = foundry.utils.getProperty(this.data.data, attribute);
+    const current = foundry.utils.getProperty(this.system, attribute);
     if ( !isBar || !isDelta || (current?.dtype !== "Resource") ) {
       return super.modifyTokenAttribute(attribute, value, isDelta, isBar);
     }
-    const updates = {[`data.${attribute}.value`]: Math.clamped(current.value + value, current.min, current.max)};
+    const updates = {[`system.${attribute}.value`]: Math.clamped(current.value + value, current.min, current.max)};
     const allowed = Hooks.call("modifyTokenAttribute", {attribute, value, isDelta, isBar}, updates);
     return allowed !== false ? this.update(updates) : this;
   }

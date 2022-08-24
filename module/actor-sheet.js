@@ -23,12 +23,16 @@ export class SimpleActorSheet extends ActorSheet {
   /* -------------------------------------------- */
 
   /** @inheritdoc */
-  getData() {
-    const context = super.getData();
+  async getData(options) {
+    const context = await super.getData(options);
     EntitySheetHelper.getAttributeData(context.data);
     context.shorthand = !!game.settings.get("worldbuilding", "macroShorthand");
-    context.systemData = context.data.data;
+    context.systemData = context.data.system;
     context.dtypes = ATTRIBUTE_TYPES;
+    context.biographyHTML = await TextEditor.enrichHTML(context.systemData.biography, {
+      secrets: this.document.isOwner,
+      async: true
+    });
     return context;
   }
 

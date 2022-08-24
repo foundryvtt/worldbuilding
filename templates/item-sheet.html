@@ -7,11 +7,11 @@
             </h1>
             <div class="resource">
                 <label>Quantity</label>
-                <input type="number" name="data.quantity" value="{{systemData.quantity}}"/>
+                <input type="number" name="system.quantity" value="{{systemData.quantity}}"/>
             </div>
             <div class="resource">
                 <label>Weight</label>
-                <input type="number" name="data.weight" value="{{systemData.weight}}"/>
+                <input type="number" name="system.weight" value="{{systemData.weight}}"/>
             </div>
         </div>
     </header>
@@ -27,7 +27,7 @@
 
         {{!-- Description Tab --}}
         <div class="tab" data-group="primary" data-tab="description">
-            {{editor content=systemData.description target="data.description" button=true owner=owner editable=editable rollData=rollData}}
+            {{editor descriptionHTML target="system.description" button=true editable=editable engine="prosemirror"}}
         </div>
 
         {{!-- Attributes Tab --}}

@@ -3,12 +3,13 @@
  * @extends {TokenDocument}
  */
 export class SimpleTokenDocument extends TokenDocument {
+
   /** @inheritdoc */
   getBarAttribute(barName, {alternative}={}) {
     const data = super.getBarAttribute(barName, {alternative});
-    const attr = alternative || this.data[barName]?.attribute;
+    const attr = alternative || this[barName]?.attribute;
     if ( !data || !attr || !this.actor ) return data;
-    const current = foundry.utils.getProperty(this.actor.data.data, attr);
+    const current = foundry.utils.getProperty(this.actor.system, attr);
     if ( current?.dtype === "Resource" ) data.min = parseInt(current.min || 0);
     data.editable = true;
     return data;
@@ -23,7 +24,7 @@ export class SimpleTokenDocument extends TokenDocument {
       foundry.utils.mergeObject(data, model);
     }
     for ( const actor of game.actors ) {
-      if ( actor.isTemplate ) foundry.utils.mergeObject(data, actor.toObject().data);
+      if ( actor.isTemplate ) foundry.utils.mergeObject(data, actor.toObject());
     }
     return super.getTrackedAttributes(data);
   }
@@ -42,8 +43,7 @@ export class SimpleToken extends Token {
     if ( "min" in data ) {
       // Copy the data to avoid mutating what the caller gave us.
       data = {...data};
-      // Shift the value and max by the min to ensure that the bar's percentage is drawn accurately if this resource has
-      // a non-zero min.
+      // Shift the value and max by the min to draw the bar percentage accurately for a non-zero min
       data.value -= data.min;
       data.max -= data.min;
     }

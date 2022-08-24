@@ -8,14 +8,14 @@
                 <input name="name" type="text" value="{{data.name}}" placeholder="Name" />
             </h1>
             <div class="resource">
-                <input type="number" name="data.health.value" value="{{systemData.health.value}}"/>
+                <input type="number" name="system.health.value" value="{{systemData.health.value}}"/>
                 <span> / </span>
-                <input type="number" name="data.health.max" value="{{systemData.health.max}}"/>
+                <input type="number" name="system.health.max" value="{{systemData.health.max}}"/>
             </div>
             <div class="resource">
-                <input type="number" name="data.power.value" value="{{systemData.power.value}}"/>
+                <input type="number" name="system.power.value" value="{{systemData.power.value}}"/>
                 <span> / </span>
-                <input type="number" name="data.power.max" value="{{systemData.power.max}}"/>
+                <input type="number" name="system.power.max" value="{{systemData.power.max}}"/>
             </div>
         </div>
     </header>
@@ -32,7 +32,7 @@
 
         {{!-- Biography Tab --}}
         <div class="tab description" data-group="primary" data-tab="description">
-            {{editor content=systemData.biography target="data.biography" button=true owner=owner editable=editable rollData=rollData}}
+            {{editor biographyHTML target="system.biography" button=true editable=editable engine="prosemirror"}}
         </div>
 
         {{!-- Owned Items Tab --}}
@@ -44,7 +44,7 @@
                     <h4 class="item-name">{{item.name}}</h4>
                     {{!-- Iterate through all attributes on the item and output buttons for any that are formula. --}}
                     <div class="item-buttons">
-                        {{#each item.data.attributes as |itemAttr key|}}
+                        {{#each item.system.attributes as |itemAttr key|}}
                         {{#if itemAttr.dtype}}
                             {{#if itemAttr.isFormula}}
                                 {{!-- Use the items.name.key format for shorthand. --}}

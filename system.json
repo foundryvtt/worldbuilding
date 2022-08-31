@@ -1,6 +1,6 @@
 {
   "id": "worldbuilding",
-  "version": "0.7.0-alpha1",
+  "version": "0.7.1",
   "title": "Simple World-Building",
   "url": "https://gitlab.com/foundrynet/worldbuilding/",
   "description": "A minimalist game system which provides configurable Actor and Item templates to support free-form system agnostic game-play.",
@@ -23,7 +23,7 @@
   ],
   "compatibility": {
     "minimum": "10",
-    "verified": "10.278",
+    "verified": "10.282",
     "maximum": "10"
   },
   "gridDistance": 5,
@@ -31,5 +31,5 @@
   "primaryTokenAttribute": "health",
   "secondaryTokenAttribute": "power",
   "manifest": "https://raw.githubusercontent.com/foundryvtt/worldbuilding/master/system.json",
-  "download": "https://github.com/foundryvtt/worldbuilding/archive/refs/tags/release-065.zip"
+  "download": "https://github.com/foundryvtt/worldbuilding/archive/refs/tags/release-071.zip"
 }

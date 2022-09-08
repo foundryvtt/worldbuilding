@@ -1,6 +1,7 @@
 {
 "Actor": {
   "types": ["character"],
+  "htmlFields": ["biography"],
   "character": {
     "biography": "",
     "health": {
@@ -19,6 +20,7 @@
 },
 "Item": {
   "types": ["item"],
+  "htmlFields": ["description"],
   "item": {
     "description": "",
     "quantity": 1,

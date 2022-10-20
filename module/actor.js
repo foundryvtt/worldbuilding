@@ -111,10 +111,10 @@ export class SimpleActor extends Actor {
     // Map all items data using their slugified names
     data.items = this.items.reduce((obj, item) => {
       const key = item.name.slugify({strict: true});
-      const itemData = item.toObject(false);
+      const itemData = item.toObject(false).system;
 
       // Add items to shorthand and note which ones are formula attributes.
-      for ( let [k, v] of Object.entries(itemData.system.attributes) ) {
+      for ( let [k, v] of Object.entries(itemData.attributes) ) {
         // When building the attribute list, prepend the item name for later use.
         if ( v.dtype === "Formula" ) itemAttributes.push(`${key}..${k}`);
         // Add shortened version of the attributes.
@@ -148,7 +148,7 @@ export class SimpleActor extends Actor {
 
       // Delete the original attributes key if using the shorthand syntax.
       if ( !!shorthand ) {
-        delete itemData.system.attributes;
+        delete itemData.attributes;
       }
       obj[key] = itemData;
       return obj;

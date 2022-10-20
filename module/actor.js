@@ -39,7 +39,7 @@ export class SimpleActor extends Actor {
   getRollData() {
 
     // Copy the actor's system data
-    const data = this.toObject(false);
+    const data = this.toObject(false).system;
     const shorthand = game.settings.get("worldbuilding", "macroShorthand");
     const formulaAttributes = [];
     const itemAttributes = [];
@@ -148,7 +148,7 @@ export class SimpleActor extends Actor {
 
       // Delete the original attributes key if using the shorthand syntax.
       if ( !!shorthand ) {
-        delete itemData.attributes;
+        delete itemData.system.attributes;
       }
       obj[key] = itemData;
       return obj;

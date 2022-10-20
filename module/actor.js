@@ -58,7 +58,7 @@ export class SimpleActor extends Actor {
 
     // Remove the attributes if necessary.
     if ( !!shorthand ) {
-      delete data.system.attributes;
+      delete data.attributes;
       delete data.attr;
       delete data.groups;
     }
@@ -75,7 +75,7 @@ export class SimpleActor extends Actor {
    */
   _applyShorthand(data, formulaAttributes, shorthand) {
     // Handle formula attributes when the short syntax is disabled.
-    for ( let [k, v] of Object.entries(data.system.attributes || {}) ) {
+    for ( let [k, v] of Object.entries(data.attributes || {}) ) {
       // Make an array of formula attributes for later reference.
       if ( v.dtype === "Formula" ) formulaAttributes.push(k);
       // Add shortened version of the attributes.
@@ -148,7 +148,7 @@ export class SimpleActor extends Actor {
 
       // Delete the original attributes key if using the shorthand syntax.
       if ( !!shorthand ) {
-        delete itemData.system.attributes;
+        delete itemData.attributes;
       }
       obj[key] = itemData;
       return obj;
@@ -220,19 +220,19 @@ export class SimpleActor extends Actor {
         attr = attrKey[1];
       }
       // Non-grouped attributes.
-      if ( data.system.attributes[k]?.value ) {
-        data.system.attributes[k].value = Roll.replaceFormulaData(String(data.system.attributes[k].value), data);
+      if ( data.attributes[k]?.value ) {
+        data.attributes[k].value = Roll.replaceFormulaData(String(data.attributes[k].value), data);
       }
       // Grouped attributes.
       else if ( attr ) {
-        data.system.attributes[k][attr].value = Roll.replaceFormulaData(String(data.system.attributes[k][attr].value), data);
+        data.attributes[k][attr].value = Roll.replaceFormulaData(String(data.attributes[k][attr].value), data);
       }
 
       // Duplicate values to shorthand.
       if ( !!shorthand ) {
         // Non-grouped attributes.
-        if ( data.system.attributes[k]?.value ) {
-          data[k] = data.system.attributes[k].value;
+        if ( data.attributes[k]?.value ) {
+          data[k] = data.attributes[k].value;
         }
         // Grouped attributes.
         else {
@@ -241,7 +241,7 @@ export class SimpleActor extends Actor {
             if ( !data[k] ) {
               data[k] = {};
             }
-            data[k][attr] = data.system.attributes[k][attr].value;
+            data[k][attr] = data.attributes[k][attr].value;
           }
         }
       }

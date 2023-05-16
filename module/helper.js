@@ -553,7 +553,7 @@ export class EntitySheetHelper {
         // Get the form data
         const form = html[0].querySelector("form");
         const fd = new FormDataExtended(form);
-        let createData = fd.toObject();
+        let createData = fd.object;
 
         // Merge with template data
         const template = collection.get(form.type.value);
@@ -564,7 +564,7 @@ export class EntitySheetHelper {
         }
 
         // Merge provided override data
-        createData = foundry.utils.mergeObject(createData, data);
+        createData = foundry.utils.mergeObject(createData, data, { inplace: false });
         return this.create(createData, {renderSheet: true});
       },
       rejectClose: false,

@@ -523,7 +523,7 @@ export class EntitySheetHelper {
     // Identify the template Actor types
     const collection = game.collections.get(this.documentName);
     const templates = collection.filter(a => a.getFlag("worldbuilding", "isTemplate"));
-    const defaultType = this.metadata.types[0];
+    const defaultType = this.TYPES[0];
     const types = {
       [defaultType]: game.i18n.localize("SIMPLE.NoTemplate")
     }

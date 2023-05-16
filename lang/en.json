@@ -16,6 +16,7 @@
   "SIMPLE.NotifyGroupAlphanumeric": "Attribute group names may not contain spaces or periods.",
   "SIMPLE.NotifyGroupReserved": "Attribute group \"{key}\" is reserved and cannot be used.",
   "SIMPLE.NotifyAttrDuplicate": "Attribute key already exists as a group.",
+  "SIMPLE.NotifyAttrInvalid": "Attribute keys may not contain spaces or periods.",
 
   "SIMPLE.ResourceMin": "Min",
   "SIMPLE.ResourceValue": "Value",

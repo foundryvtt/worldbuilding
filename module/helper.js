@@ -429,8 +429,7 @@ export class EntitySheetHelper {
           group = v[attrKey]['group'];
           groupKeys.push(group);
           let attr = v[attrKey];
-          let k = v[attrKey]["key"] ? v[attrKey]["key"].trim() : attrKey.trim();
-          if ( /[\s\.]/.test(k) )  return ui.notifications.error("Attribute keys may not contain spaces or periods");
+          const k = this.cleanKey(v[attrKey]["key"] ? v[attrKey]["key"].trim() : attrKey.trim());
           delete attr["key"];
           // Add the new attribute if it's grouped, but we need to build the nested structure first.
           if ( !obj[group] ) {
@@ -441,8 +440,7 @@ export class EntitySheetHelper {
       }
       // Handle attribute keys for ungrouped attributes.
       else {
-        let k = v["key"].trim();
-        if ( /[\s\.]/.test(k) )  return ui.notifications.error("Attribute keys may not contain spaces or periods");
+        const k = this.cleanKey(v["key"].trim());
         delete v["key"];
         // Add the new attribute only if it's ungrouped.
         if ( !group ) {
@@ -587,5 +585,18 @@ export class EntitySheetHelper {
       if ( current?.dtype !== "Resource" ) continue;
       foundry.utils.setProperty(attrs, attr, Math.clamped(value, current.min || 0, current.max || 0));
     }
+  }
+
+  /* -------------------------------------------- */
+
+  /**
+   * Clean an attribute key, emitting an error if it contained invalid characters.
+   * @param {string} key  The key to clean.
+   * @returns {string}
+   */
+  static cleanKey(key) {
+    const clean = key.replace(/[\s.]/g, "");
+    if ( clean !== key ) ui.notifications.error("SIMPLE.NotifyAttrInvalid", { localize: true });
+    return clean;
   }
 }

@@ -1,14 +1,14 @@
 {
-  "id": "worldbuilding",
-  "version": "0.8.2",
-  "title": "Simple World-Building",
-  "url": "https://github.com/foundryvtt/worldbuilding/",
-  "description": "A minimalist game system which provides configurable Actor and Item templates to support free-form system agnostic game-play.",
-  "license": "LICENSE.txt",
+  "id": "worldbuildingacks",
+  "version": "0.1.1",
+  "title": "ACKs II simple",
+  "url": "https://github.com/lastredoubt/worldbuilding/",
+  "description": "A minimalist game system providing the basis for ACKS2 until the official module comes out.",
+  "license": "LICENSE.txt",  
   "authors": [
     {
-      "name": "Atropos",
-      "url": "https://foundryvtt.com"
+      "name": "lastredoubt",
+      "url": "https://lastredoubt.substack.com/"
     }
   ],
   "esmodules": ["module/simple.js"],
@@ -32,7 +32,7 @@
   },
   "gridDistance": 5,
   "gridUnits": "ft",
-  "primaryTokenAttribute": "health",
+  "primaryTokenAttribute": "hp",
   "secondaryTokenAttribute": "power",
   "manifest": "https://raw.githubusercontent.com/foundryvtt/worldbuilding/master/system.json",
   "download": "https://github.com/foundryvtt/worldbuilding/archive/refs/tags/release-082.zip"

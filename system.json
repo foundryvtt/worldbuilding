@@ -1,14 +1,14 @@
 {
-  "id": "worldbuilding",
-  "version": "0.8.2",
-  "title": "Simple World-Building",
-  "url": "https://github.com/foundryvtt/worldbuilding/",
-  "description": "A minimalist game system which provides configurable Actor and Item templates to support free-form system agnostic game-play.",
+  "id": "worldbuilding_test",
+  "version": "0.0.0",
+  "title": "Simple World-Building Test",
+  "url": "https://github.com/AndiFuerst/worldbuilding_test.git",
+  "description": "A test implementation for FoundryVTT for a game system inspired by Baldur's Gate 3, based on entirely on the Simple WorldBuiling System for Foundry designed by Atropos",
   "license": "LICENSE.txt",
   "authors": [
     {
-      "name": "Atropos",
-      "url": "https://foundryvtt.com"
+      "name": "AndiFuerst",
+      "url": "https://github.com/AndiFuerst"
     }
   ],
   "esmodules": ["module/simple.js"],
@@ -19,11 +19,6 @@
       "lang": "en",
       "name": "English",
       "path": "lang/en.json"
-    },
-    {
-      "lang": "pl",
-      "name": "Polski",
-      "path": "lang/pl.json"
     }
   ],
   "compatibility": {
@@ -34,6 +29,6 @@
   "gridUnits": "ft",
   "primaryTokenAttribute": "health",
   "secondaryTokenAttribute": "power",
-  "manifest": "https://raw.githubusercontent.com/foundryvtt/worldbuilding/master/system.json",
-  "download": "https://github.com/foundryvtt/worldbuilding/archive/refs/tags/release-082.zip"
+  "manifest": "https://raw.githubusercontent.com/AndiFuerst/worldbuilding_test/master/system.json",
+  "download": "https://github.com/AndiFuerst/worldbuilding_test/archive/refs/heads/master.zip"
 }

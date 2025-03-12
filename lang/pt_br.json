@@ -1,0 +1,39 @@
+{
+"SETTINGS.SimpleMacroShorthandN": "Sintaxe de macro abreviada",
+"SETTINGS.SimpleMacroShorthandL": "Habilite uma sintaxe de macro abreviada que permita referenciar atributos diretamente, por exemplo @str em vez de @attributes.str.value. Desabilite esta configuração se precisar referenciar o modelo de atributo completo, por exemplo @attributes.str.label.",
+"SETTINGS.SimpleInitFormulaN": "Fórmula de iniciativa",
+"SETTINGS.SimpleInitFormulaL": "Digite uma fórmula de iniciativa, como d20+@dex",
+
+"SIMPLE.ItemCreate": "Criar item",
+"SIMPLE.ItemEdit": "Editar item",
+"SIMPLE.ItemDelete": "Excluir item",
+"SIMPLE.ItemNew": "Novo item",
+
+"SIMPLE.NotifyInitFormulaUpdated": "A fórmula de iniciativa foi atualizada para",
+"SIMPLE.NotifyInitFormulaInvalid": "A fórmula de iniciativa era inválida",
+"SIMPLE.NotifyGroupDuplicate": "O grupo de atributos já existe.",
+"SIMPLE.NotifyGroupAttrDuplicate": "O grupo de atributos já existe como um atributo.",
+"SIMPLE.NotifyGroupAlphanumeric": "Os nomes dos grupos de atributos não podem conter espaços ou pontos.",
+"SIMPLE.NotifyGroupReserved": "O grupo de atributos \"{key}\" está reservado e não pode ser usado.",
+"SIMPLE.NotifyAttrDuplicate": "A chave de atributo já existe como um grupo.",
+"SIMPLE.NotifyAttrInvalid": "As chaves de atributo não podem conter espaços ou pontos.",
+
+"SIMPLE.ResourceMin": "Mín",
+"SIMPLE.ResourceValue": "Valor",
+"SIMPLE.ResourceMax": "Máx",
+
+"SIMPLE.DefineTemplate": "Definir como modelo",
+"SIMPLE.UnsetTemplate": "Desdefinir modelo",
+"SIMPLE.NoTemplate": "Nenhum modelo",
+
+"SIMPLE.AttributeKey": "Chave de atributo",
+"SIMPLE.AttributeValue": "Valor",
+"SIMPLE.AttributeLabel": "Rótulo",
+"SIMPLE.AttributeDtype": "Tipo de dados",
+
+"SIMPLE.DeleteGroup": "Excluir grupo?",
+"SIMPLE.DeleteGroupContent": "Você deseja excluir este grupo? Isso excluirá o seguinte grupo e todos os atributos incluídos nele: ",
+
+"SIMPLE.Create": "Criar",
+"SIMPLE.New": "Novo"
+}

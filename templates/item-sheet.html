@@ -33,15 +33,17 @@
         {{!-- Attributes Tab --}}
         <div class="tab attributes" data-group="primary" data-tab="attributes">
             <header class="attributes-header flexrow">
+                <a class="attribute-control" data-action="collapse"><i class="fas {{#if systemData.attributes_collapsed}}fa-caret-right{{else}}fa-caret-down{{/if}}"></i></a>
                 <span class="attribute-key">{{localize "SIMPLE.AttributeKey"}}</span>
                 <span class="attribute-value">{{localize "SIMPLE.AttributeValue"}}</span>
                 <span class="attribute-label">{{localize "SIMPLE.AttributeLabel"}}</span>
                 <span class="attribute-dtype">{{localize "SIMPLE.AttributeDtype"}}</span>
                 <a class="attribute-control" data-action="create" data-group="{{group}}"><i class="fas fa-plus"></i></a>
+                <input class="attribute-collapsed" type="checkbox" name="system.attributes_collapsed" {{#if systemData.attributes_collapsed}}checked{{/if}} />
             </header>
 
             {{!-- Render the attribute list partial. --}}
-            {{> "systems/worldbuilding/templates/parts/sheet-attributes.html" attributes=systemData.ungroupedAttributes dtypes=dtypes}}
+            {{> "systems/worldbuilding/templates/parts/sheet-attributes.html" attributes=systemData.ungroupedAttributes dtypes=dtypes collapsed=systemData.attributes_collapsed}}
 
             {{!-- Render the grouped attributes partial and control. --}}
             <div class="groups">

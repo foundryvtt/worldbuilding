@@ -2,6 +2,7 @@
     {{#each groups as |group groupKey|}}
     <li class="group" data-group="{{groupKey}}">
         <div class="group-header flexrow">
+            <a class="attribute-control" data-action="collapse"><i class="fas {{#if group.collapsed}}fa-caret-right{{else}}fa-caret-down{{/if}}"></i></a>
             <input class="group-key" type="text" readonly name="system.groups.{{groupKey}}.key" value="{{groupKey}}" />
             <input class="group-label" type="text" name="system.groups.{{groupKey}}.label" value="{{group.label}}" placeholder="Group Label" />
             <select class="group-dtype" name="system.groups.{{groupKey}}.dtype">
@@ -13,9 +14,10 @@
             </select>
             <a class="attribute-control" data-action="create" data-group="{{groupKey}}" data-dtype="{{group.dtype}}"><i class="fas fa-plus"></i></a>
             <a class="group-control" data-action="delete-group"><i class="fas fa-trash"></i></a>
+            <input class="attribute-collapsed" type="checkbox" name="system.groups.{{groupKey}}.collapsed" {{#if group.collapsed}}checked{{/if}} />
         </div>
 
-        {{> "systems/worldbuilding/templates/parts/sheet-attributes.html" attributes=group.attributes group=groupKey dtypes=../dtypes}}
+        {{> "systems/worldbuilding/templates/parts/sheet-attributes.html" attributes=group.attributes group=groupKey dtypes=../dtypes collapsed=group.collapsed}}
     </li>
     {{/each}}
 </ol>

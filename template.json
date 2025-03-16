@@ -14,6 +14,7 @@
       "min": 0,
       "max": 5
     },
+    "attributes_collapsed": false,
     "attributes": {},
     "groups": {}
   }
@@ -25,6 +26,7 @@
     "description": "",
     "quantity": 1,
     "weight": 0,
+    "attributes_collapsed": false,
     "attributes": {},
     "groups": {}
   }

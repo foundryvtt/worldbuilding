@@ -3,11 +3,6 @@
   /* Items List */
   /* Attributes */
 }
-.worldbuilding a.fa-caret-right, 
-.worldbuilding a.fa-caret-down { 
-  font-weight: 900; 
-  font-size: smaller;
-}
 .worldbuilding .window-content {
   height: 100%;
   padding: 5px;

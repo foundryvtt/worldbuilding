@@ -20,7 +20,7 @@ export class SimpleTokenDocument extends TokenDocument {
   static getTrackedAttributes(data, _path=[]) {
     if ( data || _path.length ) return super.getTrackedAttributes(data, _path);
     data = {};
-    for ( const model of Object.values(game.system.model.Actor) ) {
+    for ( const model of Object.values(game.model.Actor) ) {
       foundry.utils.mergeObject(data, model);
     }
     for ( const actor of game.actors ) {

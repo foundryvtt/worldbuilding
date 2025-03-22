@@ -583,7 +583,7 @@ export class EntitySheetHelper {
       if ( parts.pop() !== "value" ) continue;
       const current = foundry.utils.getProperty(attrs, parts.join("."));
       if ( current?.dtype !== "Resource" ) continue;
-      foundry.utils.setProperty(attrs, attr, Math.clamped(value, current.min || 0, current.max || 0));
+      foundry.utils.setProperty(attrs, attr, Math.clamp(value, current.min || 0, current.max || 0));
     }
   }
 

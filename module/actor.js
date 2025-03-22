@@ -256,7 +256,7 @@ export class SimpleActor extends Actor {
     if ( !isBar || !isDelta || (current?.dtype !== "Resource") ) {
       return super.modifyTokenAttribute(attribute, value, isDelta, isBar);
     }
-    const updates = {[`system.${attribute}.value`]: Math.clamped(current.value + value, current.min, current.max)};
+    const updates = {[`system.${attribute}.value`]: Math.clamp(current.value + value, current.min, current.max)};
     const allowed = Hooks.call("modifyTokenAttribute", {attribute, value, isDelta, isBar}, updates);
     return allowed !== false ? this.update(updates) : this;
   }

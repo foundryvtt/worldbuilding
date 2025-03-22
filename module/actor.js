@@ -176,7 +176,7 @@ export class SimpleActor extends Actor {
       let formula = '';
       if ( !!shorthand ) {
         // Handle grouped attributes first.
-        if ( data.items[item][k][gk] ) {
+        if ( data.items[item][k]?.[gk] !== undefined ) {
           formula = data.items[item][k][gk].replace('@item.', `@items.${item}.`);
           data.items[item][k][gk] = Roll.replaceFormulaData(formula, data);
         }

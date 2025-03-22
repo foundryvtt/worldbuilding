@@ -128,6 +128,27 @@ export class EntitySheetHelper {
   /* -------------------------------------------- */
 
   /**
+   * Toggle whether a list of attributes are collapsed or expanded
+   * @param {object} element      The element containing the group list
+   * @param {boolean=} collapsed  Force the group collapsed to true or false
+   */ 
+  static toggleAttributeCollapse(el, collapsed) {
+    const cb = el.querySelector('.attribute-collapsed');
+    const i = el.querySelector('a.attribute-control > i');
+    if(cb.checked = collapsed !== undefined ? collapsed : !cb.checked){
+      i.classList.remove('fa-caret-down')
+      i.classList.add('fa-caret-right')
+      el.parentElement.querySelector('section.attributes-group').style.display = 'none';
+    } else {
+      i.classList.remove('fa-caret-right')
+      i.classList.add('fa-caret-down')
+      el.parentElement.querySelector('section.attributes-group').style.display = 'block';
+    }
+  }
+
+  /* -------------------------------------------- */
+
+  /**
    * Listen for click events on an attribute control to modify the composition of attributes in the sheet
    * @param {MouseEvent} event    The originating left click event
    */
@@ -140,6 +161,8 @@ export class EntitySheetHelper {
         return EntitySheetHelper.createAttribute(event, this);
       case "delete":
         return EntitySheetHelper.deleteAttribute(event, this);
+      case "collapse":
+        return EntitySheetHelper.collapseAttributes(event, this);
     }
   }
 
@@ -158,6 +181,8 @@ export class EntitySheetHelper {
         return EntitySheetHelper.createAttributeGroup(event, this);
       case "delete-group":
         return EntitySheetHelper.deleteAttributeGroup(event, this);
+      case "collapse":
+        return EntitySheetHelper.collapseAttributes(event, this);
     }
   }
 
@@ -273,6 +298,9 @@ export class EntitySheetHelper {
     const groups = app.object.system.groups;
     const form = app.form;
 
+    // force group attributes not to be collapsed
+    EntitySheetHelper.toggleAttributeCollapse(a.parentElement, false);
+
     // Determine the new attribute key for ungrouped attributes.
     let objKeys = Object.keys(attrs).filter(k => !Object.keys(groups).includes(k));
     let nk = Object.keys(attrs).length + 1;
@@ -352,6 +380,19 @@ export class EntitySheetHelper {
   /* -------------------------------------------- */
 
   /**
+   * Collapse or expand attributes.
+   * @param {MouseEvent} event    The originating left click event
+   * @param {Object} app          The form application object.
+   */ 
+  static async collapseAttributes(event, app) {
+    const a = event.currentTarget;
+    EntitySheetHelper.toggleAttributeCollapse(a.parentElement);
+    await app._onSubmit(event);
+  }
+
+  /* -------------------------------------------- */
+
+  /**
    * Create new attribute groups.
    * @param {MouseEvent} event    The originating left click event
    * @param {Object} app          The form application object.
@@ -418,7 +459,8 @@ export class EntitySheetHelper {
     let groupKeys = [];
 
     // Handle the free-form attributes list
-    const formAttrs = foundry.utils.expandObject(formData)?.system?.attributes || {};
+    const expanded = foundry.utils.expandObject(formData);
+    const formAttrs = expanded?.system?.attributes || {};
     const attributes = Object.values(formAttrs).reduce((obj, v) => {
       let attrs = [];
       let group = null;
@@ -464,8 +506,11 @@ export class EntitySheetHelper {
       }
     }
 
+    // Copy across collapsed flag for attributes
+    formAttrs.attributesCollapsed = expanded?.attributesCollapsed;
+
     // Re-combine formData
-    formData = Object.entries(formData).filter(e => !e[0].startsWith("system.attributes")).reduce((obj, e) => {
+    formData = Object.entries(formData).filter(e => !e[0].startsWith("system.attributes.")).reduce((obj, e) => {
       obj[e[0]] = e[1];
       return obj;
     }, {_id: document.id, "system.attributes": attributes});

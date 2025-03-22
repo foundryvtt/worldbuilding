@@ -1,4 +1,4 @@
-<section class="attributes-group">
+<section class="attributes-group" style="display: {{#if collapsed}}none{{else}}block{{/if}}">
     <ol class="attributes-list">
         {{#each attributes as |attr key|}}
         <li class="attribute flexrow" data-attribute="{{#if attr.group}}{{attr.group}}.{{/if}}{{key}}">

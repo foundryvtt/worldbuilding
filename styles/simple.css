@@ -216,6 +216,10 @@
   border-radius: 2px;
   padding: 2px 5px;
 }
+.worldbuilding .attributes-header .attribute-control:first-child,
+.worldbuilding .group-header .attribute-control:first-child {
+  flex: none;
+}
 .worldbuilding .group-key,
 .worldbuilding .group-label {
   font-weight: bold;
@@ -235,6 +239,9 @@
   height: 24px;
   flex: 0 0 116px;
   margin: 0 5px;
+}
+.worldbuilding .attribute-collapsed {
+  display: none;
 }
 .worldbuilding.sheet.actor {
   min-width: 560px;

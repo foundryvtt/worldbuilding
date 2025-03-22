@@ -507,7 +507,7 @@ export class EntitySheetHelper {
     }
 
     // Copy across collapsed flag for attributes
-    formAttrs.attributes_collapsed = expanded?.attributes_collapsed;
+    formAttrs.attributesCollapsed = expanded?.attributesCollapsed;
 
     // Re-combine formData
     formData = Object.entries(formData).filter(e => !e[0].startsWith("system.attributes.")).reduce((obj, e) => {

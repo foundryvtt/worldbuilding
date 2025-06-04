@@ -1968,3 +1968,8 @@ textarea:focus {
 .dice-tooltip .part-header .part-flavor {
   color: #9f9f9f
 }
+
+li.item img.item-control[data-action="edit"]:hover {
+  filter: drop-shadow(0 0 5px var(--dh-color-gold-dark));
+  cursor: pointer;
+}

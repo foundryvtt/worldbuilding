@@ -1,32 +1,198 @@
 {
-"Actor": {
-  "types": ["character"],
-  "htmlFields": ["biography"],
-  "character": {
-    "biography": "",
-    "health": {
-      "value": 10,
-      "min": 0,
-      "max": 10
+  "Actor": {
+    "types": ["character", "npc"],
+    "htmlFields": ["biography", "inventory", "worn"],
+    "character": {
+      "features": [],
+      "biography": "<h1><strong>Backstory</strong></h1><p></p><hr /><h1>Campaign Notes</h1><p></p>",
+      "domains": [],
+      "inventory": "",
+      "level": {
+        "value": 1,
+        "min": 1,
+        "max": 10,
+        "tooltip": ""
+      },
+      "proficiency": {
+        "value": 1,
+        "min": 1,
+        "max": 10,
+        "tooltip": ""
+      },
+      "health": {
+        "value": 6,
+        "min": 0,
+        "max": 6,
+        "tooltip": ""
+        
+      },
+      "stress": {
+        "value": 0,
+        "min": 0,
+        "max": 6,
+        "tooltip": ""
+      },
+      "hope": {
+        "value": 2,
+        "min": 0,
+        "max": 6,
+        "tooltip": ""
+      },
+      "threshold": {
+        "minor": 0,
+        "major": 0,
+        "severe": 0
+      },
+      "chosenDomains": {
+        "domain-one": "Ancestry",
+        "domain-two": "Class"
+      },
+      "experience": {
+        "1Name": "",
+        "1level": 0,
+        "1Mod": 0,
+        "1Name2": "",
+        "11level": 0,
+        "1Mod2": 0,
+        "2Name": "",
+        "2level": 0,
+        "2Mod": 0,
+        "5Name": "",
+        "5level": 0,
+        "5Mod": 0,
+        "8Name": "",
+        "8level": 0,
+        "8Mod": 0
+      },
+      "weapon-main": {
+        "name": "",
+        "description": "Input your weapon abilities, description, passive and other relevant notes here.",
+        "damage": "",
+        "to-hit": "",
+        "range": "",
+        "modifier": "",
+        "dmgType": ""
+      },
+      "weapon-off": {
+        "name": "",
+        "description": "Input your weapon abilities, description, passive and other relevant notes here.",
+        "damage": "",
+        "to-hit": "",
+        "range": "",
+        "modifier": "",
+        "dmgType": ""
+      },
+      "agility": {
+        "value": 0,
+        "min": -5,
+        "max": 5,
+        "tooltip": "Agility affects speed, nimbleness, and reaction time in challenging scenarios."
+      },
+      "strength": {
+        "value": 0,
+        "min": -5,
+        "max": 5,
+        "tooltip": "Strength is crucial for physical tasks like breaking, lifting, and resisting."
+      },
+      "finesse": {
+        "value": 0,
+        "min": -1,
+        "max": 5,
+        "tooltip": "Finesse enables precision and stealth in tasks requiring detailed motor skills."
+      },
+      "instinct": {
+        "value": 0,
+        "min": -5,
+        "max": 5,
+        "tooltip": "Instinct enhances awareness and intuition for sensing danger and noticing details."
+      },
+      "presence": {
+        "value": 0,
+        "min": -5,
+        "max": 5,
+        "tooltip": "Presence boosts social influence, intimidation, and attention commanding."
+      },
+      "knowledge": {
+        "value": 0,
+        "min": -5,
+        "max": 5,
+        "tooltip": "Knowledge covers information retention, pattern recognition, and deduction."
+      },
+      "exp": {
+        "value": 0,
+        "min": -5,
+        "max": 5,
+        "tooltip": ""
+      },
+      "defenses": {
+        "evasion": {
+          "value": 0,
+          "tooltip": "Evasion determines your ability to dodge attacks and adverse effects, influenced by class, gear, and creative tactics."
+        },
+        "armor": {
+          "value": 0,
+          "tooltip": "Armor reduces incoming damage by utilizing armor slots and increases your Armor Score based on equipped items."
+        },
+        "armorslots": {
+          "value": 0,
+          "max": 6,
+          "tooltip": "Armorslots indicate the number of available slots for equipping armor, influencing your overall Armor Score."
+        },
+        "severe": {
+          "value": 0
+        },
+        "major": {
+          "value": 0
+        },
+        "minor": {
+          "value": 0
+        }
+      },
+      "attributes": {},
+      "groups": {},
+      "backpack": {
+        "items": []
+      }
+    }
+  },
+  "Item": {
+    "types": ["item", "inventory", "worn", "domain"],
+    "htmlFields": ["description"],
+    "item": {
+      "description": "",
+      "category": "",
+      "rarity": "",
+      "quantity": 1,
+      "weight": 0,
+      "attributes": {},
+      "groups": {}
     },
-    "power": {
-      "value": 5,
-      "min": 0,
-      "max": 5
+    "inventory": {
+      "description": "",
+      "category": "",
+      "rarity": "",
+      "quantity": 1,
+      "weight": 0,
+      "attributes": {},
+      "groups": {}
     },
-    "attributes": {},
-    "groups": {}
+    "domain": {
+      "description": "",
+      "category": "",
+      "rarity": "",
+      "quantity": 1,
+      "weight": 0,
+      "attributes": {},
+      "groups": {}
+    },
+    "worn": {
+      "description": "",
+      "category": "",
+      "rarity": "",
+      "quantity": 1,
+      "weight": 0,
+      "attributes": {},
+      "groups": {}
+    }
   }
-},
-"Item": {
-  "types": ["item"],
-  "htmlFields": ["description"],
-  "item": {
-    "description": "",
-    "quantity": 1,
-    "weight": 0,
-    "attributes": {},
-    "groups": {}
-  }
-}
 }

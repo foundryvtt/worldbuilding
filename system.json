@@ -51,6 +51,6 @@
       "secondaryTokenAttribute": "hope"
     }
   },
-  "manifest": "https://raw.githubusercontent.com/foundryvtt/worldbuilding/master/system.json",
+  "manifest": "https://raw.githubusercontent.com/featureJosh/daggerheart-swb/refs/heads/master/system.json",
   "download": "https://github.com/foundryvtt/worldbuilding/archive/refs/tags/release-082.zip"
 }

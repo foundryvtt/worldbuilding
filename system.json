@@ -1,6 +1,6 @@
 {
   "id": "worldbuilding",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "title": "Daggerheart",
   "url": "",
   "description": "Daggerheart Game System",
@@ -32,6 +32,6 @@
   },
   "primaryTokenAttribute": "health",
   "secondaryTokenAttribute": "hope",
-  "manifest": "https://raw.githubusercontent.com/featureJosh/daggerheart-swb/refs/heads/master/system.json",
-  "download": "https://github.com/featureJosh/daggerheart-swb/archive/refs/tags/v1.0.9.zip"
+  "manifest": "https://raw.githubusercontent.com/featureJosh/daggerheart-swb/master/system.json",
+  "download": "https://github.com/featureJosh/daggerheart-swb/archive/refs/tags/v1.0.10.zip"
 }

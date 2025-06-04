@@ -52,5 +52,5 @@
     }
   },
   "manifest": "https://raw.githubusercontent.com/featureJosh/daggerheart-swb/refs/heads/master/system.json",
-  "download": "https://github.com/foundryvtt/worldbuilding/archive/refs/tags/release-082.zip"
+  "download": "https://github.com/featureJosh/daggerheart-swb/releases/latest/download/worldbuilding.zip"
 }

@@ -289,3 +289,16 @@
   min-width: 460px;
   min-height: 400px;
 }
+
+.item-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  z-index: -1; /* Ensure it's behind other content */
+  mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, black 80%, transparent 100%); /* For Safari/Chrome */
+}

@@ -41,7 +41,11 @@
             <input class="attribute-label" type="text" name="system.attributes.{{#if attr.group}}{{attr.group}}.{{/if}}{{key}}.label" value="{{attr.label}}"
                 placeholder="{{localize "SIMPLE.AttributeLabel"}}"/>
             <select class="attribute-dtype" name="system.attributes.{{#if attr.group}}{{attr.group}}.{{/if}}{{key}}.dtype">
-	        {{selectOptions ../dtypes selected=attr.dtype valueAttr="label" labelAttr="label"}}
+                {{#select attr.dtype}}
+                {{#each ../dtypes as |t|}}
+                <option value="{{t}}">{{t}}</option>
+                {{/each}}
+                {{/select}}
             </select>
             <input type="hidden" name="system.attributes.{{#if attr.group}}{{attr.group}}.{{/if}}{{key}}.group" value="{{attr.group}}" />
             <a class="attribute-control" data-action="delete"><i class="fas fa-trash"></i></a>

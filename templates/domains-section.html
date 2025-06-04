@@ -1,0 +1,10 @@
+<section class="domains-section">
+  <h2>Domains</h2>
+  <div class="domain-cards">
+    {{#each domains as |domain|}}
+    <div class="card" data-card-id="{{domain._id}}">
+      <img src="{{domain.img}}" title="{{domain.name}}" />
+    </div>
+    {{/each}}
+  </div>
+</section>

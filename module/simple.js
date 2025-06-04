@@ -1,13 +1,9 @@
-/**
- * A simple and flexible system for world-building using an arbitrary collection of character and item attributes
- * Author: Atropos
- */
-
 // Import Modules
 import { SimpleActor } from "./actor.js";
 import { SimpleItem } from "./item.js";
 import { SimpleItemSheet } from "./item-sheet.js";
 import { SimpleActorSheet } from "./actor-sheet.js";
+import { NPCActorSheet } from "./actor-sheet.js";
 import { preloadHandlebarsTemplates } from "./templates.js";
 import { createWorldbuildingMacro } from "./macro.js";
 import { SimpleToken, SimpleTokenDocument } from "./token.js";
@@ -33,7 +29,7 @@ Hooks.once("init", async function() {
 
   game.worldbuilding = {
     SimpleActor,
-    createWorldbuildingMacro
+    createWorldbuildingMacro 
   };
 
   // Define custom Document classes
@@ -43,10 +39,11 @@ Hooks.once("init", async function() {
   CONFIG.Token.objectClass = SimpleToken;
 
   // Register sheet application classes
-  Actors.unregisterSheet("core", ActorSheet);
-  Actors.registerSheet("worldbuilding", SimpleActorSheet, { makeDefault: true });
-  Items.unregisterSheet("core", ItemSheet);
-  Items.registerSheet("worldbuilding", SimpleItemSheet, { makeDefault: true });
+  foundry.documents.collections.Actors.unregisterSheet("core", foundry.appv1.sheets.ActorSheet);
+  foundry.documents.collections.Actors.registerSheet("worldbuilding", SimpleActorSheet, { makeDefault: true });
+  foundry.documents.collections.Actors.registerSheet("worldbuilding", NPCActorSheet, { types: ["npc"], makeDefault: false });
+  foundry.documents.collections.Items.unregisterSheet("core", foundry.appv1.sheets.ItemSheet);
+  foundry.documents.collections.Items.registerSheet("worldbuilding", SimpleItemSheet, { makeDefault: true });
 
   // Register system settings
   game.settings.register("worldbuilding", "macroShorthand", {

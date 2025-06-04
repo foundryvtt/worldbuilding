@@ -1,4 +1,3 @@
-
 export class EntitySheetHelper {
 
   static getAttributeData(data) {
@@ -523,9 +522,10 @@ export class EntitySheetHelper {
     const templates = collection.filter(a => a.getFlag("worldbuilding", "isTemplate"));
     const defaultType = this.TYPES.filter(t => t !== CONST.BASE_DOCUMENT_TYPE)[0] ?? CONST.BASE_DOCUMENT_TYPE;
     const types = {
-      [defaultType]: game.i18n.localize("SIMPLE.NoTemplate")
-    }
-    for ( let a of templates ) {
+      [defaultType]: game.i18n.localize("SIMPLE.NoTemplate"),
+      npc: game.i18n.localize("SIMPLE.NPCTemplate") // Add this line for the NPC sheet
+    };
+    for (let a of templates) {
       types[a.id] = a.name;
     }
 
@@ -550,7 +550,7 @@ export class EntitySheetHelper {
 
         // Get the form data
         const form = html[0].querySelector("form");
-        const fd = new FormDataExtended(form);
+        const fd = new foundry.applications.ux.FormDataExtended(form);
         let createData = fd.object;
 
         // Merge with template data
@@ -583,7 +583,7 @@ export class EntitySheetHelper {
       if ( parts.pop() !== "value" ) continue;
       const current = foundry.utils.getProperty(attrs, parts.join("."));
       if ( current?.dtype !== "Resource" ) continue;
-      foundry.utils.setProperty(attrs, attr, Math.clamp(value, current.min || 0, current.max || 0));
+      foundry.utils.setProperty(attrs, attr, Math.clamped(value, current.min || 0, current.max || 0));
     }
   }
 

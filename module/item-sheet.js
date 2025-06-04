@@ -5,15 +5,15 @@ import {ATTRIBUTE_TYPES} from "./constants.js";
  * Extend the basic ItemSheet with some very simple modifications
  * @extends {ItemSheet}
  */
-export class SimpleItemSheet extends ItemSheet {
+export class SimpleItemSheet extends foundry.appv1.sheets.ItemSheet {
 
   /** @inheritdoc */
   static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
       classes: ["worldbuilding", "sheet", "item"],
       template: "systems/worldbuilding/templates/item-sheet.html",
-      width: 520,
-      height: 480,
+      width: 425,
+      height: 550,
       tabs: [{navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "description"}],
       scrollY: [".attributes"],
     });
@@ -27,7 +27,7 @@ export class SimpleItemSheet extends ItemSheet {
     EntitySheetHelper.getAttributeData(context.data);
     context.systemData = context.data.system;
     context.dtypes = ATTRIBUTE_TYPES;
-    context.descriptionHTML = await TextEditor.enrichHTML(context.systemData.description, {
+    context.descriptionHTML = await foundry.applications.ux.TextEditor.implementation.enrichHTML(context.systemData.description, {
       secrets: this.document.isOwner,
       async: true
     });
@@ -48,6 +48,12 @@ export class SimpleItemSheet extends ItemSheet {
     html.find(".groups").on("click", ".group-control", EntitySheetHelper.onClickAttributeGroupControl.bind(this));
     html.find(".attributes").on("click", "a.attribute-roll", EntitySheetHelper.onAttributeRoll.bind(this));
 
+    // Image Click Finder
+    html.find('.profile-img').on('contextmenu', event => {
+      event.preventDefault(); // Prevents the browser's context menu from opening
+      this._onProfileImageClick(event.target);
+    });
+    
     // Add draggable for Macro creation
     html.find(".attributes a.attribute-roll").each((i, a) => {
       a.setAttribute("draggable", true);
@@ -59,6 +65,21 @@ export class SimpleItemSheet extends ItemSheet {
   }
 
   /* -------------------------------------------- */
+
+  async _onProfileImageClick(imgElement) {
+    // Use the src and title directly from the clicked image element
+    let imgSrc = imgElement.src;
+    let imgTitle = imgElement.title;
+
+    // Ensure the image source is defined
+    if (imgSrc) {
+      let ip = new ImagePopout(imgSrc, {
+        title: imgTitle,
+        shareable: false,
+        // You might need to adjust or remove the uuid depending on your requirements
+      }).render(true);
+    }
+  }
 
   /** @override */
   _getSubmitData(updateData) {

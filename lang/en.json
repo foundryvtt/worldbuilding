@@ -24,7 +24,9 @@
 
   "SIMPLE.DefineTemplate": "Define as Template",
   "SIMPLE.UnsetTemplate": "Unset Template",
-  "SIMPLE.NoTemplate": "No Template",
+  "SIMPLE.NoTemplate": "Character",
+  "SIMPLE.NPCTemplate": "NPC",
+
 
   "SIMPLE.AttributeKey": "Attribute Key",
   "SIMPLE.AttributeValue": "Value",

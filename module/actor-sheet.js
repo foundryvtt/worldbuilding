@@ -146,12 +146,23 @@ export class SimpleActorSheet extends foundry.appv1.sheets.ActorSheet {
     event.preventDefault();
     
     // Obtain event data
-    const button = event.currentTarget;
+    const button = event.currentTarget; // This is the element with data-action, e.g., the <img> or <a>
     const li = button.closest(".item");
     const item = this.actor.items.get(li?.dataset.itemId);
-    
     const action = button.dataset.action;
-    const type = button.dataset.type; // Ensure 
+
+    // If the clicked element is an IMG with data-action="edit" (the item's image)
+    if (item && action === "edit" && button.tagName === 'IMG' && button.classList.contains('item-control')) {
+      const chatMessage = `@UUID[${item.uuid}]{${item.name}}`;
+      ChatMessage.create({
+        user: game.user.id,
+        speaker: ChatMessage.getSpeaker({ actor: this.actor }),
+        content: chatMessage
+      });
+      return; // Done, don't proceed to open edit sheet or other actions
+    }
+    
+    const type = button.dataset.type; // Ensure type is read for create actions
     
     switch (action) {
       case "create":
@@ -163,10 +174,12 @@ export class SimpleActorSheet extends foundry.appv1.sheets.ActorSheet {
       case "create-domain":
       const clsd = getDocumentClass("Item");
       return clsd.create({name: "New Domain", type: type}, {parent: this.actor}); // Use the type variable here
-      case "edit":
-      return item.sheet.render(true);
+      case "edit": // This will now only be reached if the image wasn't clicked (e.g., edit icon was clicked)
+        if (item) return item.sheet.render(true);
+        break;
       case "delete":
-      return item.delete();
+        if (item) return item.delete();
+        break;
     }
   }
   
@@ -573,16 +586,35 @@ export class NPCActorSheet extends SimpleActorSheet {
     const button = event.currentTarget;
     const li = button.closest(".item");
     const item = this.actor.items.get(li?.dataset.itemId);
+    const action = button.dataset.action;
+
+    // If the clicked element is an IMG with data-action="edit" (the item's image)
+    if (item && action === "edit" && button.tagName === 'IMG' && button.classList.contains('item-control')) {
+      const chatMessage = `@UUID[${item.uuid}]{${item.name}}`;
+      ChatMessage.create({
+        user: game.user.id,
+        speaker: ChatMessage.getSpeaker({ actor: this.actor }),
+        content: chatMessage
+      });
+      return; // Done, don't proceed to open edit sheet
+    }
     
     // Handle different actions
     switch ( button.dataset.action ) {
       case "create":
       const cls = getDocumentClass("Item");
+      // NPCActorSheet specific item creation logic, ensure type is handled if necessary or use a default
+      // For simplicity, using "item" as default type as in original code.
+      // If NPC sheet items can have different types like 'feature', 'worn', 'inventory' via specific create buttons,
+      // this might need adjustment similar to SimpleActorSheet (reading button.dataset.type).
+      // Based on the provided code, NPCActorSheet only has a generic "create" with type "item".
       return cls.create({name: game.i18n.localize("SIMPLE.ItemNew"), type: "item"}, {parent: this.actor});
-      case "edit":
-      return item.sheet.render(true);
+      case "edit": // This will now only be reached if the image wasn't clicked (e.g., edit icon was clicked)
+        if (item) return item.sheet.render(true);
+        break;
       case "delete":
-      return item.delete();
+        if (item) return item.delete();
+        break;
     }
   }
   

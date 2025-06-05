@@ -988,7 +988,7 @@
   text-align: center;
   z-index: 0;
   background: black;
-  border: 2px solid var(--dh-color-gold);
+  border: 2px solid var(--dh-color-blue);
   border-radius: 0px 10px;
   /* border-bottom: 1.5px solid var(--dh-color-gold); */
   background-position: center;
@@ -1010,7 +1010,7 @@
 .worldbuilding .resource input[type="number"], .worldbuilding .defenses .armorslots input[type="number"] {
   background: var(--dh-color-off-white);
   border: none;
-  border: 2px solid var(--dh-color-gold);
+  border: 2px solid var(--dh-color-blue);
   color: black;
   text-align: center;
   font-size: 18px;
@@ -1670,12 +1670,13 @@ textarea:focus {
 
 .chat-message {
   margin: 7px 4px;
-  padding: 0.75em 1em;
-  font-size: var(--font-size-12);
-  color: var(--dh-color-off-white);
-  background: #1c1c1cb0;
-  border: 1px solid #363636;
-  border-radius: 10px;
+	padding: 0.75em 1em;
+	font-size: var(--font-size-12);
+	color: var(--dh-color-off-white);
+	background: #0b0a13d6;
+	border: 1px solid #6d6795;
+  backdrop-filter: blur(5px);
+	border-radius: 10px;
 }
 
 .chat-message .message-header {
@@ -1692,8 +1693,8 @@ textarea:focus {
   margin: 0;
   line-height: 24px;
   text-align: center;
-  background: #1c1c1cbd;
-  border: 1px solid #404040;
+	background: #0b0a13d6;
+	border: 1px solid #6d6795;
   box-shadow: none;
   border-radius: 10px;
   word-break: break-all;

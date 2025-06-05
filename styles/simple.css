@@ -1575,14 +1575,16 @@ textarea:focus {
 
 .item-bg {
   position: absolute;
-  top: 0;
+  top: -1vh;
   left: 0;
-  width: 100%;
-  height: 100%;
+  width: 120%;
+  height: 35rem;
+  background-repeat: no-repeat;
+  background-position: top center;
   background-size: cover;
-  background-position: center;
-  filter: brightness(80%);
-  z-index: -1; /* Ensure it's behind other content */
+  z-index: -1;
+  margin-left: -10%;
+  filter: brightness(30%) blur(1px);
   mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
   -webkit-mask-image: linear-gradient(to bottom, black 80%, transparent 100%); /* For Safari/Chrome */
 }

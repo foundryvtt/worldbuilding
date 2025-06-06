@@ -1583,24 +1583,8 @@ textarea:focus {
   background-position: top center;
   background-size: cover;
   z-index: -1;
-  margin-left: -10%;
-  filter: brightness(30%) blur(1px);
-  mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
-  -webkit-mask-image: linear-gradient(to bottom, black 80%, transparent 100%); /* For Safari/Chrome */
-}
-
-.actor .item-bg {
-  position: absolute;
-  top: -1vh;
-  left: 0;
-  width: 120%;
-  height: 35rem;
-  background-repeat: no-repeat;
-  background-position: top center;
-  background-size: cover;
-  z-index: -1;
-  margin-left: -10%;
-  filter: brightness(30%) blur(1px);
+  margin-left: -10%;                                              
+  filter: brightness(30%) blur(5px);
   mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
   -webkit-mask-image: linear-gradient(to bottom, black 80%, transparent 100%); /* For Safari/Chrome */
 }

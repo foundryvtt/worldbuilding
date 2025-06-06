@@ -221,27 +221,19 @@ export class SimpleActorSheet extends foundry.appv1.sheets.ActorSheet {
   
   async _onDropItem(event, data) {
     if (!this.actor.isOwner) return false;
-
-    // Determine the target item type from the drop target
-    const target = event.target.closest('.item-list');
-    if (!target) return false;
-
-    const newType = target.dataset.type;
-    if (!newType) return false;
-
     const item = await Item.implementation.fromDropData(data);
-
-    // If the item comes from the same actor, update its type.
-    if ( this.actor.items.has(item.id) ) {
-      if (item.type !== newType) {
-        await item.update({type: newType}, {recursive: false});
-      }
-      return; // Operation complete
-    }
-
-    // Otherwise, create a new item with the correct type.
     const itemData = item.toObject();
-    itemData.type = newType;
+    
+    // Modify the create data as needed
+    switch (event.target.dataset.tab) {
+      case "features":
+      // Modify itemData for features
+      break;
+      case "spells":
+      // Modify itemData for spells
+      break;
+      // Handle other tabs
+    }
     
     return this.actor.createEmbeddedDocuments("Item", [itemData]);
   }

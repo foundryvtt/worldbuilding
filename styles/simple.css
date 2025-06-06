@@ -200,11 +200,12 @@
 .worldbuilding .item-list {
   list-style: none;
   margin: 0px 0;
-  padding: 0;
+  padding: 5px;
   overflow-y: auto;
   display: flex;
   flex-direction: column-reverse;
   gap: 0em;
+  min-height: 40px;
 }
 .worldbuilding .item-list .item img {
   flex: 0 0 24px;

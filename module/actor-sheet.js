@@ -232,6 +232,12 @@ export class SimpleActorSheet extends foundry.appv1.sheets.ActorSheet {
         itemData.type = type;
       }
     }
+
+    // If the item is from the same actor, it's a move
+    if (this.actor.id === data.actorId) {
+      // Deleting and re-creating the item to ensure no duplicates.
+      await item.delete();
+    }
     
     return this.actor.createEmbeddedDocuments("Item", [itemData]);
   }

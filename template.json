@@ -133,7 +133,7 @@
           "value": 0,
           "tooltip": "Armor reduces incoming damage by utilizing armor slots and increases your Armor Score based on equipped items."
         },
-        "armorslots": {
+        "armor-slots": {
           "value": 0,
           "max": 6,
           "tooltip": "Armorslots indicate the number of available slots for equipping armor, influencing your overall Armor Score."

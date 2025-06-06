@@ -229,17 +229,26 @@ export class SimpleActorSheet extends foundry.appv1.sheets.ActorSheet {
     if (!newType) return false;
 
     const item = await Item.implementation.fromDropData(data);
-    const itemData = item.toObject();
+    
+    // If the item comes from the same actor, it's a move.
+    if (this.actor.items.has(item.id)) {
+        const existingItem = this.actor.items.get(item.id);
+        // If it's the same type, do nothing.
+        if (existingItem.type === newType) return;
 
-    // If the item comes from the same actor, we are moving it.
-    if (this.actor.items.has(itemData._id)) {
-      // Update the existing item's type
-      return this.actor.updateEmbeddedDocuments("Item", [{ _id: itemData._id, 'system.type': newType, type: newType}]);
+        // Create a new item of the correct type with the old item's data.
+        const newItemData = existingItem.toObject();
+        newItemData.type = newType;
+        
+        // Delete the old item and create the new one.
+        await existingItem.delete();
+        return this.actor.createEmbeddedDocuments("Item", [newItemData]);
+
     } else {
-      // Otherwise, we are creating a new item
-      itemData.type = newType;
-      itemData.system.type = newType;
-      return this.actor.createEmbeddedDocuments("Item", [itemData]);
+      // Otherwise, we are creating a new item from a drop.
+      const newItemData = item.toObject();
+      newItemData.type = newType;
+      return this.actor.createEmbeddedDocuments("Item", [newItemData]);
     }
   }
   /* -------------------------------------------- */

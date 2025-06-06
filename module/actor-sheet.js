@@ -224,15 +224,13 @@ export class SimpleActorSheet extends foundry.appv1.sheets.ActorSheet {
     const item = await Item.implementation.fromDropData(data);
     const itemData = item.toObject();
     
-    // Modify the create data as needed
-    switch (event.target.dataset.tab) {
-      case "features":
-      // Modify itemData for features
-      break;
-      case "spells":
-      // Modify itemData for spells
-      break;
-      // Handle other tabs
+    // Determine the target item type from the drop target
+    const target = event.target.closest('.item-list');
+    if (target) {
+      const type = target.dataset.type;
+      if (type) {
+        itemData.type = type;
+      }
     }
     
     return this.actor.createEmbeddedDocuments("Item", [itemData]);

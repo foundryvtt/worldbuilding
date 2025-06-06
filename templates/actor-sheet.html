@@ -397,7 +397,7 @@
                         <i class="fas fa-plus"></i> Add Domain
                     </a>
                 </div>
-                <ol class="item-list">
+                <ol class="item-list" data-item-type="domain">
                     {{#each data.items as |item id|}}
                     {{#if (eq item.type "domain")}}
                     <li class="item flexrow" data-item-id="{{item._id}}">
@@ -454,7 +454,7 @@
                         <i class="fas fa-plus"></i> Add Feature
                     </a>
                 </div>
-                <ol class="item-list">
+                <ol class="item-list" data-item-type="item">
                     {{#each data.items as |item id|}}
                     {{#if (eq item.type "item")}}
                     <li class="item flexrow" data-item-id="{{item._id}}">
@@ -515,7 +515,7 @@
                         <i class="fas fa-plus"></i> Add Item
                     </a>
                 </div>
-                <ol class="item-list">
+                <ol class="item-list" data-item-type="worn">
                     {{#each data.items as |item id|}}
                     {{#if (eq item.type "worn")}}
                     <li class="item flexrow" data-item-id="{{item._id}}">
@@ -572,7 +572,7 @@
                         <i class="fas fa-plus"></i> Add Item
                     </a>
                 </div>
-                <ol class="item-list">
+                <ol class="item-list" data-item-type="inventory">
                     {{#each data.items as |item id|}}
                     {{#if (eq item.type "inventory")}}
                     <li class="item flexrow" data-item-id="{{item._id}}">

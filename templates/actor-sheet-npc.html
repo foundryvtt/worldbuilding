@@ -202,7 +202,7 @@
 
         {{!-- Owned Items Tab --}}
                 <div class="tab items" data-group="primary" data-tab="items">
-                    <ol class="item-list">
+                    <ol class="item-list" data-item-type="item">
                         {{#each data.items as |item id|}}
                         <li class="item flexrow" data-item-id="{{item._id}}">
                             <img src="{{item.img}}" title="{{item.name}}" width="24" height="24" />

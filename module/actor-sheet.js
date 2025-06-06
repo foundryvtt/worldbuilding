@@ -234,7 +234,7 @@ export class SimpleActorSheet extends foundry.appv1.sheets.ActorSheet {
     // If the item comes from the same actor, update its type.
     if ( this.actor.items.has(item.id) ) {
       if (item.type !== newType) {
-        await item.update({type: newType});
+        await item.update({type: newType}, {recursive: false});
       }
       return; // Operation complete
     }

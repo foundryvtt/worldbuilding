@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Font1&family=Font2&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700&display=swap');
 
 :root {
   --dh-color-dark-blue: #0a0f21;
@@ -51,10 +52,6 @@
 
 ::-webkit-scrollbar {
   width: 5px !important;
-}
-
-::-webkit-scrollbar {
-  width: 5px !important;
   height: 5px !important;
 }
 
@@ -66,7 +63,6 @@
   cursor: auto;
   text-shadow: none;
 }
-
 
 .editor-content * {
   -webkit-user-select: text;
@@ -96,11 +92,6 @@
   font-size: 12px;
 }
 
-.npc .sheet-header h1.charname input {
-  width: 100% !important;
-  border-bottom: none !important;
-}
-
 .prosemirror menu button {
   color: #00000082;
 }
@@ -113,71 +104,8 @@
 .worldbuilding form {
   height: 100%;
 }
-.worldbuilding .sheet-header {
-  flex: 0 0 auto;
-  overflow: hidden;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  margin-bottom: 10px;
-}
 
-.worldbuilding .sheet-header .profile-img {
-  flex: 0 0 100px;
-  height: 100px;
-  margin-right: 10px;
-}
-
-.worldbuilding .sheet-header .header-fields {
-  flex: 1;
-  min-height: 100px;
-}
-
-.worldbuilding .sheet-header h1.charname {
-  padding: 0px;
-  border-bottom: 0;
-}
-
-.worldbuilding .sheet-header h1.charname input {
-  height: 100%;
-  margin: 0;
-}
-
-.worldbuilding .resources {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 10px;
-}
-
-.worldbuilding .resource {
-  flex: 1;
-  min-width: 30px;
-  text-align: center;
-}
-
-.worldbuilding .resource label {
-  display: block;
-  font-weight: bold;
-  margin-bottom: 5px;
-}
-
-.worldbuilding .resource input {
-  width: 40px;
-  height: 28px;
-  margin: 0 5px;
-}
-
-.worldbuilding .tabs {
-  flex: 0 0 40px;
-  border-top: 1px solid #AAA;
-  border-bottom: 1px solid #AAA;
-}
-.worldbuilding .tabs .item {
-  line-height: 40px;
-  font-weight: bold;
-}
+/* Base styles */
 .worldbuilding .sheet-body {
   overflow: hidden;
   display: flex;
@@ -191,21 +119,58 @@
   overflow-x: hidden;
   margin: 0px;
   width: 100%;
-  padding: 2em 3em;
+  padding: 0.5em 5em;
 }
 .worldbuilding .editor,
 .worldbuilding .editor-content {
   height: 100%;
 }
+
+/* Item list */
 .worldbuilding .item-list {
   list-style: none;
   margin: 0px 0;
   padding: 5px 0 5px 0;
   overflow-y: auto;
   display: flex;
-  flex-direction: column-reverse;
-  gap: 0em;
+  flex-direction: column;
 }
+.worldbuilding .item-list .item {
+  display: flex;
+  flex-direction: row;
+  gap: 0.25em;
+  align-items: center;
+}
+
+.worldbuilding .item-list .item .item-main-row {
+  display: flex;
+  align-items: center;
+  border-radius: .5em;
+  width: 100%;
+  padding: 0em 0.5em;
+  background: rgba(0,0,0,0.2);
+  justify-content: space-between;
+  min-height: 3em;
+}
+
+.worldbuilding .item-list .item:nth-child(even) .item-main-row {
+    background: rgb(141 120 151 / 7%);
+}
+
+.worldbuilding .item-list .item .item-top-row {
+  display: flex;
+  align-items: center;
+  flex-grow: 1;
+}
+
+.worldbuilding .item-list .item .item-name {
+  padding-left: 0.5em;
+  font-size: 0.9em;
+  font-weight: normal;
+  color: var(--dh-color-off-white);
+  margin: 0;
+}
+
 .worldbuilding .item-list .item img {
   flex: 0 0 24px;
   margin-right: 5px;
@@ -214,248 +179,31 @@
   width: 100%;
   height: 25px;
 }
-.worldbuilding .item-list .item:nth-child(odd) {
-  background: #f2f3f414;
-}
-.worldbuilding .item-list .item:nth-child(even) {
-  background: #0a0f2159;
-}
 
 .worldbuilding .item-list .item-controls {
   flex: 0 0 36px;
+  display: flex;
+  gap: 5px;
 }
+
 .worldbuilding .item-control{
   cursor: pointer;
 }
-.worldbuilding .item-list .item-buttons {
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: row;
-  align-items: center;
-  flex: 2;
-  justify-content: flex-start;
-}
-.worldbuilding .item-list .item-button {
-  line-height: 1;
-  font-size: 11px;
-  flex: none;
-  width: auto;
-}
-.worldbuilding .attributes {
-  position: relative;
-}
-.worldbuilding .attributes .attribute-control,
-.worldbuilding .attributes .group-control {
-  flex: 0 0 20px;
-  text-align: center;
-  line-height: 28px;
-  border: none;
-}
-.worldbuilding .attributes .attribute-roll {
-  flex: 0 0 20px;
-  text-align: center;
-  border-bottom: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.worldbuilding .attributes .group-prefix {
-  height: 31px;
-  margin-right: 10px;
-}
-.worldbuilding .attributes .button {
-  width: 100%;
-  flex: 1;
-  margin: 0;
-  background: rgba(0, 0, 0, 0.1);
-  border: 2px groove #f0f0e0;
-  border-radius: 3px;
-  font-size: 14px;
-  line-height: 28px;
-  display: block;
-  text-shadow: none;
-  color: var(--dh-color-gold);
-}
-.worldbuilding .attributes .attribute-key {
-  background: transparent;
-  border: none;
-}
-.worldbuilding .attributes-header {
-  position: sticky;
-  top: 0;
-  left: 0;
-  align-items: center;
-  padding: 0 5px;
-  margin: 5px 0;
-  background: #cfcdc2;
-  border: 1px solid #AAA;
-  border-radius: 2px;
-  text-align: left;
-  font-weight: bold;
-}
-.worldbuilding .attributes-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-.worldbuilding .attributes-list li > * {
-  margin: 0 3px;
-  height: 28px;
-  line-height: 24px;
-  background: transparent;
-  border: none;
-  border-radius: 0;
-  border-bottom: 1px solid #AAA;
-  color: var(--dh-color-off-white);
-}
-.worldbuilding .attributes-list .attribute-col label {
-  font-size: 10px;
-  text-align: center;
-  line-height: 1;
-}
-.worldbuilding .attributes-list .attribute-col input {
-  font-size: 11px;
-  text-align: center;
-  line-height: 1;
-  height: 50%;
-}
-.worldbuilding .attribute input[type="text"]::placeholder,
-.worldbuilding .group-header input[type="text"]::placeholder {
-  opacity: 0;
-  transition: opacity 0.25s ease-in-out;
-}
-.worldbuilding .attribute input[type="text"]:focus::placeholder,
-.worldbuilding .group-header input[type="text"]:focus::placeholder {
-  opacity: 1;
-}
-.worldbuilding .attributes-list li input::placeholder {
-  color: #ffffff5b;
-}
-.worldbuilding .group-controls {
-  margin: 5px;
-}
-.worldbuilding .groups-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-.worldbuilding .group {
-  margin: 5px 0 0;
-  padding: 0;
-}
-.worldbuilding .group-header {
-  align-items: center;
-  background: rgba(0, 0, 0, 0.05);
-  border: 1px solid #AAA;
-  border-radius: 2px;
-  padding: 2px 5px;
-}
-.worldbuilding .group-key,
-.worldbuilding .group-label {
-  font-weight: bold;
-  border: none;
-  border-bottom: 1px solid #AAA;
-  background: transparent;
-  border-radius: 0;
-  margin-right: 6px;
-}
-.worldbuilding .group-key {
-  opacity: 0.75;
-}
-.worldbuilding .group-label {
-  flex: 2;
-}
-.worldbuilding .group-dtype {
-  height: 24px;
-  flex: 0 0 116px;
-  margin: 0 5px;
-}
+
+/* General Sheet styling */
 .worldbuilding.sheet.actor, .worldbuilding.sheet.npc {
-  min-width: 560px;
-  min-height: 420px;
-}
-.worldbuilding.sheet.item {
-  min-width: 325px;
-  min-height: 400px;
+  min-width: 700px;
+  min-height: 800px;
 }
 
-
-
-.worldbuilding .trait {
-  flex: 1;
-  min-width: 50px;
-  text-align: center;
-}
-
-.worldbuilding .trait label {
-  display: block;
-  font-weight: bold;
-  margin-bottom: 5px;
-  padding: 0; /* or some smaller value depending on the design */
-}
-
-.worldbuilding .trait input {
-  width: 60px;
-  height: 28px;
-}
-
-.worldbuilding .trait label {
-  cursor: url(https://content.demiplane.com/nexus/daggerheart/dh-add-dice-pointer.svg) 0 20, auto !important;
-  user-select: none;
-}
-
-.worldbuilding .trait label:hover {
-  text-decoration: underline;
-}
-
-/* For WebKit browsers (Chrome, Safari) */
-::-webkit-scrollbar {
-  width: 12px; /* Width of the scrollbar */
-}
-
-::-webkit-scrollbar-track {
-  background-color: transparent; /* Color of the track */
-}
-
-::-webkit-scrollbar-thumb {
-  background-color: white; /* Color of the thumb */
-  border-radius: 6px; /* Rounded corners of the thumb */
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background-color: white; /* Color of the thumb on hover */
-}
-
-/* For Firefox */
-* {
-  scrollbar-width: thin; /* Width of the scrollbar */
-  scrollbar-color: white transparent; /* Color of the thumb and track */
-}
-
-:root {
-  --window-content-opactity-value: 1 !important;
-}
-
-.actor .window-content{
+.actor .window-content {
   background: transparent;
-  backdrop-filter: blur(6px) brightness(60%);
   background-color: transparent;
   color: #f0f0e0;
   border: 1px solid #ffffff3d;
-  border-radius:  0  0 10px 10px;
+  border-radius: 0  0 10px 10px;
   border-top: none;
-  position: relative;   
-}
-
-.npc .window-content{
-  background: transparent;
-  backdrop-filter: blur(6px) brightness(60%);
-  background-color: transparent;
-  color: #f0f0e0;
-  border: 1px solid #ffffff3d;
-  border-radius:  0  0 10px 10px;
-  border-top: none;
-  position: relative;   
+  position: relative;
 }
 
 .actor .window-header{
@@ -473,40 +221,13 @@
   position: relative;
 }
 
-.npc .window-header{
-  background: url(../ui/denim075.png) repeat;
-  backdrop-filter: blur(5px) brightness(40%);
-  border: 1px solid #ffffff3d;
-  box-shadow: none;
-  color: #f0f0e0;
-  cursor: pointer;
-  position: relative;
-  text-shadow: none!important;
-  text-shadow: 0 0 4px rgba(0,0,0,.75);
-  border-bottom: none;
-  border-radius: 10px 10px 0  0;
-  position: relative;
-}
-
-.actor, .npc{
+.actor {
   background: transparent;
 }
 
 .worldbuilding .actor input[type="text"], .worldbuilding .actor input[type="number"], .worldbuilding .actor input[type="password"], 
-.worldbuilding .actor input[type="date"], .worldbuilding .actor input[type="time"], .worldbuilding .actor input[type="search"], 
-.worldbuilding .npc input[type="text"], .worldbuilding .npc input[type="number"], .worldbuilding .npc input[type="password"], 
-.worldbuilding .npc input[type="date"], .worldbuilding .npc input[type="time"], .worldbuilding .npc input[type="search"] {
+.worldbuilding .actor input[type="date"], .worldbuilding .actor input[type="time"], .worldbuilding .actor input[type="search"] {
   color: #f0f0e0;
-}
-
-.sheet.actor {
-  /*background: url(https://i.imgur.com/ActuY8l.png), url(https://i.imgur.com/14CIKuQ.png);*/
-  background-size: 100% 41rem, cover;
-  background-position: center top, bottom center;
-  background-repeat: no-repeat;
-  color: white;
-  text-shadow: 1px 1px 2px black;
-  border-radius: 10px;
 }
 
 .sheet.actor {
@@ -514,161 +235,178 @@
   backdrop-filter: blur(5px);
 }
 
-.sheet.npc {
-  background: #1c1c1c63;
-  backdrop-filter: blur(5px);
-}
-
-.sheet.npc {
-  /*background: url(https://i.imgur.com/zqsgR9k.png), url(https://i.imgur.com/X6YXIC6.png);*/
-  background-size: 100% 29rem, cover;
-  background-position: center top, bottom center;
+.item-bg {
+  position: absolute;
+  top: -1vh;
+  left: 0;
+  width: 120%;
+  height: 25rem;
   background-repeat: no-repeat;
-  color: white;
-  text-shadow: 1px 1px 2px black;
-  border-radius: 10px;
+  background-position: top center;
+  background-size: cover;
+  z-index: -1;
+  margin-left: -10%;
+  filter: brightness(30%) blur(5px);
+  mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
 }
 
-.worldbuilding .editor, .worldbuilding .editor-content {
-  color: var(--dh-color-off-black);
-  text-shadow: none;
-  height: 100%;
-  border-radius: 0px 10px;
-  border: 2px solid #f3c267;
-  padding: 6px;
-  background: var(--dh-color-off-white);
-}
-
-.worldbuilding .editor-content {
-  border: none;
-}
-
-.worldbuilding .editor .fa-solid {
-  color: var(--dh-color-off-black);
-}
-
-.prosemirror menu button:hover, .prosemirror menu button.active {
-  box-shadow: none;
-  background: var(--dh-color-gold);
-  color: black;
-}
-
-
-.worldbuilding .window-content {
-  height: 100%;
-  padding: 5px;
-  overflow-y: hidden;
-}
-
-.worldbuilding form {
-  height: 100%;
-}
-
-.worldbuilding .sheet-header {
-  flex: 0 0 auto; 
-  overflow: hidden;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  margin-bottom: 10px;
-}
-
-.worldbuilding .sheet-header .profile-img {
-  flex: 0 0 100px;
-  height: 100px;
-  margin-right: 10px;
-}
-
-
-.worldbuilding .sheet-header .profile-img {
-  flex: 0 0 100px;
-  margin-right: 10px;
-  object-fit: cover;
-  width: 50px;
-  height: 165px;
-  border: 2px solid var(--dh-color-gold);
-  border-style: double;
-  border-radius: 0px 10px;
-}
-
-.sheet header.sheet-header {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  align-items: center;
-  padding-bottom: 1.5em;
-  padding-top: 1.5em;
-  
-}
-
-.worldbuilding .resource input[type="number"] {
-  background: rgba(0, 0, 0, 0.5);
-  border: none;
-  border-bottom: 2px solid rgb(var(--color-secondary));
-  
-}
-
-.worldbuilding .traits .trait input {
-  width: 40px;
-  height: 40px;  
-  text-align: center;
-  background: rgba(0, 0, 0, 0.5);
-  border: none;
-  border-bottom: 2px solid rgb(var(--color-secondary));
-}
-
-.worldbuilding .traits .trait .trait-effects {
+/* Header */
+.sheet-header {
   display: flex;
   flex-direction: column;
-  align-content: center;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
   align-items: center;
+  padding: 1.5em 1.5em 0.5em;
+  gap: 2.5em;
+  overflow: visible;
+  max-height: 26.5em;
 }
 
-.worldbuilding .traits {
-  flex: initial;
+.header-top-container {
   display: flex;
-  flex-wrap: wrap;
-  gap: 2em;
-  margin-bottom: 10px;
+  justify-content: flex-end;
+  width: 100%;
+  padding: 0 20px;
+  overflow: visible;
+  max-height: 1em;
+  align-content: center;
+  align-items: flex-start;
+}
+
+.charlevel {
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  height: auto;
-  padding-bottom: 1em;
-  padding-top: 1em;
-  min-height: 150px;
+  width: 40px;
+  justify-content: center;
+  margin: 0px;
+  padding: 0px;
 }
 
-.worldbuilding .trait label, .worldbuilding .resource label {
-  cursor: auto;
-  user-select: none;
+.charlevel input {
+  color: var(--dh-color-gold-dark);
+  text-align: center;
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-top: 0px;
+  height: 2.5rem;
+  border: none;
+  background: transparent;
+}
+
+.charlevel a {
+  padding: 0px;
+  height: min-content;
+  font-size: 11px;
+  font-weight: 200;
+  opacity: 0.6;
+}
+
+.header-main-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.portrait-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+}
+
+.profile-img {
+  flex: 0 0 150px;
+  height: 150px;
+  width: 150px;
+  border-radius: 50%;
+  border: 4px solid var(--dh-color-gold);
+  object-fit: cover;
+}
+
+.resource {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.resource.hope {
+    position: absolute;
+    bottom: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.resource .resource-box {
+    background: #1c1c1c;
+    border: 1px solid var(--dh-color-gold);
+    border-radius: 10px;
+    padding: 5px 15px;
+    color: white;
+    font-size: 1.2em;
+}
+
+.resource label {
+    text-transform: uppercase;
+    font-size: 0.8em;
+    margin-top: 5px;
+}
+
+.header-bottom-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    margin-top: 0;
+}
+
+.charname input {
   text-transform: uppercase;
+  font-size: 2.5em;
+  font-weight: 700;
+  border: none;
+  text-align: center;
+  color: var(--dh-color-gold);
+  font-family: 'Cinzel', serif;
+  background: transparent;
+  width: 100%;
+}
+
+.charname input:focus {
+    box-shadow: none;
+}
+
+.header-domain {
+    display: flex;
+    gap: 20px;
+}
+
+.header-domain input {
+  font-size: 1rem;
+  font-weight: 200;
+  opacity: 1;
+  border: none;
+  color: var(--dh-color-off-white) !important;
+  text-align: center;
+  max-width: 120px;
+  text-transform: uppercase;
+  padding: 0px;
+  margin: 0px;
+  height: auto;
+  background: transparent;
+  border-bottom: 1px solid var(--dh-color-gold);
 }
 
 
-
-/* ================= NAV BAR  ================= */
-
-.app.window-app.worldbuilding.sheet nav.sheet-tabs:before {
-  content: "";
-  display: block;
-  height: 64px;
-  width: 130%;
-  position: absolute;
-  background-image: url(https://content.demiplane.com/nexus/daggerheart/dh-mid-x.webp), url(https://content.demiplane.com/nexus/daggerheart/dh-mid-left.webp), url(https://content.demiplane.com/nexus/daggerheart/dh-mid-right.webp), url(https://content.demiplane.com/nexus/daggerheart/dh-mid-bar.webp);
-  background-position: top center, top left, top right, top center;
-  background-size: 160px auto, 120px auto, 120px auto, 100% 26px;
-  background-repeat: no-repeat;
-  pointer-events: none;
-}
-
-.sheet nav.sheet-tabs {
-  margin: 4px 0;
+/* Tabs */
+.sheet-tabs {
+  margin: 1em 0;
   border-top: none;
-  border-bottom: none;
+  border-bottom: 1px solid var(--dh-color-gold);
   display: flex;
   justify-content: center;
-  -webkit-box-align: center;
   align-items: center;
   flex-wrap: nowrap;
   position: relative;
@@ -677,141 +415,126 @@
   gap: 2em;
 }
 
-.sheet nav.sheet-tabs .item a[data-tab="attributes"]{
-  display: none;
-}
-
-.worldbuilding .tabs .item.active, .worldbuilding .tabs .item:hover {
+.sheet-tabs .item {
   border: none;
-  font-size: 14px;
-  box-shadow: none;
-  color: var(--dh-color-gold);
-  text-align: center;
-  filter: drop-shadow(1px 1px 2px black);
-  z-index: 1;
-  height: 1vh;
-  display: flex;
-  align-items: center;
-  transition: opacity 0.5s ease-in-out;
-  
-}
-
-.tabs .item.active {
-  text-shadow: none;
-}
-
-.worldbuilding .tabs .item {
-  border: none;
-  padding: 4px 20px;
+  padding: 4px 10px;
   letter-spacing: 1px;
   font-size: 14px;
   box-shadow: none;
   color: white;
-  background-size: contain !important;
-  background-repeat: no-repeat !important;
-  background-position: center center !important;
-  filter: drop-shadow(1px 1px 2px black);
+  background: none !important;
+  filter: none;
   text-transform: uppercase;
   font-weight: 500;
-  height: 1vh;
+  height: auto;
   display: flex;
   align-items: center;
   transition: opacity 0.5s ease-in-out;
   cursor: pointer;
-}
-/* ================= NAV BAR END ================= */
-.worldbuilding .window-content {
-  height: 100%;
-  padding: 5px;
-  overflow-y: hidden;
-  padding: 1em 2em 0em 2em;
-  border-radius: 0 0 10px 10px;
+  line-height: 35px;
+  text-shadow: none;
 }
 
-.sheet header.sheet-header {
-  padding-top: 3em;
+.sheet-tabs .item.active, .sheet-tabs .item:hover {
+  color: var(--dh-color-gold);
+  border-bottom: 3px solid var(--dh-color-gold);
+  text-shadow: none;
 }
 
-
-.app.window-app.worldbuilding.sheet:after {
-  content: "";
-  display: block;
-  height: 120px;
-  width: calc(100% + 26px);
-  position: absolute;
-  top: 1.75em;
-  left: -12px;
-  background-image: url(https://content.demiplane.com/nexus/daggerheart/dh-right-left-t.webp), url(https://content.demiplane.com/nexus/daggerheart/dh-right-right-t.webp), url(https://content.demiplane.com/nexus/daggerheart/dh-mid-bar.webp);
-  background-position: top left, top right, top -3px center;
-  background-size: 100px auto, 100px auto, calc(100% - 18px) 26px;
-  background-repeat: no-repeat;
-  pointer-events: none;
+.nav-gem {
+    width: 20px;
+    height: 35px;
+    background: url('https://content.demiplane.com/nexus/daggerheart/dh-mid-x.webp') center/contain no-repeat;
+    align-self: center;
 }
 
-.actor .window-content, .npc .window-content {
-  backdrop-filter: brightness(100%);
+/* Character Tab */
+.tab.character {
+    padding: 20px;
 }
 
-/* ================================ TRAITS AND DEFENSES ================================ */
-.worldbuilding .trait input[type="number"], .worldbuilding .defense input[type="number"]{
+.character-details {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1em 2em;
+    margin: 10px auto;
+    max-width: 500px;
+}
+.char-detail-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.char-detail-item label {
+    color: white;
+    text-transform: uppercase;
+    font-size: 0.9em;
+}
+
+.char-detail-item input {
+  background: transparent;
+  border: 1px solid #433f64;
+  border-radius: .5em;
+  padding: 1.25em;
+  color: white;
+  text-align: center;
+  width: 100%;
+}
+
+/* Defenses */
+.defenses {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 10px;
+  margin-top: 2em;
+  flex-direction: row;
+  align-content: center;
+  align-items: center;
+  padding-top: 1em;
+  padding-bottom: 1em;
+  max-height: 105px;
+  justify-content: space-evenly;
+}
+
+.defense {
+  flex: 1;
+  max-width: 4em;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-content: center;
+  justify-content: flex-end;
+}
+
+.defense input[type="number"] {
   color: black;
   text-align: center;
   font-size: 22px;
   font-weight: 700;
   padding-bottom: 8px;
   text-indent: 0px;
-}
-.worldbuilding .defense input[type="number"]{
-  text-indent: 0px;
-}
-
-.worldbuilding .trait input[type="number"]:focus, .worldbuilding .defense input[type="number"]:focus{
-  color: var(--dh-color-gold-dark);
-  box-shadow: none;
-}
-
-.worldbuilding .traits .trait input, .worldbuilding .defenses .defense input {
-  width: 100%;
-  height: 64px;
-  background: url(https://content.demiplane.com/nexus/daggerheart/stat-box-bg.webp) no-repeat;
-  background-size: contain;
-  background-position: center center;
-  border: none;
-  border-bottom: none;
-  position: relative;
-  left: 0;
-  display: flex;
-  justify-content: space-around;
-  align-content: center;
-}
-
-.worldbuilding .defenses .defense input {
   width: 80px;
   height: 80px;
-}
-
-/*[data-trait="evasion"]*/
-.worldbuilding .defenses .defense input[name="system.defenses.evasion.value"] {
-  background: url(https://content.demiplane.com/nexus/daggerheart/dh-evasion-bg.webp) no-repeat;
+  border: none;
   background-size: contain;
   background-position: center;
-  left: 0px;
-  padding: 0px;
-  margin: 0px;
-  position: relative;
+  background-repeat: no-repeat;
 }
 
-.worldbuilding .defenses .defense input[name="system.defenses.armor.value"] {
-  background: url(https://content.demiplane.com/nexus/daggerheart/dh-armor-bg.webp) no-repeat;
-  background-size: contain;
-  background-position: center;
-  left: 0px;
-  padding: 0px;
-  margin: 0px;
-  position: relative;
+.defense input[name="system.defenses.evasion.value"] {
+  background-image: url(https://content.demiplane.com/nexus/daggerheart/dh-evasion-bg.webp);
 }
 
-.worldbuilding .trait label, .worldbuilding .defenses .defense label {
+.defense input[name="system.defenses.armor.value"] {
+  background-image: url(https://content.demiplane.com/nexus/daggerheart/dh-armor-bg.webp);
+}
+
+.defense label {
+  margin-top: -15px;
+  position: relative;
   text-transform: uppercase;
   font-size: 10px;
   letter-spacing: 1px;
@@ -819,297 +542,201 @@
   background: var(--dh-color-off-black);
   border: 2px solid var(--dh-color-gold);
   border-radius: 0px 10px;
-  position: relative;
-  top: 4px;
-  width: max-content;
   z-index: 1;
-  text-align: center;
-  display: flex;
-  flex-wrap: nowrap;
-  justify-content: center;
-  align-items: center;
-  margin: 0px;
-  align-content: center;
-}
-.worldbuilding .defenses .defense label {
-  position: relative;
-  top: -2em;
-  margin-bottom: -2em;
-  
-}
-.worldbuilding .defenses .defense label[for="system.defenses.evasion.value"] {
-  left: 0px;
-}
-.worldbuilding .defenses .defense label[for="system.defenses.arsor.value"] {
-  left: 0px;
 }
 
-.worldbuilding .defenses {
-  display: flex;
-  flex-wrap: nowrap;
-  gap: 10px;
-  margin-top: 0;
-  flex-direction: row-reverse;
-  align-content: center;
-  align-items: center;
-  padding-top: 1em;
-  padding-bottom: 1em;
-  max-height: 110px;
-  justify-content: space-evenly;
-}
 
-.worldbuilding .trait, .worldbuilding .defense {
-  flex: 1;
-  min-width: 50px;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  align-content: center;
-  justify-content: center;
-}
-
-.worldbuilding .defense {
-  display: flex;
-  flex-direction: column-reverse;
-  align-content: center;
-  align-items: center;
-  max-width: fit-content;
-}
-
-.worldbuilding .trait label:hover{
-  background-color: var(--dh-color-gold-dark);
-  border: 2px solid var(--dh-color-gold);
-  color: var(--dh-color-off-black);
-  text-shadow: 1px 1px 2px #0000008c;
-  text-decoration: none;
-}
-
-.worldbuilding .armorslots {
-  flex: 1;
-  max-width: fit-content;
-  text-align: center;
-}
 .armorslots {
+  flex: 1;
+  max-width: fit-content;
+  text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 5px;
 }
 
 .armorslots label {
-  margin-bottom: 5px;
-  width: calc(105px) !important;
+  text-transform: uppercase;
 }
 
 .armorslots .values {
   display: flex;
   align-items: center;
+  gap: 5px;
+}
+
+.armorslots .resource-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .armorslots input {
   width: 50px;
   text-align: center;
-}
-
-.armorslots span {
-  margin: 0 5px;
-}
-/* ================================ TRAITS AND DEFENSES END ================================ */
-
-
-.worldbuilding .resource-container {
-  display: flex;
-  flex: 1;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  align-content: center;
-  justify-content: center;
-  align-items: center;
-  margin: 0;
-  padding: 0;
-  position: relative;
-}
-
-.worldbuilding .resource-group {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  align-content: center;
-  align-items: center;
-  max-width: fit-content;
-}
-
-.worldbuilding .resource-group a, .trait-effects, .weapon-infobox a, .weapon-infobox-first a, .charlevel a {
-  font-size: 11px;
-  font-weight: 200;
-  opacity: 0.6;
-  padding: 2px;
-}
-.weapon-infobox a, .weapon-infobox-first a {
-  color: var(--dh-color-dark-blue);
-  opacity: 0.8;
-  justify-content: center;
-  text-shadow: none;
-  font-weight: 400;
-  cursor: auto;
-  display: flex;
-}
-.weapon-infobox a:hover, .weapon-infobox a:active {
-  text-shadow: none;
-}
-
-.weapon-infobox a:focus {
-  text-shadow: none;
-}
-
-.weapon-infobox a[name="weapon-a-label"] {
-  color: var(--dh-color-dark-blue);
-  opacity: 1;
-  justify-content: flex-start;
-  text-shadow: none;
-  font-weight: 400;
-  cursor: auto;
-  display: flex;
-}
-
-.vertical-divider {
-  width: 0px;
-  height: 35px; /* Adjust the height as needed */
-  background: white;
-  opacity: 0;
-}
-
-.worldbuilding .resource label, .worldbuilding .defenses .armorslots label {
-  text-transform: uppercase;
-  font-size: 11px;
-  letter-spacing: 1px;
-  padding: 2px;
-  position: relative;
-  text-align: center;
-  z-index: 0;
-  background: black;
-  border: 2px solid var(--dh-color-blue);
-  border-radius: 0px 10px;
-  /* border-bottom: 1.5px solid var(--dh-color-gold); */
-  background-position: center;
-  justify-content: center;
-  width: calc(60px);
-  margin-left: auto;
-  margin-right: auto;
-}
-
-
-.worldbuilding .defenses .armorslots label:before {
-  width: 140px;
-  top: -1px;
-  left: -24px;
-  background-size: 38px, 38px;
-}
-
-
-.worldbuilding .resource input[type="number"], .worldbuilding .defenses .armorslots input[type="number"] {
   background: var(--dh-color-off-white);
-  border: none;
   border: 2px solid var(--dh-color-blue);
   color: black;
-  text-align: center;
   font-size: 18px;
   font-weight: 700;
-  margin-top: 0.2em;
-}
-.worldbuilding .resource input,  .worldbuilding .defenses .armorslots input{
-  width: 40px;
-  height: 28px;
-  margin: 0 5px;
+  border-radius: 5px;
 }
 
-.worldbuilding .sheet-header h1.charname input {
-  text-transform: uppercase;
-  font-size: var(--font-size-18);
-  font-weight: 700;
-  overflow: hidden;
-  border: none;
-  align-content: center;
-  text-align: center;
-  width: 15rem;
-  padding: 0px;
-  border-bottom: 1px solid #f3c26770;
-  border-radius: 0px;
-  color: var(--dh-color-gold);
-}
-
-.worldbuilding .sheet-header h1.charname input:focus{
-  box-shadow: none;
-}
-
-.sheet header.sheet-header {
+/* Traits */
+.traits {
   display: flex;
-  flex-direction: row;
   flex-wrap: wrap;
-  justify-content: flex-start;
+  gap: 0.25em;
+  margin: 0.5em 0;
   align-items: center;
-  padding-bottom: 0;
-  padding-top: 1.5em;
+  justify-content: center;
+  padding-top: 0.5em;
 }
 
-.worldbuilding .sheet-header .header-fields {
+.trait {
   flex: 1;
+  min-width: 80px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+
+.trait-label-wrapper label {
+  text-transform: uppercase;
+  font-size: 10px;
+  letter-spacing: 1px;
+  padding: 2px 6px;
+  background: var(--dh-color-off-black);
   border: 2px solid var(--dh-color-gold);
   border-radius: 0px 10px;
-  margin-right: 0;
-  padding: 8px;
-  padding-bottom: 0;
+  z-index: 1;
+}
+
+.trait input {
+  width: 80px;
+  height: 64px;
+  background: url(https://content.demiplane.com/nexus/daggerheart/stat-box-bg.webp) no-repeat;
+  background-size: contain;
+  background-position: center center;
+  border: none;
+  color: black;
+  text-align: center;
+  font-size: 22px;
+  font-weight: 700;
+  padding-bottom: 8px;
+}
+
+.trait-effects {
+  font-size: 12px;
   display: flex;
-  align-content: center;
-  height: 165px;
   flex-direction: column;
-  justify-content: space-around;
-}
-.worldbuilding .resources {
-  display: flex;
-  gap: 10px;
-  margin-top: 0;
+  color: #6c6a85;
+  font-weight: lighter;
 }
 
-/* Experience Tab */
-.tab.experience {
-  padding: 10px;
+
+/* Experience */
+.experience-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 20px;
 }
 
-.experience-row, .weapon-row {
+.experience-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(0,0,0,0.2);
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.experience-row:nth-child(even) {
+    background: rgb(141 120 151 / 7%);
+}
+
+.experience-row .exp-level input {
+    color: var(--dh-color-off-white);
+    background: none;
+    border: none;
+    font-size: 20px;
+    width: 25px;
+    text-align: center;
+}
+
+.experience-row-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.experience-row-column a {
+    font-size: 11px;
+    opacity: 0.6;
+}
+
+.experience-row-column-2 {
+    flex-grow: 1;
+}
+
+.experience-row-column-2 input {
+    width: 100%;
+    background: #d8d8d6;
+    border-radius: 5px;
+    border: 1px solid var(--dh-color-gold);
+    text-align: left;
+    padding: 5px 10px;
+    color: black;
+    height: 30px;
+}
+
+.experience-row .click-rollable-modifier {
+    background: var(--dh-color-off-white);
+    border: 2px solid var(--dh-color-blue);
+    text-align: center;
+    text-indent: 0px;
+    width: 50px;
+    border-radius: 10px;
+    color: black;
+    height: 30px;
+}
+
+/* Other tabs */
+.tab-title {
   display: flex;
-  margin-bottom: 5px;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  align-content: center;
   align-items: center;
+  justify-content: center;
+  align-content: center;
+  font-size: var(--font-size-14);
+  text-transform: uppercase;
+  margin-top: -1.5rem;
+  letter-spacing: 3px;
+  color: var(--dh-color-gold);
+  font-weight: 550;
+  margin-bottom: 1.5em;
+}
+
+.tab-category {
+  display: flex;
+  border-bottom: 1px solid var(--dh-color-gold-dark);
+  font-size: var(--font-size-14);
+  font-weight: 100;
+  text-transform: capitalize;
+  margin: 0.6rem 0em;
   justify-content: space-between;
-  width: 100%;
-  gap: 0.5em;
-}
-.weapon-row .weapon-infobox {
-  display: flex;
-  flex-direction: column;
   align-items: center;
-  align-content: center;
+  text-shadow: none;
 }
 
-.weapon-row .weapon-infobox-first {
-  display: flex;
-  flex-direction: column;
-  align-content: center;
-  align-items: flex-start;
-  justify-content: center;
+.hidden-input {
+    display: none;
 }
 
-.weapon-row {
-  display: flex;
-  flex-direction: column;
-  align-content: center;
-  align-items: center;
-  justify-content: center;
-}
-
+/* Weapons */
 .weapon-group {
   display: flex;
   flex-direction: column;
@@ -1121,15 +748,22 @@
 .weapon-row {
   flex-direction: column;
   width: 100%;
+  display: flex;
+  margin-bottom: 5px;
 }
 
 .weapon-box {
   color: var(--dh-color-dark-blue);
   padding: .5em 1em;
   border: 2px solid var(--dh-color-gold);
-  border-radius: 0px 10px;
+  border-radius: 0px;
   background: var(--dh-color-off-white);
   width: 100%;
+  display: flex;
+  align-content: center;
+  align-items: center;
+  justify-content: space-around;
+  flex-direction: column;
 }
 
 .weapon-box-inner {
@@ -1145,14 +779,6 @@
   display: flex;
   flex-direction: row;
   align-content: center;
-}
-
-.experience-group {
-  display: flex;
-  margin-bottom: 5px;
-  gap: .5vh;
-  align-items: center;
-  flex-direction: column;
 }
 
 .weapon-row .weapon-field {
@@ -1192,15 +818,6 @@
   letter-spacing: 2px;
 }
 
-/*.weapon-row .weapon-label:hover {
-  background-color: var(--dh-color-gold-dark);
-  border: 1px solid var(--dh-color-gold);
-  border-bottom: none;
-  color: var(--dh-color-off-black) !important;
-  text-shadow: none;
-  text-decoration: none;
-}*/
-
 .weapon-row .weapon-desc {
   font-size: 12px;
   line-height: 12px;
@@ -1215,30 +832,23 @@
   overflow: hidden;
   margin: 0.5em 0em 0em;
   justify-content: center;
-  text-align: center;
   align-items: center;
   word-break: break-word;
   word-wrap: normal;
 }
 
-textarea:focus {
-  box-shadow: none;
-  outline: none;
-}
-
 .textarea-container {
-  display: flex;
-  width: 100%;
-  align-content: center;
-  align-items: center;
-  justify-content: center;
-  height: fit-content;
+    display: flex;
+    width: 100%;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+    height: fit-content;
 }
 
 .weapon-row .weapon-to-hit, .weapon-row .weapon-damage {
   font-size: 18px;
   display: flex;
-  /* border: none; */
   background: none;
   color: var(--dh-color-dark-blue) !important;
   font-weight: 700;
@@ -1253,367 +863,90 @@ textarea:focus {
   height: 20px;
 }
 
-.weapon-to-hit {
+.weapon-row .weapon-to-hit {
   width: 35px !important;
 }
 
-.weapon-row .weapon-box {
+.weapon-row .weapon-infobox {
   display: flex;
-  align-content: center;
-  align-items: center;
-  justify-content: space-around;
   flex-direction: column;
-}
-
-.experience-row input[type="text"] {
-  flex: 1;
-  margin: 0 10px;
-  padding: 5px;
-}
-
-.experience-row input[type="number"] {
-  width: 80px;
-  padding: 5px;
-}
-
-.tab.experience .experience-row input {
-  background: var(--dh-color-off-white);
-  border-radius: 0px 10px;
-  border: 2px solid var(--dh-color-gold);
-  color: black;
-  text-align: center;
-  font-size: 18px;
-  font-weight: 600;
-  height: 30px;
-  line-height: 30px;
-  width: 100%;
-}
-
-.tab.experience input[name="system.experience.1Mod"],
-.tab.experience input[name="system.experience.1Mod2"],
-.tab.experience input[name="system.experience.2Mod"],
-.tab.experience input[name="system.experience.5Mod"],
-.tab.experience input[name="system.experience.8Mod"]{
-  background: var(--dh-color-off-white);
-  border: 2px solid var(--dh-color-blue);
-  text-align: center;
-  text-indent: 0px;
-  width: 35px;
-  
-}
-
-.tab.experience .exp-level {
-  display: flex;
-}
-
-.tab.experience .exp-level input {
-  text-align: center;
-  line-height: 30px;
-  text-indent: 0px;
-  width: 25px;
-  font-size: 20px;
-  color: var(--dh-color-off-white);
-  background: none;
-  border: none;
-}
-
-#skills {
-  margin-bottom: 20px;
-}
-
-#skillList {
-  list-style-type: none;
-  padding: 0;
-}
-
-#skillList li {
-  margin-bottom: 10px;
-}
-
-#skillList input[type="text"] {
-  margin-right: 10px;
-}
-
-
-.domains-section {
-  margin-bottom: 20px;
-}
-
-.domains-section h2 {
-  font-size: 18px;
-  font-weight: bold;
-  margin-bottom: 10px;
-}
-
-.domain-cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  grid-gap: 10px;
-}
-
-.domain-cards .card {
-  position: relative;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  padding: 10px;
-  background-color: #f5f5f5;
-}
-
-.domain-cards .card img {
-  width: 100%;
-  height: auto;
-  object-fit: cover;
-  border-radius: 4px;
-}
-
-.domain-cards .remove-card {
-  position: absolute;
-  top: 5px;
-  right: 5px;
-  background: none;
-  border: none;
-  font-size: 14px;
-  cursor: pointer;
-}
-
-.header-domain {
-  display: flex;
   align-items: center;
-  flex-direction: row;
+  align-content: center;
+}
+
+.weapon-row .weapon-infobox-first {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  align-items: flex-start;
   justify-content: center;
 }
 
-.header-domain input {
-  font-size: var(--font-size-13);
-  font-weight: 200;
-  opacity: 1;
-  border: none;
-  color: var(--dh-color-off-white) !important;
-  text-align: center;
-  max-width: 90px;
-  text-transform: uppercase;
-  padding: 0px;
-  margin: 0px;
-  height: auto;
+/* Chat Messages */
+.chat-message {
+  margin: 7px 4px;
+	padding: 0.75em 1em;
+	font-size: var(--font-size-12);
+	color: var(--dh-color-off-white);
+	background: #0b0a13d6;
+	border: 1px solid #6d6795;
+  backdrop-filter: blur(5px);
+	border-radius: 10px;
 }
 
-
-.worldbuilding a.content-link, a.inline-roll {
-  background: var(--dh-color-off-white);
-  padding: 0px 5px;
-  border: 1px solid var(--dh-color-gold-dark);
-  text-shadow: none;
-  white-space: nowrap;
-  word-break: break-all;
-  border-radius: 5px;
-  color: var(--dh-color-dark-blue);
-  font-weight: 600;
-  cursor: url(https://content.demiplane.com/nexus/daggerheart/dh-add-dice-pointer.svg) 0 20, auto !important;
+.chat-message .message-header {
+  line-height: 20px;
+  color: var(--dh-color-off-white);
+  font-weight: 100;
+  font-size: var(--font-size-12);
+  margin-bottom: .5em;
 }
 
-.worldbuilding .click-rollable, .worldbuilding .basic-rollable {
-  cursor: url(https://content.demiplane.com/nexus/daggerheart/dh-add-dice-pointer.svg) 0 20, auto;
-}
-.worldbuilding .click-rollable:hover, .worldbuilding .basic-rollable:hover {
-  color: var(--dh-color-gold-dark);
-}
-
-.worldbuilding .experience-row-column {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 0px;
-  padding: 0px;
-  height: 44px;
-  justify-content: space-between;
-  width: auto;
-}
-
-.worldbuilding .experience-row-column a {
-  color: white;
-  font-size: 11px;
-  font-weight: 200;
-  opacity: 0.8;
-}
-
-.worldbuilding .item-list .item-name {
+.chat-message .dice-roll .dice-formula, .dice-roll .dice-total {
+  flex: 0 0 100%;
+  position: relative;
   margin: 0;
-  font-weight: 525;
-  font-size: var(--font-size-14);
-  color: var(--dh-color-off-white);
-}
-.worldbuilding .item-list .item img {
-  flex: 0 0 24px;
-  margin-right: 5px;
-  border: 1px solid var(--dh-color-gold);
-  border-radius: 0px 10px;
-  width: 100%;
-  height: 25px;
-}
-.worldbuilding .item-main-row {
-  display: flex;
-  align-content: center;
-  align-items: flex-start;
-  flex-direction: column;
-}
-.worldbuilding .item-top-row {
-  display: flex;
-  align-items: center;
-  align-content: center;
-  gap: 0.5em;
-}
-.worldbuilding .item-bottom-row{
-  display: flex;
-  align-items: center;
-  align-content: center;
-}
-.worldbuilding .item-bottom-row .item-description {
-  display: flex;
-  flex-direction: column;
-}
-.worldbuilding .item-bottom-row .item-description p {
-  display: flex;
-  margin: 0px;
-  padding: 0px;
-  align-items: flex-start;
-  overflow-y: hidden;
-  max-height: 100px;
-  min-height: 20px;
-}
-
-.item .sheet-header .profile-img {
-  flex: 0 0 100px;
-  margin-right: 10px;
-  object-fit: cover;
-  width: 35%;
-  height: 165px;
-  border: 2px solid var(--dh-color-gold);
-  border-style: double;
-  border-radius: 0px 10px;
-}
-
-.item .sheet-header .header-fields {
-  flex: 1;
-  border: 2px solid var(--dh-color-gold);
-  border-radius: 0px 10px;
-  margin-right: 0;
-  padding: 0px;
-  padding-bottom: 0px;
-  display: flex;
-  height: fit-content;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 0.5em;
-  max-width: 65%;
-}
-.item .sheet-header .header-fields input {
-  background: transparent;
-}
-.item .sheet-header .header-fields input::placeholder {
-  color: #e6e6e66b;
-}
-
-.item .sheet-header .item-charname {
-  max-height: 30px;
-  padding: 0px;
-  margin: 0px;
-  border-bottom: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-}
-
-.item .sheet-header .item-charname input {
-  text-transform: uppercase;
-  /* Responsive font size: minimum 10px, preferred 2vw, maximum 17px */
-  font-size: clamp(10px, 2vw, 17px);
-  width: 100%;
-  font-weight: 600;
-  overflow: hidden;
-  line-height: 1;
-  border: none;
+  line-height: 24px;
   text-align: center;
-  letter-spacing: 0px;
-  padding: 0px;
-  margin: 0px;
-  color: var(--dh-color-gray);
-  
-  border-bottom: none;
-  padding: 0px;
-  margin: 0px;
-  display: flex;
-  align-items: center;
-  text-transform: uppercase;
-  justify-content: center;
-}
-
-.item .window-content{
-  background: transparent;
-}
-
-.worldbuilding.sheet.item {
-  /*background: url(https://i.imgur.com/w25Y62D.jpeg);*/
-  background-size: cover;
-  background-position: center center;
-  background-repeat: no-repeat;
-  color: white;
-  text-shadow: 1px 1px 2px black;
+	background: #0b0a13d6;
+	border: 1px solid #6d6795;
+  box-shadow: none;
   border-radius: 10px;
+  word-break: break-all;
+  margin-top: .25em;
 }
 
-.item .sheet-body .tab {
-  height: 100%;
-  overflow: visible;
+.chat-message .message-content {
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+  word-break: break-word;
+  padding-bottom: .5em;
+}
+
+.chat-message .message-content p {
   margin: 0px;
-  padding: 0px;
-  width: 100%;
-  padding-top: 0em;
-  padding-bottom: 1.25em;
+  font-size: var(--font-size-14);
+  font-weight: 200;
 }
 
-.item-bg {
-  position: absolute;
-  top: -1vh;
-  left: 0;
-  width: 120%;
-  height: 35rem;
-  background-repeat: no-repeat;
-  background-position: top center;
-  background-size: cover;
-  z-index: -1;
-  margin-left: -10%;                                              
-  filter: brightness(30%) blur(5px);
-  mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
-  -webkit-mask-image: linear-gradient(to bottom, black 80%, transparent 100%); /* For Safari/Chrome */
+.chat-message .message-header .flavor-text, .chat-message .message-header .whisper-to {
+  flex: 0 0 100%;
+  font-size: var(--font-size-12);
 }
 
-.item .flexcol {
-  position: relative; /* Needed for absolute positioning of children */
+.chat-message .message-header .message-sender {
+  flex: 3;
+  margin: 0;
+  white-space: nowrap;
+  text-transform: uppercase;
+  color: var(--dh-color-teal);
 }
 
-.item .sheet-header {
-  position: relative;
-  z-index: 1; /* Ensure the header is above the background */
-}
-
-.image-container {
-  position: relative;
-  display: inline-block; /* Or another display type that fits your layout */
-}
-
-.full-size-image {
-  display: none;
-  position: absolute;
-  left: 100%; /* Adjust this value to control where the full-size image appears */
-  top: 0;
-  z-index: 100; /* Ensure it's above other content */
-  /* Add more styling here to control the appearance of the full-size image */
-}
-
-.image-container:hover .full-size-image {
-  display: block; /* Show the full-size image on hover */
+.chat-message.whisper {
+  background: #292941;
+  border: 1px solid var(--dh-color-purple-light);
 }
 
 .worldbuilding.chat-card.item-card {
@@ -1652,311 +985,31 @@ textarea:focus {
   width: 100%;
 }
 
-.chat-message {
-  margin: 7px 4px;
-	padding: 0.75em 1em;
-	font-size: var(--font-size-12);
-	color: var(--dh-color-off-white);
-	background: #0b0a13d6;
-	border: 1px solid #6d6795;
-  backdrop-filter: blur(5px);
-	border-radius: 10px;
+.tab.biography .editor {
+    color: var(--dh-color-off-black);
+    text-shadow: none;
+    height: 100%;
+    border-radius: 10px;
+    border: 2px solid #f3c267;
+    padding: 6px;
+    background: var(--dh-color-off-white);
 }
 
-.chat-message .message-header {
-  line-height: 20px;
-  color: var(--dh-color-off-white);
-  font-weight: 100;
-  font-size: var(--font-size-12);
-  margin-bottom: .5em;
+.tab.biography .editor .tox-edit-area {
+    background: var(--dh-color-off-white);
 }
 
-.chat-message .dice-roll .dice-formula, .dice-roll .dice-total {
-  flex: 0 0 100%;
-  position: relative;
-  margin: 0;
-  line-height: 24px;
-  text-align: center;
-	background: #0b0a13d6;
-	border: 1px solid #6d6795;
-  box-shadow: none;
-  border-radius: 10px;
-  word-break: break-all;
-  margin-top: .25em;
-}
-
-#sidebar-video-player .inner-resize-container {
-  width: var(--players-width);
-  transition: all 0.3s ease-in-out;
-  background: #1c1c1c00;
-  backdrop-filter: blur(5px);
-  border-radius: 10px;
-  border: 1px solid #4040408f;
-  display: flex;
-  height: 100%;
-  box-shadow: none;
-  min-width: fit-content;
-}
-
-.chat-message .message-content {
-  -webkit-user-select: text;
-  -moz-user-select: text;
-  -ms-user-select: text;
-  user-select: text;
-  word-break: break-word;
-  padding-bottom: .5em;
-}
-
-.chat-message .message-content p {
-  margin: 0px;
-  font-size: var(--font-size-14);
-  font-weight: 200;
-}
-
-.chat-message .message-header .flavor-text, .chat-message .message-header .whisper-to {
-  flex: 0 0 100%;
-  font-size: var(--font-size-12);
-}
-
-.chat-message .message-header .message-sender {
-  flex: 3;
-  margin: 0;
-  white-space: nowrap;
-  text-transform: uppercase;
-  color: var(--dh-color-teal);
-}
-
-.chat-message.whisper {
-  background: #292941;
-  border: 1px solid var(--dh-color-purple-light);
-}
-
-.worldbuilding .attributes-header {
-  position: sticky;
-  top: 0;
-  left: 0;
-  align-items: center;
-  padding: 0 5px;
-  margin: 5px 0;
-  background: #cfcdc2;
-  border: 1px solid #AAA;
-  border-radius: 2px;
-  text-align: left;
-  font-weight: bold;
-  text-shadow: none;
-}
-
-.worldbuilding .attributes-list li > * {
-  margin: 0 3px;
-  height: 28px;
-  line-height: 24px;
-  background: transparent;
-  border: none;
-  border-radius: 0;
-  border-bottom: 1px solid #AAA;
-}
-
-.worldbuilding .attributes .group-prefix {
-  height: 31px;
-  margin-right: 10px;
-  color: var(--dh-color-off-white);
-}
-
-.worldbuilding .attributes .button {
-  width: 100%;
-  flex: 1;
-  margin: 0;
-  background: rgba(0, 0, 0, 0.1);
-  border: 2px groove #f0f0e0;
-  border-radius: 3px;
-  font-size: 14px;
-  line-height: 28px;
-  display: block;
-}
-
-.worldbuilding .group-header {
-  align-items: center;
-  background: rgba(0, 0, 0, 0.05);
-  border: 1px solid #AAA;
-  border-radius: 2px;
-  padding: 2px 5px;
-  color: var(--dh-color-off-white);
-}
-
-.worldbuilding .item-list .item-button {
-  border: 1px solid var(--dh-color-gold);
-  border-radius: 10px;
-  color: var(--dh-color-off-white);
-  background: transparent;
-  box-shadow: none;
-  
-}
-.worldbuilding .item-list .item-button:hover {
-  border: 1px solid var(--dh-color-gold-dark);
-  border-radius: 10px;
-  color: var(--dh-color-off-black);
-  background: var(--dh-color-off-white);
-  box-shadow: 0 0 5px var(--dh-color-gold-dark);
-}
-
-.worldbuilding .tab-title {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  align-content: center;
-  font-size: var(--font-size-14);
-  text-transform: uppercase;
-  margin-top: -1.5rem;
-  letter-spacing: 3px;
-  color: var(--dh-color-gold);
-  font-weight: 550;
-  margin-bottom: 1.5em;
-}
-
-.worldbuilding .tab-category {
-  display: flex;
-  border-bottom: 1px solid var(--dh-color-gold-dark);
-  font-size: var(--font-size-14);
-  font-weight: 100;
-  text-transform: capitalize;
-  margin: 0.6rem 0em;
-  justify-content: space-between;
-  align-items: center;
-  text-shadow: none;
-}
-
-.worldbuilding .item .flexrow {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  align-items: center;
-  align-content: center;
-}
-
-.worldbuilding .item-list .item {
-  display: flex;
-  align-items: center;
-  align-content: center;
-  justify-content: center;
-  border-radius: 10px;
-  padding: 0.25em 0.75em;
-  margin: 0px;
-}
-
-.worldbuilding input[type="text"], .worldbuilding input[type="number"], .worldbuilding input[type="password"], .worldbuilding input[type="date"], .worldbuilding input[type="time"], .worldbuilding input[type="search"] {
-  background: transparent;
-}
-
-.worldbuilding .header-plate {
-  display: flex;
-  flex-direction: column;
-}
-
-.worldbuilding .header-container {
-  display: flex;
-  justify-content: space-evenly;
-  align-items: stretch;
-}
-
-.worldbuilding .charlevel {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 40px;
-  justify-content: center;
-  margin: 0px;
-  padding: 0px;
-}
-
-.worldbuilding .charlevel input {
-  color: var(--dh-color-gold-dark);
-  text-align: center;
-  font-size: 2.5rem;
-  font-weight: 700;
-  margin-top: 0px;
-  height: 2.5rem;
-  text-align: center;
-}
-
-.worldbuilding .charlevel a {
-  padding: 0px;
-  height: min-content;
-}
-
-/* =========================================== CUSTOM CSS =========================================== */
-
-.trait-label-wrapper {
-  position: relative;
-  display: inline-block;
-}
-
-.trait-tooltip {
-  visibility: hidden;
-  width: 100px;
-  background-color: rgba(0, 0, 0, 0.8);
-  color: #fff;
-  text-align: center;
-  border-radius: 10px;
-  border: 1px solid var(--dh-color-gold);
-  padding: 5px;
-  position: absolute;
-  z-index: 1;
-  bottom: 100%;
-  left: 50%;
-  margin-left: -50px;
-  opacity: 0;
-  transition: opacity 0.3s;
-  font-size: var(--font-size-9);
-}
-
-.trait-tooltip::after {
+.app.window-app.worldbuilding.sheet::after {
   content: "";
+  display: block;
+  height: 120px;
+  width: calc(102%);
   position: absolute;
-  top: 100%;
-  left: 50%;
-  margin-left: -5px;
-  border-width: 5px;
-  border-style: solid;
-  border-color: rgba(0, 0, 0, 0.8) transparent transparent transparent;
-}
-
-.tooltip .editor, .tooltip .editor-content {
-  color: var(--dh-color-off-white);
-  text-shadow: none;
-  height: 100%;
-  border-radius: 10px;
-  border: none;
-  padding: 0px;
-  background: transparent;
-}
-
-.trait-tooltip input {
-  background: none !important;
-  color: var(--dh-color-off-white);
-}
-
-.trait-label-wrapper:hover .trait-tooltip {
-  visibility: visible;
-  opacity: 1;
-}
-
-.trait-tooltip .ProseMirror {
-  padding: 5px;
-  border: none;
-  background-color: transparent;
-  font-size: 14px;
-  line-height: 1.4;
-  min-height: 50px;
-  max-height: 100px;
-  overflow-y: auto;
-}
-
-.dice-tooltip .part-header .part-flavor {
-  color: #9f9f9f
-}
-
-li.item img.item-control[data-action="edit"]:hover {
-  filter: drop-shadow(0 0 5px var(--dh-color-gold-dark));
-  cursor: pointer;
+  top: 1.35em;
+  left: -0.40rem;
+  background-image: url(https://content.demiplane.com/nexus/daggerheart/dh-right-left-t.webp), url(https://content.demiplane.com/nexus/daggerheart/dh-right-right-t.webp), url(https://content.demiplane.com/nexus/daggerheart/dh-mid-bar.webp);
+  background-position: top left, top right, top -3px center;
+  background-size: 100px auto, 100px auto, calc(100% - 18px) 26px;
+  background-repeat: no-repeat;
+  /* pointer-events: none; */
 }

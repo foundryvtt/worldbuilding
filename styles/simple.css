@@ -479,16 +479,25 @@
 }
 
 /* Character Tab */
+.character-main-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2.5em;
+  padding-bottom: 3em;
+  padding-top: 1em;
+}
+
 .tab.character {
     padding: 20px;
 }
 
 .character-details {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1em 2em;
-    margin: 10px auto;
-    max-width: 500px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1em 2em;
+  margin: auto;
+  max-width: 500px;
 }
 .char-detail-item {
     display: flex;
@@ -517,21 +526,18 @@
 .defenses {
   display: flex;
   flex-wrap: nowrap;
-  gap: 10px;
+  gap: 3em;
   flex-direction: row;
   align-content: center;
   align-items: center;
-  padding-top: 1em;
-  padding-bottom: 1em;
   max-height: 105px;
   justify-content: space-evenly;
-  margin-bottom: 1em;
-  margin-top: 1em;
 }
 
 .npc .defenses {
-  margin-top: 0;
-  gap: 1.5em;
+  gap: 2em;
+  margin-bottom: 2em;
+  margin-top: 1em;
 }
 
 .defense {
@@ -625,12 +631,9 @@
   display: flex;
   flex-wrap: wrap;
   gap: 0.25em;
-  margin: 0.5em 0;
   align-items: center;
   justify-content: center;
-  padding-top: 0.5em;
 }
-
 .trait {
   flex: 1;
   min-width: 80px;
@@ -796,7 +799,6 @@ input.trait-effects.resize-ta {
 
 .weapon-row {
   flex-direction: column;
-  width: 100%;
   display: flex;
   margin-bottom: 5px;
 }
@@ -814,7 +816,6 @@ input.trait-effects.resize-ta {
   flex-direction: row;
   align-content: center;
   align-items: center;
-  width: 100%;
   justify-content: space-between;
 }
 

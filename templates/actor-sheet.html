@@ -72,204 +72,206 @@
     <section class="sheet-body">
         
         <div class="tab character" data-group="primary" data-tab="character">
-            <div class="character-details">
-                <div class="char-detail-item">
-                    <label>Age</label>
-                    <input type="text" name="system.age" value="{{systemData.age}}" />
-                </div>
-                <div class="char-detail-item">
-                    <label>Pronouns</label>
-                    <input type="text" name="system.pronouns" value="{{systemData.pronouns}}" />
-                </div>
-                <div class="char-detail-item">
-                    <label>Residence</label>
-                    <input type="text" name="system.residence" value="{{systemData.residence}}" />
-                </div>
-                <div class="char-detail-item">
-                    <label>Nationality</label>
-                    <input type="text" name="system.nationality" value="{{systemData.nationality}}" />
-                </div>
-            </div>
-
-            <section class="defenses">
-                <div class="armorslots">
-                    <label>Armor Slots</label>
-                    <div class="values">
-                        <div class="resource-group">
-                            <input type="number" name="system.defenses.armor-slots.value"
-                                value="{{systemData.defenses.armor-slots.value}}" />
-                            <a class="trait-effects">Used</a>
-                        </div>
-                        <div class="resource-group">
-                            <input type="number" name="system.defenses.armor-slots.max"
-                                value="{{systemData.defenses.armor-slots.max}}" />
-                            <a class="trait-effects">Max</a>
-                        </div>
+            <section class="character-main-section">
+                <div class="character-details">
+                    <div class="char-detail-item">
+                        <label>Age</label>
+                        <input type="text" name="system.age" value="{{systemData.age}}" />
+                    </div>
+                    <div class="char-detail-item">
+                        <label>Pronouns</label>
+                        <input type="text" name="system.pronouns" value="{{systemData.pronouns}}" />
+                    </div>
+                    <div class="char-detail-item">
+                        <label>Residence</label>
+                        <input type="text" name="system.residence" value="{{systemData.residence}}" />
+                    </div>
+                    <div class="char-detail-item">
+                        <label>Nationality</label>
+                        <input type="text" name="system.nationality" value="{{systemData.nationality}}" />
                     </div>
                 </div>
-                <div class="defense" data-trait="armor">
-                    <input type="number" name="system.defenses.armor.value"
-                        value="{{systemData.defenses.armor.value}}" />
-                    <label for="system.defenses.armor.value">Armor</label>
-                </div>
-                <div class="defense" data-trait="evasion">
-                    <input type="number" name="system.defenses.evasion.value"
-                        value="{{systemData.defenses.evasion.value}}" />
-                    <label for="system.defenses.evasion.value">Evasion</label>
-                </div>
-                <div class="armorslots">
-                    <!-- Reusing armorslots for threshold for styling -->
-                    <label>threshold</label>
-                    <div class="values">
-                        <div class="resource-group">
-                            <input type="number" name="system.threshold.major"
-                                value="{{systemData.threshold.major}}" />
-                            <a class="trait-effects">Major</a>
+
+                <section class="defenses">
+                    <div class="armorslots">
+                        <label>Armor Slots</label>
+                        <div class="values">
+                            <div class="resource-group">
+                                <input type="number" name="system.defenses.armor-slots.value"
+                                    value="{{systemData.defenses.armor-slots.value}}" />
+                                <a class="trait-effects">Used</a>
+                            </div>
+                            <div class="resource-group">
+                                <input type="number" name="system.defenses.armor-slots.max"
+                                    value="{{systemData.defenses.armor-slots.max}}" />
+                                <a class="trait-effects">Max</a>
+                            </div>
                         </div>
-                        <div class="resource-group">
-                            <input type="number" name="system.threshold.severe"
-                                value="{{systemData.threshold.severe}}" />
-                            <a class="trait-effects">Severe</a>
+                    </div>
+                    <div class="defense" data-trait="armor">
+                        <input type="number" name="system.defenses.armor.value"
+                            value="{{systemData.defenses.armor.value}}" />
+                        <label for="system.defenses.armor.value">Armor</label>
+                    </div>
+                    <div class="defense" data-trait="evasion">
+                        <input type="number" name="system.defenses.evasion.value"
+                            value="{{systemData.defenses.evasion.value}}" />
+                        <label for="system.defenses.evasion.value">Evasion</label>
+                    </div>
+                    <div class="armorslots">
+                        <!-- Reusing armorslots for threshold for styling -->
+                        <label>threshold</label>
+                        <div class="values">
+                            <div class="resource-group">
+                                <input type="number" name="system.threshold.major"
+                                    value="{{systemData.threshold.major}}" />
+                                <a class="trait-effects">Major</a>
+                            </div>
+                            <div class="resource-group">
+                                <input type="number" name="system.threshold.severe"
+                                    value="{{systemData.threshold.severe}}" />
+                                <a class="trait-effects">Severe</a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="traits">
+                    <div class="trait" data-trait="agility">
+                        <div class="trait-label-wrapper">
+                            <label for="system.agility.value">Agility</label>
+                        </div>
+                        <input type="number" name="system.agility.value" value="{{systemData.agility.value}}" />
+                        <div class="trait-effects">
+                            <a>Sprint</a>
+                            <a>Dodge</a>
+                            <a>Leap</a>
+                        </div>
+                    </div>
+                    <div class="trait" data-trait="strength">
+                        <div class="trait-label-wrapper">
+                            <label for="system.strength.value">Strength</label>
+                        </div>
+                        <input type="number" name="system.strength.value" value="{{systemData.strength.value}}" />
+                        <div class="trait-effects">
+                            <a>Lift</a>
+                            <a>Smash</a>
+                            <a>Grapple</a>
+                        </div>
+                    </div>
+                    <div class="trait" data-trait="finesse">
+                        <div class="trait-label-wrapper">
+                            <label for="system.finesse.value">Finesse</label>
+                        </div>
+                        <input type="number" name="system.finesse.value" value="{{systemData.finesse.value}}" />
+                        <div class="trait-effects">
+                            <a>Control</a>
+                            <a>Hide</a>
+                            <a>Tinker</a>
+                        </div>
+                    </div>
+                    <div class="trait" data-trait="instinct">
+                        <div class="trait-label-wrapper">
+                            <label for="system.instinct.value">Instinct</label>
+                        </div>
+                        <input type="number" name="system.instinct.value" value="{{systemData.instinct.value}}" />
+                        <div class="trait-effects">
+                            <a>Perceive</a>
+                            <a>Sense</a>
+                            <a>Navigate</a>
+                        </div>
+                    </div>
+                    <div class="trait" data-trait="presence">
+                        <div class="trait-label-wrapper">
+                            <label for="system.presence.value">Presence</label>
+                        </div>
+                        <input type="number" name="system.presence.value" value="{{systemData.presence.value}}" />
+                        <div class="trait-effects">
+                            <a>Charm</a>
+                            <a>Perform</a>
+                            <a>Deceive</a>
+                        </div>
+                    </div>
+                    <div class="trait" data-trait="knowledge">
+                        <div class="trait-label-wrapper">
+                            <label for="system.knowledge.value">Knowledge</label>
+                        </div>
+                        <input type="number" name="system.knowledge.value" value="{{systemData.knowledge.value}}" />
+                        <div class="trait-effects">
+                            <a>Recall</a>
+                            <a>Analyze</a>
+                            <a>Comprehend</a>
+                        </div>
+                    </div>
+                </section>
+
+                <div class="experience-group">
+                    <div class="experience-row click-rollable-group">
+                        <div class="experience-row-column">
+                            <div class="exp-level"><input type="number" name="system.experience.1level" value="{{systemData.experience.1level}}" placeholder="1" /></div>
+                            <a class="trait-effects">Level</a>  
+                        </div>
+                        <div class="experience-row-column-2">
+                            <input class="click-rollable-name" name="system.experience.1Name" type="text"
+                                value="{{systemData.experience.1Name}}" placeholder="Experience" />
+                        </div>
+                        <div class="experience-row-column">
+                            <input class="click-rollable-modifier" type="number" name="system.experience.1Mod"
+                                value="{{systemData.experience.1Mod}}" />
+                        </div>
+                    </div>
+                    <div class="experience-row click-rollable-group">
+                        <div class="experience-row-column">
+                            <div class="exp-level"><input type="number" name="system.experience.2level" value="{{systemData.experience.2level}}" placeholder="1"/></div>
+                            <a class="trait-effects">Level</a>
+                        </div>
+                        <div class="experience-row-column-2">
+                            <input class="click-rollable-name" name="system.experience.2Name" type="text" value="{{systemData.experience.2Name}}" placeholder="Experience"/>
+                        </div>
+                        <div class="experience-row-column">
+                            <input class="click-rollable-modifier"type="number" name="system.experience.2Mod" value="{{systemData.experience.2Mod}}"/>
+                        </div>
+                    </div>
+                    <div class="experience-row click-rollable-group">
+                        <div class="experience-row-column">
+                            <div class="exp-level"><input type="number" name="system.experience.5level" value="{{systemData.experience.5level}}" placeholder="2"/></div>
+                            <a class="trait-effects">Level</a>
+                        </div>
+                        <div class="experience-row-column-2">
+                            <input class="click-rollable-name" name="system.experience.5Name" type="text" value="{{systemData.experience.5Name}}" placeholder="Experience"/>
+                        </div>
+                        <div class="experience-row-column">
+                            <input class="click-rollable-modifier"type="number" name="system.experience.5Mod" value="{{systemData.experience.5Mod}}"/>
+                        </div>
+                    </div>
+                    <div class="experience-row click-rollable-group">
+                        <div class="experience-row-column">
+                            <div class="exp-level"><input type="number" name="system.experience.8level" value="{{systemData.experience.8level}}" placeholder="5"/></div>
+                            <a class="trait-effects">Level</a>
+                        </div>
+                        <div class="experience-row-column-2">
+                            <input class="click-rollable-name" name="system.experience.8Name" type="text" value="{{systemData.experience.8Name}}" placeholder="Experience"/>
+                        </div>
+                        <div class="experience-row-column">
+                            <input class="click-rollable-modifier"type="number" name="system.experience.8Mod" value="{{systemData.experience.8Mod}}"/>
+                        </div>
+                    </div>
+                    <div class="experience-row click-rollable-group">
+                        <div class="experience-row-column">
+                            <div class="exp-level"><input type="number" name="system.experience.11level" value="{{systemData.experience.11level}}" placeholder="8"/></div>
+                            <a class="trait-effects">Level</a>
+                        </div>
+                        <div class="experience-row-column-2">
+                            <input class="click-rollable-name" name="system.experience.1Name2" type="text"
+                                value="{{systemData.experience.1Name2}}" placeholder="Experience" />
+                        </div>
+                        <div class="experience-row-column">
+                            <input class="click-rollable-modifier" type="number" name="system.experience.1Mod2"
+                                value="{{systemData.experience.1Mod2}}" />
                         </div>
                     </div>
                 </div>
             </section>
-
-            <section class="traits">
-                <div class="trait" data-trait="agility">
-                    <div class="trait-label-wrapper">
-                        <label for="system.agility.value">Agility</label>
-                    </div>
-                    <input type="number" name="system.agility.value" value="{{systemData.agility.value}}" />
-                    <div class="trait-effects">
-                        <a>Sprint</a>
-                        <a>Dodge</a>
-                        <a>Leap</a>
-                    </div>
-                </div>
-                <div class="trait" data-trait="strength">
-                    <div class="trait-label-wrapper">
-                        <label for="system.strength.value">Strength</label>
-                    </div>
-                    <input type="number" name="system.strength.value" value="{{systemData.strength.value}}" />
-                    <div class="trait-effects">
-                        <a>Lift</a>
-                        <a>Smash</a>
-                        <a>Grapple</a>
-                    </div>
-                </div>
-                <div class="trait" data-trait="finesse">
-                    <div class="trait-label-wrapper">
-                        <label for="system.finesse.value">Finesse</label>
-                    </div>
-                    <input type="number" name="system.finesse.value" value="{{systemData.finesse.value}}" />
-                    <div class="trait-effects">
-                        <a>Control</a>
-                        <a>Hide</a>
-                        <a>Tinker</a>
-                    </div>
-                </div>
-                <div class="trait" data-trait="instinct">
-                    <div class="trait-label-wrapper">
-                        <label for="system.instinct.value">Instinct</label>
-                    </div>
-                    <input type="number" name="system.instinct.value" value="{{systemData.instinct.value}}" />
-                    <div class="trait-effects">
-                        <a>Perceive</a>
-                        <a>Sense</a>
-                        <a>Navigate</a>
-                    </div>
-                </div>
-                <div class="trait" data-trait="presence">
-                    <div class="trait-label-wrapper">
-                        <label for="system.presence.value">Presence</label>
-                    </div>
-                    <input type="number" name="system.presence.value" value="{{systemData.presence.value}}" />
-                    <div class="trait-effects">
-                        <a>Charm</a>
-                        <a>Perform</a>
-                        <a>Deceive</a>
-                    </div>
-                </div>
-                <div class="trait" data-trait="knowledge">
-                    <div class="trait-label-wrapper">
-                        <label for="system.knowledge.value">Knowledge</label>
-                    </div>
-                    <input type="number" name="system.knowledge.value" value="{{systemData.knowledge.value}}" />
-                    <div class="trait-effects">
-                        <a>Recall</a>
-                        <a>Analyze</a>
-                        <a>Comprehend</a>
-                    </div>
-                </div>
-            </section>
-
-            <div class="experience-group">
-                <div class="experience-row click-rollable-group">
-                    <div class="experience-row-column">
-                        <div class="exp-level"><input type="number" name="system.experience.1level" value="{{systemData.experience.1level}}" placeholder="1" /></div>
-                        <a class="trait-effects">Level</a>  
-                    </div>
-                    <div class="experience-row-column-2">
-                        <input class="click-rollable-name" name="system.experience.1Name" type="text"
-                            value="{{systemData.experience.1Name}}" placeholder="Experience" />
-                    </div>
-                    <div class="experience-row-column">
-                        <input class="click-rollable-modifier" type="number" name="system.experience.1Mod"
-                            value="{{systemData.experience.1Mod}}" />
-                    </div>
-                </div>
-                <div class="experience-row click-rollable-group">
-                    <div class="experience-row-column">
-                        <div class="exp-level"><input type="number" name="system.experience.2level" value="{{systemData.experience.2level}}" placeholder="1"/></div>
-                        <a class="trait-effects">Level</a>
-                    </div>
-                    <div class="experience-row-column-2">
-                        <input class="click-rollable-name" name="system.experience.2Name" type="text" value="{{systemData.experience.2Name}}" placeholder="Experience"/>
-                    </div>
-                    <div class="experience-row-column">
-                        <input class="click-rollable-modifier"type="number" name="system.experience.2Mod" value="{{systemData.experience.2Mod}}"/>
-                    </div>
-                </div>
-                <div class="experience-row click-rollable-group">
-                    <div class="experience-row-column">
-                        <div class="exp-level"><input type="number" name="system.experience.5level" value="{{systemData.experience.5level}}" placeholder="2"/></div>
-                        <a class="trait-effects">Level</a>
-                    </div>
-                    <div class="experience-row-column-2">
-                        <input class="click-rollable-name" name="system.experience.5Name" type="text" value="{{systemData.experience.5Name}}" placeholder="Experience"/>
-                    </div>
-                    <div class="experience-row-column">
-                        <input class="click-rollable-modifier"type="number" name="system.experience.5Mod" value="{{systemData.experience.5Mod}}"/>
-                    </div>
-                </div>
-                <div class="experience-row click-rollable-group">
-                    <div class="experience-row-column">
-                        <div class="exp-level"><input type="number" name="system.experience.8level" value="{{systemData.experience.8level}}" placeholder="5"/></div>
-                        <a class="trait-effects">Level</a>
-                    </div>
-                    <div class="experience-row-column-2">
-                        <input class="click-rollable-name" name="system.experience.8Name" type="text" value="{{systemData.experience.8Name}}" placeholder="Experience"/>
-                    </div>
-                    <div class="experience-row-column">
-                        <input class="click-rollable-modifier"type="number" name="system.experience.8Mod" value="{{systemData.experience.8Mod}}"/>
-                    </div>
-                </div>
-                <div class="experience-row click-rollable-group">
-                    <div class="experience-row-column">
-                        <div class="exp-level"><input type="number" name="system.experience.11level" value="{{systemData.experience.11level}}" placeholder="8"/></div>
-                        <a class="trait-effects">Level</a>
-                    </div>
-                    <div class="experience-row-column-2">
-                        <input class="click-rollable-name" name="system.experience.1Name2" type="text"
-                            value="{{systemData.experience.1Name2}}" placeholder="Experience" />
-                    </div>
-                    <div class="experience-row-column">
-                        <input class="click-rollable-modifier" type="number" name="system.experience.1Mod2"
-                            value="{{systemData.experience.1Mod2}}" />
-                    </div>
-                </div>
-            </div>
         </div>
 
         <div class="tab biography" data-group="primary" data-tab="biography">

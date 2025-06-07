@@ -93,7 +93,7 @@
 }
 
 .prosemirror menu button {
-  color: #00000082;
+  color: var(--dh-color-off-white);
 }
 
 .worldbuilding .window-content {
@@ -196,7 +196,7 @@
   min-height: 800px;
 }
 
-.actor .window-content {
+.actor .window-content, .item .window-content, .npc .window-content{
   background: transparent;
   background-color: transparent;
   color: #f0f0e0;
@@ -230,7 +230,7 @@
   color: #f0f0e0;
 }
 
-.sheet.actor, .worldbuilding .sheet.npc, .worldbuilding .sheet.item {
+.sheet.actor, .sheet.npc, .sheet.item {
   background: #0b0a13d6;
   backdrop-filter: blur(5px);
 }
@@ -256,12 +256,12 @@
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: center;
   padding: 1.5em 1.5em 0.5em;
   gap: 2.5em;
   overflow: visible;
-  max-height: 26.5em;
+  max-height: 28em;
 }
 
 .header-top-container {
@@ -488,7 +488,6 @@
   display: flex;
   flex-wrap: nowrap;
   gap: 10px;
-  margin-top: 2em;
   flex-direction: row;
   align-content: center;
   align-items: center;
@@ -496,6 +495,8 @@
   padding-bottom: 1em;
   max-height: 105px;
   justify-content: space-evenly;
+  margin-bottom: 1em;
+  margin-top: 1em;
 }
 
 .defense {
@@ -1035,17 +1036,6 @@
   min-height: 500px;
 }
 
-.npc .window-content{
-  background: transparent;
-  backdrop-filter: blur(6px) brightness(60%);
-  background-color: transparent;
-  color: #f0f0e0;
-  border: 1px solid #ffffff3d;
-  border-radius:  0  0 10px 10px;
-  border-top: none;
-  position: relative;   
-}
-
 .npc{
   background: transparent;
 }
@@ -1134,10 +1124,6 @@
   justify-content: center;
 }
 
-.item .window-content{
-  background: transparent;
-}
-
 .worldbuilding.sheet.item {
   background-size: cover;
   background-position: center center;
@@ -1164,4 +1150,12 @@
 .item .sheet-header {
   position: relative;
   z-index: 1; 
+}
+
+.npc .portrait-container {
+    align-self: center;
+}
+
+.editor-menu {
+  color: var(--dh-color-off-white);
 }

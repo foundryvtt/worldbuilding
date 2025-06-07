@@ -688,12 +688,12 @@
 }
 
 .experience-row {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  background: rgba(0,0,0,0.2);
-  padding: .25em .5em;
-  border-radius: 5px;
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	background: rgba(0,0,0,0.2);
+	padding: 0.5em .5em;
+	border-radius: 5px;
 }
 
 .experience-row:nth-child(even) {
@@ -725,25 +725,26 @@
 }
 
 .experience-row-column-2 input {
-    width: 100%;
-    background: #d8d8d6;
-    border-radius: 5px;
-    border: 1px solid var(--dh-color-gold);
     text-align: left;
-    padding: 5px 10px;
-    color: black;
     height: 30px;
+    background: transparent;
+    border: 1px solid #433f64;
+    border-radius: .5em;
+    padding: 1.25em;
+    color: white;
+    width: 100%;
 }
 
 .experience-row .click-rollable-modifier {
-    background: var(--dh-color-off-white);
-    border: 2px solid var(--dh-color-blue);
-    text-align: center;
-    text-indent: 0px;
-    width: 50px;
-    border-radius: 10px;
-    color: black;
-    height: 30px;
+  background: var(--dh-color-off-white);
+  border: 2px solid var(--dh-color-blue);
+  text-align: center;
+  text-indent: 0px;
+  width: 50px;
+  border-radius: 10px;
+  color: black;
+  height: 30px;
+  font-weight: 700;
 }
 
 /* Other tabs */

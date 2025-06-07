@@ -674,7 +674,7 @@
   font-weight: lighter;
 }
 
-.weapon-infobox .trait-effects {
+input.trait-effects.resize-ta {
   font-size: 12px;
   border: none;
   background: none;
@@ -683,6 +683,7 @@
   align-items: center;
   word-break: break-word;
   word-wrap: normal;
+}
 
 
 /* Experience */
@@ -863,7 +864,7 @@
   padding: 2px 25px;
   padding-top: 3px;
   justify-content: center;
-  transform: uppercase;
+  text-transform: uppercase;
 }
 
 .weapon-row .weapon-desc {

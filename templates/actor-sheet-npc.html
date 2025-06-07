@@ -56,7 +56,12 @@
                                 <div class="weapon-infobox-first">
                                     <input class="weapon-field basic-rollable-name click-rollable-name"
                                         name="system.weapon-main.name" type="text"
-                                        value="{{systemData.weapon-main.name}}" placeholder="Weapon (Modifier)" />
+                                        value="{{systemData.weapon-main.name}}" placeholder="Attack" />
+                                        <div class="textarea-container">
+                                            <input class="trait-effects resize-ta" name="system.weapon-main.description"
+                                                placeholder="Attack Traits Here"
+                                                value="{{systemData.weapon-main.description}}" />
+                                        </div>
                                 </div>
                                 <div class="weapon-roller-box">
                                     <div class="weapon-infobox">
@@ -73,11 +78,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="textarea-container">
-                                <input class="weapon-desc resize-ta" name="system.weapon-main.description"
-                                    placeholder="Input your weapon abilities, description, passive and other relevant notes here."
-                                    value="{{systemData.weapon-main.description}}" />
-                            </div>
+
                         </div>
                     </div>
                 </div>

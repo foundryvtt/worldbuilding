@@ -268,7 +268,7 @@
 }
 
 .npc .sheet-header {
-  max-height: 25em;
+  max-height: 22em;
 }
 
 .header-top-container {
@@ -353,6 +353,29 @@
     padding: 5px 15px;
     color: white;
     font-size: 1.2em;
+    display: flex;
+    gap: 5px;
+    align-items: center;
+}
+
+.resource .resource-box input {
+  background: transparent;
+  border: none;
+  text-align: center;
+  width: 1.5em;
+  color: white;
+  font-size: 1em;
+}
+
+.resource .resource-box input:focus {
+    box-shadow: none;
+    background: rgba(255,255,255,0.1);
+    border-radius: 5px;
+}
+
+.resource-value {
+    min-width: 20px;
+    text-align: center;
 }
 
 .resource label {
@@ -424,7 +447,7 @@
 
 .sheet-tabs .item {
   border: none;
-  padding: 4px 10px;
+  padding: 0px 10px;
   letter-spacing: 1px;
   font-size: 14px;
   box-shadow: none;
@@ -444,7 +467,7 @@
 
 .sheet-tabs .item.active, .sheet-tabs .item:hover {
   color: var(--dh-color-gold);
-  border-bottom: 3px solid var(--dh-color-gold);
+  border-bottom: 4px solid var(--dh-color-gold);
   text-shadow: none;
 }
 
@@ -1029,7 +1052,7 @@
   background-position: top left, top right, top -3px center;
   background-size: 100px auto, 100px auto, calc(100% - 18px) 26px;
   background-repeat: no-repeat;
-  /* pointer-events: none; */
+  pointer-events: none;
 }
 
 .worldbuilding .click-rollable:hover {

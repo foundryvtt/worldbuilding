@@ -5,11 +5,11 @@
         <div class="header-main-container">
             <div class="resource health">
                 <div class="resource-box">
-                    <span>{{systemData.health.value}} / {{systemData.health.max}}</span>
+                    <input type="text" name="system.health.value" value="{{systemData.health.value}}" />
+                    <span class="sep">/</span>
+                    <input type="text" name="system.health.max" value="{{systemData.health.max}}" />
                 </div>
                 <label>Health</label>
-                <input type="number" name="system.health.value" value="{{systemData.health.value}}" class="hidden-input" />
-                <input type="number" name="system.health.max" value="{{systemData.health.max}}" class="hidden-input" />
             </div>
 
             <div class="portrait-container">
@@ -18,11 +18,11 @@
 
             <div class="resource stress">
                 <div class="resource-box">
-                    <span>{{systemData.stress.value}} / {{systemData.stress.max}}</span>
+                    <input type="text" name="system.stress.value" value="{{systemData.stress.value}}" />
+                    <span class="sep">/</span>
+                    <input type="text" name="system.stress.max" value="{{systemData.stress.max}}" />
                 </div>
                 <label>Stress</label>
-                <input type="number" name="system.stress.value" value="{{systemData.stress.value}}" class="hidden-input" />
-                <input type="number" name="system.stress.max" value="{{systemData.stress.max}}" class="hidden-input" />
             </div>
         </div>
 

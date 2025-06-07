@@ -517,28 +517,38 @@ export class EntitySheetHelper {
     const label = game.i18n.localize(this.metadata.label);
     const title = game.i18n.format("DOCUMENT.Create", {type: label});
 
+    // Get the available document types
+    const types = {};
+    if ( this.TYPES.length > 1 ) {
+      const actorTypes = this.TYPES.filter(t => t !== CONST.BASE_DOCUMENT_TYPE);
+      for ( let t of actorTypes ) {
+        types[t] = game.i18n.localize(CONFIG[documentName].typeLabels[t]);
+      }
+    }
+
     // Identify the template Actor types
     const collection = game.collections.get(this.documentName);
     const templates = collection.filter(a => a.getFlag("worldbuilding", "isTemplate"));
-    const defaultType = this.TYPES.filter(t => t !== CONST.BASE_DOCUMENT_TYPE)[0] ?? CONST.BASE_DOCUMENT_TYPE;
-    const types = {
-      [defaultType]: game.i18n.localize("SIMPLE.NoTemplate"),
-      npc: game.i18n.localize("SIMPLE.NPCTemplate") // Add this line for the NPC sheet
-    };
-    for (let a of templates) {
-      types[a.id] = a.name;
+    if ( templates.length > 0 ) {
+      if ( Object.keys(types).length > 0 ) {
+        types["---"] = {label: "--- Templates ---", disabled: true};
+      }
+      for ( let a of templates ) {
+        types[a.id] = a.name;
+      }
     }
 
     // Render the document creation form
     const template = "templates/sidebar/document-create.html";
+    const defaultType = data.type || "";
     const html = await renderTemplate(template, {
       name: data.name || game.i18n.format("DOCUMENT.New", {type: label}),
       folder: data.folder,
       folders: folders,
       hasFolders: folders.length > 1,
-      type: data.type || templates[0]?.id || "",
+      type: defaultType,
       types: types,
-      hasTypes: true
+      hasTypes: Object.keys(types).length > 1
     });
 
     // Render the confirmation dialog window
@@ -547,7 +557,6 @@ export class EntitySheetHelper {
       content: html,
       label: title,
       callback: html => {
-
         // Get the form data
         const form = html[0].querySelector("form");
         const fd = new foundry.applications.ux.FormDataExtended(form);
@@ -559,6 +568,8 @@ export class EntitySheetHelper {
           createData = foundry.utils.mergeObject(template.toObject(), createData);
           createData.type = template.type;
           delete createData.flags.worldbuilding.isTemplate;
+        } else {
+          createData.type = form.type.value;
         }
 
         // Merge provided override data

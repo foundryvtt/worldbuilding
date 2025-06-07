@@ -2,8 +2,7 @@
 import { SimpleActor } from "./actor.js";
 import { SimpleItem } from "./item.js";
 import { SimpleItemSheet } from "./item-sheet.js";
-import { SimpleActorSheet } from "./actor-sheet.js";
-import { NPCActorSheet } from "./actor-sheet.js";
+import { SimpleActorSheet, NPCActorSheet } from "./actor-sheet.js";
 import { preloadHandlebarsTemplates } from "./templates.js";
 import { createWorldbuildingMacro } from "./macro.js";
 import { SimpleToken, SimpleTokenDocument } from "./token.js";
@@ -34,7 +33,17 @@ Hooks.once("init", async function() {
 
   // Define custom Document classes
   CONFIG.Actor.documentClass = SimpleActor;
+  CONFIG.Actor.typeLabels = {
+    character: "ACTOR.TypeCharacter",
+    npc: "ACTOR.TypeNpc"
+  };
   CONFIG.Item.documentClass = SimpleItem;
+  CONFIG.Item.typeLabels = {
+    item: "ITEM.TypeItem",
+    inventory: "ITEM.TypeInventory",
+    worn: "ITEM.TypeWorn",
+    domain: "ITEM.TypeDomain"
+  };
   CONFIG.Token.documentClass = SimpleTokenDocument;
   CONFIG.Token.objectClass = SimpleToken;
 

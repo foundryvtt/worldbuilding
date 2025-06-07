@@ -223,28 +223,29 @@
                                 <div class="weapon-infobox-first">
                                     <input class="weapon-field basic-rollable-name click-rollable-name"
                                         name="system.weapon-main.name" type="text"
-                                        value="{{systemData.weapon-main.name}}" placeholder="Weapon (Modifier)" />
+                                        value="{{systemData.weapon-main.name}}" placeholder="Weapon" />
+                                        <div class="textarea-container">
+                                            <input class="trait-effects resize-ta" name="system.weapon-main.description"
+                                                placeholder="Weapon Traits Here"
+                                                value="{{systemData.weapon-main.description}}" />
+                                        </div>
                                 </div>
                                 <div class="weapon-roller-box">
                                     <div class="weapon-infobox">
                                         <input class="weapon-to-hit click-rollable-modifier"
                                             name="system.weapon-main.to-hit" type="number"
                                             value="{{systemData.weapon-main.to-hit}}" placeholder="2" />
-                                        <a class="click-rollable">Modifier</a>
+                                        <a class="trait-effects click-rollable">Modifier</a>
                                     </div>
                                     <div class="weapon-infobox">
                                         <input class="weapon-damage basic-rollable-value"
                                             name="system.weapon-main.damage" type="text"
                                             value="{{systemData.weapon-main.damage}}" placeholder="1d8" />
-                                        <a class="basic-rollable">Damage</a>
+                                        <a class="trait-effects basic-rollable">Damage</a>
                                     </div>
                                 </div>
                             </div>
-                            <div class="textarea-container">
-                                <input class="weapon-desc resize-ta" name="system.weapon-main.description"
-                                    placeholder="Input your weapon abilities, description, passive and other relevant notes here."
-                                    value="{{systemData.weapon-main.description}}" />
-                            </div>
+                        
                         </div>
                     </div>
 
@@ -255,27 +256,27 @@
                                 <div class="weapon-infobox-first">
                                     <input class="weapon-field basic-rollable-name click-rollable-name"
                                         name="system.weapon-off.name" type="text"
-                                        value="{{systemData.weapon-off.name}}" placeholder="Weapon (Modifier)" />
+                                        value="{{systemData.weapon-off.name}}" placeholder="Weapon" />
+                                        <div class="textarea-container">
+                                            <input class="trait-effects resize-ta" name="system.weapon-off.description"
+                                                placeholder="Weapon Traits Here"
+                                                value="{{systemData.weapon-off.description}}" />
+                                        </div>
                                 </div>
                                 <div class="weapon-roller-box">
                                     <div class="weapon-infobox">
                                         <input class="weapon-to-hit click-rollable-modifier"
                                             name="system.weapon-off.to-hit" type="number"
                                             value="{{systemData.weapon-off.to-hit}}" placeholder="2" />
-                                        <a class="click-rollable">Modifier</a>
+                                        <a class="trait-effects click-rollable">Modifier</a>
                                     </div>
                                     <div class="weapon-infobox">
                                         <input class="weapon-damage basic-rollable-value"
                                             name="system.weapon-off.damage" type="text"
                                             value="{{systemData.weapon-off.damage}}" placeholder="1d8" />
-                                        <a class="basic-rollable">Damage</a>
+                                        <a class="trait-effects basic-rollable">Damage</a>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="textarea-container">
-                                <input class="weapon-desc resize-ta" name="system.weapon-off.description"
-                                    placeholder="Input your weapon abilities, description, passive and other relevant notes here."
-                                    value="{{systemData.weapon-off.description}}" />
                             </div>
                         </div>
                     </div>

@@ -48,7 +48,40 @@
     <section class="sheet-body">
         <div class="tab description" data-group="primary" data-tab="description">
             <div class="defenses">
-                <div class="armorslots">
+                <div class="weapon-group">
+                    <div class="weapon-row">
+                        <label class="weapon-label">Primary Weapon</label>
+                        <div class="weapon-box click-rollable-group basic-rollable-group">
+                            <div class="weapon-box-inner">
+                                <div class="weapon-infobox-first">
+                                    <input class="weapon-field basic-rollable-name click-rollable-name"
+                                        name="system.weapon-main.name" type="text"
+                                        value="{{systemData.weapon-main.name}}" placeholder="Weapon (Modifier)" />
+                                </div>
+                                <div class="weapon-roller-box">
+                                    <div class="weapon-infobox">
+                                        <input class="weapon-to-hit click-rollable-modifier"
+                                            name="system.weapon-main.to-hit" type="number"
+                                            value="{{systemData.weapon-main.to-hit}}" placeholder="2" />
+                                        <a class="trait-effects click-rollable">Modifier</a>
+                                    </div>
+                                    <div class="weapon-infobox">
+                                        <input class="weapon-damage basic-rollable-value"
+                                            name="system.weapon-main.damage" type="text"
+                                            value="{{systemData.weapon-main.damage}}" placeholder="1d8" />
+                                        <a class="trait-effects basic-rollable">Damage</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="textarea-container">
+                                <input class="weapon-desc resize-ta" name="system.weapon-main.description"
+                                    placeholder="Input your weapon abilities, description, passive and other relevant notes here."
+                                    value="{{systemData.weapon-main.description}}" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--<div class="armorslots" style="display: none;">
                     <label>Armor Slots</label>
                     <div class="values">
                         <div class="resource-group">
@@ -63,11 +96,11 @@
                         </div>
                     </div>
                 </div>
-                <div class="defense" data-trait="armor">
+                <div class="defense" data-trait="armor" style="display: none;">
                     <input type="number" name="system.defenses.armor.value"
                         value="{{systemData.defenses.armor.value}}" />
                     <label for="system.defenses.armor.value">Armor</label>
-                </div>
+                </div>-->
                 <div class="defense" data-trait="evasion">
                     <input type="number" name="system.defenses.evasion.value"
                         value="{{systemData.defenses.evasion.value}}" />

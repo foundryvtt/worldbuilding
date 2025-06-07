@@ -153,6 +153,18 @@
       "backpack": {
         "items": []
       }
+    },
+    "npc": {
+      "biography": "",
+      "weapon-main": {
+        "name": "",
+        "description": "Input your weapon abilities, description, passive and other relevant notes here.",
+        "damage": "",
+        "to-hit": "",
+        "range": "",
+        "modifier": "",
+        "dmgType": ""
+      }
     }
   },
   "Item": {

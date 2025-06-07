@@ -22,11 +22,16 @@
   "SIMPLE.ResourceValue": "Value",
   "SIMPLE.ResourceMax": "Max",
 
+  "ACTOR.TypeCharacter": "Character",
+  "ACTOR.TypeNpc": "Adversary",
+
+  "ITEM.TypeItem": "Item",
+  "ITEM.TypeInventory": "Inventory",
+  "ITEM.TypeWorn": "Worn",
+  "ITEM.TypeDomain": "Domain",
+
   "SIMPLE.DefineTemplate": "Define as Template",
   "SIMPLE.UnsetTemplate": "Unset Template",
-  "SIMPLE.NoTemplate": "Character",
-  "SIMPLE.NPCTemplate": "NPC",
-
 
   "SIMPLE.AttributeKey": "Attribute Key",
   "SIMPLE.AttributeValue": "Value",

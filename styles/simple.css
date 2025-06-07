@@ -507,7 +507,7 @@
   background: transparent;
   border: 1px solid #433f64;
   border-radius: .5em;
-  padding: 1.25em;
+  padding: 0.25em;
   color: white;
   text-align: center;
   width: 100%;
@@ -531,6 +531,7 @@
 
 .npc .defenses {
   margin-top: 0;
+  gap: 1.5em;
 }
 
 .defense {
@@ -609,13 +610,8 @@
 
 .armorslots input {
   width: 50px;
-  text-align: center;
-  background: var(--dh-color-off-white);
-  border: 2px solid var(--dh-color-blue);
-  color: black;
   font-size: 18px;
   font-weight: 700;
-  border-radius: 5px;
   background: transparent;
   border: 1px solid #433f64;
   border-radius: .5em;
@@ -677,6 +673,16 @@
   color: #6c6a85;
   font-weight: lighter;
 }
+
+.weapon-infobox .trait-effects {
+  font-size: 12px;
+  border: none;
+  background: none;
+  color: #6c6a85;
+  justify-content: center;
+  align-items: center;
+  word-break: break-word;
+  word-wrap: normal;
 
 
 /* Experience */
@@ -781,7 +787,7 @@
 /* Weapons */
 .weapon-group {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   gap: 1em;
   justify-content: center;
@@ -795,17 +801,11 @@
 }
 
 .weapon-box {
-  color: var(--dh-color-dark-blue);
+  color: white;
   padding: .5em 1em;
-  border: 2px solid var(--dh-color-gold);
-  border-radius: 0px;
-  background: var(--dh-color-off-white);
-  width: 100%;
-  display: flex;
-  align-content: center;
-  align-items: center;
-  justify-content: space-around;
-  flex-direction: column;
+  border: 1px solid #433f64;
+  border-radius: 15px;
+  background: none;
 }
 
 .weapon-box-inner {
@@ -820,14 +820,14 @@
 .weapon-roller-box {
   display: flex;
   flex-direction: row;
-  align-content: center;
+  gap: .5em;
 }
 
 .weapon-row .weapon-field {
   display: flex;
   border: none;
   background: none;
-  color: var(--dh-color-dark-blue) !important;
+  color: white;
   font-size: 15px;
   font-weight: 600;
   padding: 0px;
@@ -842,22 +842,28 @@
 .weapon-desc::placeholder {
   color: #a9a9a9b3;
 }
+
 .weapon-row .weapon-label {
   font-size: 14px;
   display: flex;
   border: none;
-  background: none;
   color: var(--dh-color-off-white) !important;
-  background: var(--dh-color-dark-blue);
+  background: none;
   padding: 2px 25px;
   padding-top: 3px;
-  border-radius: 10px 10px 0px 0px;
-  border: 1px solid var(--dh-color-gold);
-  border-bottom: 0px;
-  position: relative;
-  text-transform: uppercase;
-  font-weight: 600;
-  letter-spacing: 2px;
+  justify-content: center;
+}
+
+.npc .weapon-row .weapon-label {
+  font-size: 14px;
+  display: flex;
+  border: none;
+  color: var(--dh-color-off-white) !important;
+  background: none;
+  padding: 2px 25px;
+  padding-top: 3px;
+  justify-content: center;
+  transform: uppercase;
 }
 
 .weapon-row .weapon-desc {
@@ -865,7 +871,7 @@
   line-height: 12px;
   border: none;
   background: none;
-  color: var(--dh-color-off-black) !important;
+  color: white;
   font-weight: 400;
   text-align: center;
   resize: none;
@@ -889,20 +895,26 @@
 }
 
 .weapon-row .weapon-to-hit, .weapon-row .weapon-damage {
-  font-size: 18px;
   display: flex;
-  background: none;
-  color: var(--dh-color-dark-blue) !important;
-  font-weight: 700;
   justify-content: center;
   flex-wrap: nowrap;
   align-items: center;
+  height: var(--form-field-height);
+  font-size: 18px;
+  font-weight: 700;
+  border: 1px solid #433f64;
+  border-radius: .5em;
+  padding: 0.25em;
+  color: white;
   text-align: center;
-  width: 95px;
-  border: 1px solid var(--dh-color-blue);
-  margin: 0px 5px;
-  border-radius: 5px;
-  height: 20px;
+}
+
+.actor .weapon-damage {
+  width: 4.5em
+}
+
+.npc .weapon-damage {
+  width: 4.5em
 }
 
 .weapon-row .weapon-to-hit {
@@ -922,6 +934,12 @@
   align-content: center;
   align-items: flex-start;
   justify-content: center;
+}
+
+.weapon-box-inner {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
 }
 
 /* Chat Messages */

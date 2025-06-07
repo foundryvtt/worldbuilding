@@ -96,6 +96,9 @@
   color: var(--dh-color-off-white);
 }
 
+.prosemirror menu button.active {
+  color: #0b0a13;
+}
 .worldbuilding .window-content {
   height: 100%;
   padding: 5px;
@@ -262,6 +265,10 @@
   gap: 2.5em;
   overflow: visible;
   max-height: 28em;
+}
+
+.npc .sheet-header {
+  max-height: 25em;
 }
 
 .header-top-container {
@@ -497,6 +504,10 @@
   justify-content: space-evenly;
   margin-bottom: 1em;
   margin-top: 1em;
+}
+
+.npc .defenses {
+  margin-top: 0;
 }
 
 .defense {
@@ -992,7 +1003,7 @@
   width: 100%;
 }
 
-.tab.biography .editor {
+/*  .tab.biography .editor {
     color: var(--dh-color-off-black);
     text-shadow: none;
     height: 100%;
@@ -1000,7 +1011,7 @@
     border: 2px solid #f3c267;
     padding: 6px;
     background: var(--dh-color-off-white);
-}
+}*/
 
 .tab.biography .editor .tox-edit-area {
     background: var(--dh-color-off-white);

@@ -48,11 +48,22 @@ Hooks.once("init", async function() {
   CONFIG.Token.objectClass = SimpleToken;
 
   // Register sheet application classes
-  foundry.documents.collections.Actors.unregisterSheet("core", foundry.appv1.sheets.ActorSheet);
-  foundry.documents.collections.Actors.registerSheet("worldbuilding", SimpleActorSheet, { makeDefault: true });
-  foundry.documents.collections.Actors.registerSheet("worldbuilding", NPCActorSheet, { types: ["npc"], makeDefault: false });
-  foundry.documents.collections.Items.unregisterSheet("core", foundry.appv1.sheets.ItemSheet);
-  foundry.documents.collections.Items.registerSheet("worldbuilding", SimpleItemSheet, { makeDefault: true });
+  foundry.documents.collections.Actors.unregisterSheet("core", foundry.applications.sheets.ActorSheetV2);
+  foundry.documents.collections.Actors.registerSheet("worldbuilding", SimpleActorSheet, {
+    types: ["character"],
+    makeDefault: true,
+    label: "SHEET.Actor.character"
+  });
+  foundry.documents.collections.Actors.registerSheet("worldbuilding", NPCActorSheet, {
+    types: ["npc"],
+    makeDefault: true,
+    label: "SHEET.Actor.npc"
+  });
+  foundry.documents.collections.Items.unregisterSheet("core", foundry.applications.sheets.ItemSheetV2);
+  foundry.documents.collections.Items.registerSheet("worldbuilding", SimpleItemSheet, {
+    makeDefault: true,
+    label: "SHEET.Item.default"
+  });
 
   // Register system settings
   game.settings.register("worldbuilding", "macroShorthand", {

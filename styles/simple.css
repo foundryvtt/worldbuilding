@@ -690,14 +690,15 @@ input.trait-effects.resize-ta {
 .experience-group {
   display: flex;
   flex-direction: column;
-  gap: 0;
-  margin-top: 20px;
+  gap: .5em;
+  width: 97%;
+  margin: auto;
 }
 
 .experience-row {
 	display: flex;
 	align-items: center;
-	gap: 10px;
+	gap: 1em;
 	background: rgba(0,0,0,0.2);
 	padding: 0.5em .5em;
 	border-radius: 5px;
@@ -732,28 +733,27 @@ input.trait-effects.resize-ta {
 }
 
 .experience-row-column-2 input {
-    text-align: left;
-    height: 30px;
-    background: transparent;
-    border: 1px solid #433f64;
-    border-radius: .5em;
-    padding: 1.25em;
-    color: white;
-    width: 100%;
+  text-align: left;
+  height: 30px;
+  background: transparent;
+  border: 1px solid #433f64;
+  border-radius: .5em;
+  padding: 0em .5em;
+  color: white;
+  width: 100%;
 }
 
 .experience-row .click-rollable-modifier {
-  background: var(--dh-color-off-white);
-  border: 2px solid var(--dh-color-blue);
-  text-align: center;
-  text-indent: 0px;
-  width: 50px;
-  border-radius: 10px;
-  color: black;
-  height: 30px;
+  width: 2em;
+  font-size: 18px;
   font-weight: 700;
+  background: transparent;
+  border: 1px solid #433f64;
+  border-radius: .5em;
+  padding: 0.25em;
+  color: white;
+  text-align: center;
 }
-
 /* Other tabs */
 .tab-title {
   display: flex;
@@ -803,7 +803,7 @@ input.trait-effects.resize-ta {
 
 .weapon-box {
   color: white;
-  padding: .5em 1em;
+  padding: 1em 1em;
   border: 1px solid #433f64;
   border-radius: 15px;
   background: none;
@@ -1075,9 +1075,10 @@ input.trait-effects.resize-ta {
   pointer-events: none;
 }
 
-.worldbuilding .click-rollable:hover {
+.worldbuilding .click-rollable:hover, .worldbuilding .basic-rollable:hover {
     cursor: pointer;
     filter: brightness(0.8);
+    color: var(--dh-color-gold);
 }
 
 .worldbuilding.sheet.item, .worldbuilding.sheet.npc {

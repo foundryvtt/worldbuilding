@@ -30,6 +30,10 @@
   "ITEM.TypeWorn": "Worn",
   "ITEM.TypeDomain": "Domain",
 
+  "SHEET.Actor.character": "Character Sheet",
+  "SHEET.Actor.npc": "Adversary Sheet",
+  "SHEET.Item.default": "Item Sheet",
+
   "SIMPLE.DefineTemplate": "Define as Template",
   "SIMPLE.UnsetTemplate": "Unset Template",
 

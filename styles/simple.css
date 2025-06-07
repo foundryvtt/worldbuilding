@@ -206,9 +206,9 @@
   position: relative;
 }
 
-.actor .window-header{
-  background: url(../ui/denim075.png) repeat;
-  backdrop-filter: blur(5px) brightness(40%);
+.actor .window-header, .npc .window-header, .item .window-header{
+  background: transparent;
+  backdrop-filter: blur(5px);
   border: 1px solid #ffffff3d;
   box-shadow: none;
   color: #f0f0e0;
@@ -230,7 +230,7 @@
   color: #f0f0e0;
 }
 
-.sheet.actor {
+.sheet.actor, .worldbuilding .sheet.npc, .worldbuilding .sheet.item {
   background: #0b0a13d6;
   backdrop-filter: blur(5px);
 }
@@ -379,8 +379,9 @@
 }
 
 .header-domain {
-    display: flex;
-    gap: 20px;
+  display: flex;
+  gap: 20px;
+  justify-content: center;
 }
 
 .header-domain input {
@@ -396,7 +397,6 @@
   margin: 0px;
   height: auto;
   background: transparent;
-  border-bottom: 1px solid var(--dh-color-gold);
 }
 
 
@@ -581,6 +581,12 @@
   font-size: 18px;
   font-weight: 700;
   border-radius: 5px;
+  background: transparent;
+  border: 1px solid #433f64;
+  border-radius: .5em;
+  padding: 0.25em;
+  color: white;
+  text-align: center;
 }
 
 /* Traits */
@@ -640,19 +646,19 @@
 
 /* Experience */
 .experience-group {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin-top: 20px;
 }
 
 .experience-row {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    background: rgba(0,0,0,0.2);
-    padding: 10px;
-    border-radius: 5px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(0,0,0,0.2);
+  padding: .25em .5em;
+  border-radius: 5px;
 }
 
 .experience-row:nth-child(even) {
@@ -1012,4 +1018,150 @@
   background-size: 100px auto, 100px auto, calc(100% - 18px) 26px;
   background-repeat: no-repeat;
   /* pointer-events: none; */
+}
+
+.worldbuilding .click-rollable:hover {
+    cursor: pointer;
+    filter: brightness(0.8);
+}
+
+.worldbuilding.sheet.item, .worldbuilding.sheet.npc {
+  min-width: 560px;
+  min-height: 420px;
+}
+
+.worldbuilding.sheet.item{
+  min-width: 350px;
+  min-height: 500px;
+}
+
+.npc .window-content{
+  background: transparent;
+  backdrop-filter: blur(6px) brightness(60%);
+  background-color: transparent;
+  color: #f0f0e0;
+  border: 1px solid #ffffff3d;
+  border-radius:  0  0 10px 10px;
+  border-top: none;
+  position: relative;   
+}
+
+.npc{
+  background: transparent;
+}
+
+.worldbuilding .npc input[type="text"], .worldbuilding .npc input[type="number"], .worldbuilding .npc input[type="password"], 
+.worldbuilding .npc input[type="date"], .worldbuilding .npc input[type="time"], .worldbuilding .npc input[type="search"] {
+  color: #f0f0e0;
+}
+
+.item .sheet-header {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 1.5em 1.5em 0.5em;
+  gap: 2.5em;
+  overflow: visible;
+  max-height: 26.5em;
+}
+
+.item .sheet-header .profile-img {
+  flex: 0 0 100px;
+  margin-right: 10px;
+  object-fit: cover;
+  width: 100%;
+  height: 165px;
+  border: 2px solid var(--dh-color-gold);
+  border-style: double;
+  border-radius: 0px 10px;
+}
+
+.item .sheet-header .header-fields {
+  flex: 1;
+  border: 2px solid var(--dh-color-gold);
+  border-radius: 0px 10px;
+  margin-right: 0;
+  padding: 0px;
+  padding-bottom: 0px;
+  display: flex;
+  height: fit-content;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5em;
+  max-width: 100%;
+}
+.item .sheet-header .header-fields input {
+  background: transparent;
+}
+.item .sheet-header .header-fields input::placeholder {
+  color: #e6e6e66b;
+}
+
+.item .sheet-header .item-charname {
+  max-height: 30px;
+  padding: 0px;
+  margin: 0px;
+  border-bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.item .sheet-header .item-charname input {
+  text-transform: uppercase;
+  font-size: clamp(10px, 2vw, 17px);
+  width: 100%;
+  font-weight: 600;
+  overflow: hidden;
+  line-height: 1;
+  border: none;
+  text-align: center;
+  letter-spacing: 0px;
+  padding: 0px;
+  margin: 0px;
+  color: var(--dh-color-gray);
+  
+  border-bottom: none;
+  padding: 0px;
+  margin: 0px;
+  display: flex;
+  align-items: center;
+  text-transform: uppercase;
+  justify-content: center;
+}
+
+.item .window-content{
+  background: transparent;
+}
+
+.worldbuilding.sheet.item {
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  color: white;
+  text-shadow: 1px 1px 2px black;
+  border-radius: 10px;
+}
+
+.item .sheet-body .tab {
+  height: 100%;
+  overflow: visible;
+  margin: 0px;
+  padding: 0px;
+  width: 100%;
+  padding-top: 0em;
+  padding-bottom: 1.25em;
+}
+
+.item .flexcol {
+  position: relative;
+}
+
+.item .sheet-header {
+  position: relative;
+  z-index: 1; 
 }

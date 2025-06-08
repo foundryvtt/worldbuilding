@@ -142,7 +142,7 @@ export class SimpleActorSheet extends foundry.appv1.sheets.ActorSheet {
   * @param event
   * @private
   */
-  _onItemControl(event) {
+  async _onItemControl(event) {
     event.preventDefault();
     
     // Obtain event data
@@ -179,6 +179,36 @@ export class SimpleActorSheet extends foundry.appv1.sheets.ActorSheet {
         break;
       case "delete":
         if (item) return item.delete();
+        break;
+      case "send-to-vault":
+        if (item && item.type === "domain") {
+          // Create a new vault item with the same data
+          const itemData = {
+            name: item.name,
+            type: "vault",
+            img: item.img,
+            system: item.system
+          };
+          // Create the new vault item
+          await getDocumentClass("Item").create(itemData, {parent: this.actor});
+          // Delete the original domain item
+          return item.delete();
+        }
+        break;
+      case "send-to-domain":
+        if (item && item.type === "vault") {
+          // Create a new domain item with the same data
+          const itemData = {
+            name: item.name,
+            type: "domain",
+            img: item.img,
+            system: item.system
+          };
+          // Create the new domain item
+          await getDocumentClass("Item").create(itemData, {parent: this.actor});
+          // Delete the original vault item
+          return item.delete();
+        }
         break;
     }
   }

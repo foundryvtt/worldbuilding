@@ -168,7 +168,7 @@
     }
   },
   "Item": {
-    "types": ["item", "inventory", "worn", "domain"],
+    "types": ["item", "inventory", "worn", "domain", "vault"],
     "htmlFields": ["description"],
     "item": {
       "description": "",

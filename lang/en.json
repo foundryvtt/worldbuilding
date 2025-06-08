@@ -29,6 +29,8 @@
   "ITEM.TypeInventory": "Inventory",
   "ITEM.TypeWorn": "Worn",
   "ITEM.TypeDomain": "Domain",
+  "ITEM.Vault": "Vault",
+
 
   "SHEET.Actor.character": "Character Sheet",
   "SHEET.Actor.npc": "Adversary Sheet",

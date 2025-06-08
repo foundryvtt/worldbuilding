@@ -43,7 +43,8 @@ Hooks.once("init", async function() {
     item: "ITEM.TypeItem",
     inventory: "ITEM.TypeInventory",
     worn: "ITEM.TypeWorn",
-    domain: "ITEM.TypeDomain"
+    domain: "ITEM.TypeDomain",
+    vault: "ITEM.Vault"
   };
   CONFIG.Token.documentClass = SimpleTokenDocument;
   CONFIG.Token.objectClass = SimpleToken;

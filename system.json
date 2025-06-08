@@ -13,17 +13,24 @@
   ],
   "esmodules": ["module/simple.js"],
   "styles": ["styles/simple.css"],
-  "packs": [],
+  "packs": [
+    {
+      "name": "daggerheart-macros",
+      "label": "Daggerheart Macros",
+      "path": "packs/daggerheart-macros",
+      "type": "Macro",
+      "system": "worldbuilding",
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      }
+    }
+  ],
   "languages": [
     {
       "lang": "en",
       "name": "English",
       "path": "lang/en.json"
-    },
-    {
-      "lang": "pl",
-      "name": "Polski",
-      "path": "lang/pl.json"
     }
   ],
   "compatibility": {

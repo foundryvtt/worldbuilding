@@ -379,7 +379,7 @@ export class SimpleActorSheet extends foundry.appv1.sheets.ActorSheet {
   }
   
   async _rollTrait(traitName, traitValue) {
-    const traitNamePrint = traitName.charAt(0).toUpperCase()+traitName.slice(1);
+    const traitNamePrint = traitName.charAt(0).toUpperCase() + traitName.slice(1);
 
     if (game.dice3d) {
       game.dice3d.addColorset({
@@ -420,80 +420,152 @@ export class SimpleActorSheet extends foundry.appv1.sheets.ActorSheet {
       });
     }
 
-    const buttons = {
-      AdvantageButton: {
-        label: "Advantage",
-        icon: "<i class=\'fas fa-plus-circle\'></i>",
-        callback: () => ({ coreFormula: "1d12 + 1d12 + 1d6", flavorSuffix: "Advantage", rollType: "Advantage" })
-      },
-      NormalButton: {
-        label: "Normal",
-        icon: "<i class=\'fas fa-dice-d20\'></i>",
-        callback: () => ({ coreFormula: "1d12 + 1d12", flavorSuffix: "", rollType: "Normal" })
-      },
-      DisadvantageButton: {
-        label: "Disadvantage",
-        icon: "<i class=\'fas fa-minus-circle\'></i>",
-        callback: () => ({ coreFormula: "1d12 + 1d12 - 1d6", flavorSuffix: "Disadvantage", rollType: "Disadvantage" })
-      }
-    };
+    const dialogContent = `
+    <form>
+    <div class="flex-col" style="align-items: stretch; gap: 2rem">
+      <div class="flex-row">
+        <div class="flex-col stepper-group">
+          <span class="label-bar">Advantage</span>
+          <div class="flex-row">
+            <button id="adv-minus" class="clicker-button clicker-minus-button" type="button"></button>
+            <input id="dualityDiceAdvantageInput" min="0" name="advantage" step="1" type="number" value="0"/>
+            <button id="adv-plus" class="clicker-button clicker-plus-button" type="button"></button>
+          </div>
+        </div>
+        <div class="flex-col stepper-group">
+          <span class="label-bar">Disadvantage</span>
+          <div class="flex-row">
+            <button id="dis-minus" class="clicker-button clicker-minus-button" type="button"></button>
+            <input id="dualityDiceDisadvantageInput" min="0" name="disadvantage" step="1" type="number" value="0"/>
+            <button id="dis-plus" class="clicker-button clicker-plus-button" type="button"></button>
+          </div>
+        </div>
+      </div>
+      <div class="flex-row">
+        <div class="flex-col stepper-group">
+          <span class="label-bar">Flat Modifier</span>
+          <div class="flex-row">
+            <button id="mod-minus" class="clicker-button clicker-minus-button" type="button"></button>
+            <input id="dualityDiceModifierInput" autofocus name="modifier" step="1" type="number" value="0"/>
+            <button id="mod-plus" class="clicker-button clicker-plus-button" type="button"></button>
+          </div>
+        </div>
+      </div>
+    </div>
+    </form>
+    `;
 
-    const dialogChoice = await Dialog.wait({
-      title: `${traitNamePrint} Roll`,
-      content: `<p>Choose roll type for ${traitNamePrint} (Base Modifier: ${traitValue}):</p>`,
-      buttons,
-      default: "NormalButton",
-      close: () => null
+    const dialogChoice = await new Promise(resolve => {
+        new Dialog({
+            title: `Roll for ${traitNamePrint}`,
+            content: dialogContent,
+            buttons: {
+                roll: {
+                    label: "Roll",
+                    icon: "<i class='fas fa-dice-d20'></i>",
+                    callback: (html) => {
+                        const advantage = parseInt(html.find('#dualityDiceAdvantageInput').val()) || 0;
+                        const disadvantage = parseInt(html.find('#dualityDiceDisadvantageInput').val()) || 0;
+                        const modifier = parseInt(html.find('#dualityDiceModifierInput').val()) || 0;
+                        resolve({ advantage, disadvantage, modifier });
+                    }
+                },
+                cancel: {
+                    label: "Cancel",
+                    callback: () => resolve(null)
+                }
+            },
+            default: 'roll',
+            render: (html) => {
+                function incrementInput(selector, by, clampLo = null) {
+                    let input = html.find(selector);
+                    if (input.length === 0) return;
+                    let newValue = (parseInt(input.val()) || 0) + by;
+                    if (clampLo !== null) newValue = Math.max(clampLo, newValue);
+                    input.val(newValue);
+                }
+
+                html.find('#adv-plus').click(() => incrementInput('#dualityDiceAdvantageInput', 1, 0));
+                html.find('#adv-minus').click(() => incrementInput('#dualityDiceAdvantageInput', -1, 0));
+                html.find('#dis-plus').click(() => incrementInput('#dualityDiceDisadvantageInput', 1, 0));
+                html.find('#dis-minus').click(() => incrementInput('#dualityDiceDisadvantageInput', -1, 0));
+                html.find('#mod-plus').click(() => incrementInput('#dualityDiceModifierInput', 1));
+                html.find('#mod-minus').click(() => incrementInput('#dualityDiceModifierInput', -1));
+
+                for (const input of html.find("input[type=number]")) {
+                    input.addEventListener("wheel", (event) => {
+                        if (input === document.activeElement) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                            const step = Math.sign(-1 * event.deltaY);
+                            const oldValue = Number(input.value) || 0;
+                            input.value = String(oldValue + step);
+                        }
+                    });
+                }
+            },
+            close: () => resolve(null)
+        }, {
+            classes: ["daggerheart-roll-dialog"]
+        }).render(true);
     });
 
-    if (!dialogChoice) { return; } 
+    if (!dialogChoice) { return; }
 
-    const { coreFormula, flavorSuffix: rollFlavorFromDialog, rollType } = dialogChoice;
-    const fullRollFormula = `${coreFormula} + ${traitValue}`;
+    const { advantage, disadvantage, modifier } = dialogChoice;
+    const totalAdvantage = advantage - disadvantage;
+
+    let rollType = "Normal";
+    let coreFormula = "1d12 + 1d12";
+    let flavorSuffix = "";
+    if (totalAdvantage > 0) {
+        coreFormula += ` + ${totalAdvantage}d6kh1`;
+        rollType = "Advantage";
+        flavorSuffix = ` with ${totalAdvantage} Advantage`;
+    } else if (totalAdvantage < 0) {
+        const disAdv = Math.abs(totalAdvantage);
+        coreFormula += ` - ${disAdv}d6kh1`;
+        rollType = "Disadvantage";
+        flavorSuffix = ` with ${disAdv} Disadvantage`;
+    }
+
+    const fullRollFormula = `${coreFormula} + ${traitValue + modifier}`;
     const roll = await new Roll(fullRollFormula).roll();
 
     let whiteDiceResult, blackDiceResult;
     let d12_A_val, d12_B_val;
+    let isCrit = false;
 
     if (roll.dice.length >= 2) {
-      // First d12 (Hope D12 component)
       roll.dice[0].options.flavor = "Hope";
       d12_A_val = roll.dice[0].total;
 
-      // Second d12 (Fear D12 component)
       roll.dice[1].options.flavor = "Fear";
       d12_B_val = roll.dice[1].total;
 
-      // Initialize comparison values based on the two primary d12s
+      isCrit = d12_A_val === d12_B_val;
+
       whiteDiceResult = d12_A_val;
       blackDiceResult = d12_B_val;
 
-      // Adjust whiteDiceResult based on Advantage/Disadvantage modifier d6
       if (rollType === "Advantage" && roll.dice.length >= 3) {
-        const d6_term = roll.dice[2];
-        d6_term.options.flavor = "Modifier";
-        whiteDiceResult += d6_term.total; 
+        roll.dice[2].options.flavor = "Modifier";
+        whiteDiceResult += roll.dice[2].total;
       } else if (rollType === "Disadvantage" && roll.dice.length >= 3) {
-        const d6_term = roll.dice[2];
-        d6_term.options.flavor = "Modifier";
-        // d6_term.total will be positive; explicit subtraction for comparison value
-        whiteDiceResult -= d6_term.total; 
-      } else if ((rollType === "Advantage" || rollType === "Disadvantage") && roll.dice.length < 3) {
-        // This case should ideally not be reached if coreFormula is set correctly
-        console.warn(`Worldbuilding | ${rollType} roll for ${traitNamePrint} expected a modifier d6 but it was not found in roll terms. Proceeding with unmodified Hope D12 result for comparison.`);
+        roll.dice[2].options.flavor = "Modifier";
+        whiteDiceResult -= roll.dice[2].total;
       }
     } else {
       console.error(`Worldbuilding | Critical error during ${traitNamePrint} roll: Less than two primary dice terms found. Roll object:`, roll);
-      return; // Cannot proceed with comparison
+      return;
     }
 
-    const isCrit = whiteDiceResult === blackDiceResult;
     const isHope = whiteDiceResult > blackDiceResult;
     const isFear = whiteDiceResult < blackDiceResult;
 
-    let finalFlavor = `${traitNamePrint}`;
-    if (rollFlavorFromDialog) {
-      finalFlavor += ` ${rollFlavorFromDialog}`;
+    let finalFlavor = `${traitNamePrint}${flavorSuffix}`;
+    if (modifier !== 0) {
+        finalFlavor += modifier > 0 ? ` +${modifier}` : ` ${modifier}`;
     }
 
     if (isCrit) {

@@ -1307,3 +1307,147 @@ input.trait-effects.resize-ta {
 #counter-ui {
   isolation: isolate;
 }
+
+/* Dialog Styles */
+.daggerheart-roll-dialog .window-content {
+  background: rgba(11, 10, 19, 0.85);
+  backdrop-filter: blur(5px);
+  color: var(--dh-color-off-white);
+  padding: 1.5em;
+  border: 1px solid #6d6795;
+  border-top: none;
+}
+
+.daggerheart-roll-dialog.window-app .window-header {
+  background: rgba(11, 10, 19, 0.85);
+  backdrop-filter: blur(5px);
+  border: 1px solid #6d6795;
+  border-bottom: none;
+  color: var(--dh-color-off-white);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.daggerheart-roll-dialog .dialog-buttons {
+  display: flex;
+  gap: 1em;
+  margin-top: 1em;
+  flex-direction: row;
+  align-items: center;
+}
+
+.daggerheart-roll-dialog .dialog-buttons button {
+  background: rgba(67, 63, 100, 0.5);
+  border: 1px solid #6d6795;
+  color: var(--dh-color-off-white);
+  transition: all 0.2s ease;
+  border-radius: 5px;
+  text-transform: uppercase;
+}
+
+.daggerheart-roll-dialog .dialog-buttons button:hover {
+  background: rgba(67, 63, 100, 0.8);
+  border-color: var(--dh-color-gold);
+  color: var(--dh-color-gold);
+}
+
+.daggerheart-roll-dialog .flex-row {
+  align-content: center;
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  gap: .2em;
+}
+
+.daggerheart-roll-dialog .flex-col {
+  align-content: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  gap: 0.5em;
+}
+
+.daggerheart-roll-dialog .stepper-group {
+  flex: 1;
+}
+
+.daggerheart-roll-dialog .stepper-group input {
+  margin: 0 0.25rem;
+  max-width: 5em;
+  min-width: 30px;
+  text-align: center !important;
+  background: transparent;
+  border: 1px solid #433f64;
+  border-radius: .5em;
+  padding: 1em;
+  color: white;
+}
+
+.daggerheart-roll-dialog .label-bar {
+  margin-bottom: 0.25em;
+  overflow: hidden;
+  text-align: center;
+  width: 100%;
+  color: var(--dh-color-gold);
+  text-transform: uppercase;
+  font-size: 0.9em;
+  letter-spacing: 1px;
+}
+
+.daggerheart-roll-dialog .label-bar::before,
+.daggerheart-roll-dialog .label-bar::after {
+  background-color: var(--dh-color-gold-dark);
+  content: "";
+  display: inline-block;
+  height: 1px;
+  position: relative;
+  vertical-align: middle;
+  width: 50%;
+}
+
+.daggerheart-roll-dialog .label-bar::before {
+  margin-left: -50%;
+  right: 0.5em;
+}
+
+.daggerheart-roll-dialog .label-bar::after {
+  left: 0.5em;
+  margin-right: -50%;
+}
+
+.daggerheart-roll-dialog .clicker-button {
+  background: rgba(67, 63, 100, 0.5);
+  border: 1px solid #6d6795;
+  border-radius: 50%;
+  color: var(--dh-color-off-white);
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  cursor: pointer !important;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2em;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.daggerheart-roll-dialog .clicker-button:hover {
+  background: rgba(67, 63, 100, 0.8);
+  border-color: var(--dh-color-gold);
+  color: var(--dh-color-gold);
+  transform: scale(1.1);
+}
+
+.daggerheart-roll-dialog .clicker-plus-button::before {
+  content: "+";
+  font-weight: 800;
+}
+
+.daggerheart-roll-dialog .clicker-minus-button::before {
+  content: "-";
+  font-weight: 800;
+}

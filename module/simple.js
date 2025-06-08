@@ -6,6 +6,7 @@ import { SimpleActorSheet, NPCActorSheet } from "./actor-sheet.js";
 import { preloadHandlebarsTemplates } from "./templates.js";
 import { createWorldbuildingMacro } from "./macro.js";
 import { SimpleToken, SimpleTokenDocument } from "./token.js";
+import { CounterUI } from "./counter-ui.js";
 
 /* -------------------------------------------- */
 /*  Foundry VTT Initialization                  */
@@ -28,7 +29,7 @@ Hooks.once("init", async function() {
 
   game.worldbuilding = {
     SimpleActor,
-    createWorldbuildingMacro 
+    createWorldbuildingMacro
   };
 
   // Define custom Document classes
@@ -75,6 +76,16 @@ Hooks.once("init", async function() {
     config: true
   });
 
+  // Register counter value setting
+  game.settings.register("worldbuilding", "counterValue", {
+    name: "Counter Value",
+    hint: "The current value of the counter",
+    scope: "world",
+    type: Number,
+    default: 0,
+    config: false // Don't show in settings menu
+  });
+
   // Register initiative setting.
   game.settings.register("worldbuilding", "initFormula", {
     name: "SETTINGS.SimpleInitFormulaN",
@@ -119,6 +130,17 @@ Hooks.once("init", async function() {
  * Macrobar hook.
  */
 Hooks.on("hotbarDrop", (bar, data, slot) => createWorldbuildingMacro(data, slot));
+
+/**
+ * Ready hook to initialize the counter UI
+ */
+Hooks.once("ready", async function() {
+  // Initialize the counter UI
+  game.worldbuilding.counter = new CounterUI();
+  await game.worldbuilding.counter.initialize();
+  
+  console.log("Counter UI initialized and displayed above the hotbar.");
+});
 
 /**
  * Adds the actor template context menu.

@@ -101,7 +101,7 @@ export class CounterUI {
         if (e.target.closest(".counter-ui .counter-plus")) {
           e.preventDefault();
           e.stopPropagation();
-          console.log(`Plus button ${eventType}`);
+          // console.log(`Plus button ${eventType}`);
           if (eventType === "click") { // Only process on click to avoid multiple triggers
             await this.increase();
           }
@@ -110,7 +110,7 @@ export class CounterUI {
         else if (e.target.closest(".counter-ui .counter-minus")) {
           e.preventDefault();
           e.stopPropagation();
-          console.log(`Minus button ${eventType}`);
+          // console.log(`Minus button ${eventType}`);
           if (eventType === "click") { // Only process on click to avoid multiple triggers
             await this.decrease();
           }

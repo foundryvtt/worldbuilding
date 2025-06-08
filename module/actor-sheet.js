@@ -652,6 +652,25 @@ export class NPCActorSheet extends SimpleActorSheet {
   
   /* -------------------------------------------- */
   
+  async _rollTrait(traitName, traitValue) {
+    const traitNamePrint = traitName.charAt(0).toUpperCase() + traitName.slice(1);
+    const roll = new Roll(`1d20 + @mod`, {mod: traitValue});
+    await roll.evaluate({async: true});
+  
+    const d20Term = roll.terms.find(t => t.faces === 20);
+    const d20result = d20Term.results[0].result;
+  
+    let flavor = `${traitNamePrint}`;
+    if (d20result === 20) {
+      flavor += ` - Critical Success!`;
+    }
+  
+    await roll.toMessage({
+        speaker: ChatMessage.getSpeaker({ token: this.actor }),
+        flavor: flavor
+    });
+  }
+  
   /** @inheritdoc */
   _getSubmitData(updateData) {
     let formData = super._getSubmitData(updateData);
@@ -659,7 +678,4 @@ export class NPCActorSheet extends SimpleActorSheet {
     formData = EntitySheetHelper.updateGroups(formData, this.object);
     return formData;
   }
-  
-  /* -------------------------------------------- */
-  
 }

@@ -43,30 +43,14 @@ export class SimpleActorSheet extends foundry.appv1.sheets.ActorSheet {
       secrets: this.document.isOwner,
       async: true
     });
-    /*context.agilityHTML = await foundry.applications.ux.TextEditor.implementation.enrichHTML(context.systemData.agility.tooltip, {
-      secrets: this.document.isOwner,
-      async: true
-    });
-    context.strengthHTML = await foundry.applications.ux.TextEditor.implementation.enrichHTML(context.systemData.strength.tooltip, {
-      secrets: this.document.isOwner,
-      async: true
-    });
-    context.finesseHTML = await foundry.applications.ux.TextEditor.implementation.enrichHTML(context.systemData.finesse.tooltip, {
-      secrets: this.document.isOwner,
-      async: true
-    });
-    context.instinctHTML = await foundry.applications.ux.TextEditor.implementation.enrichHTML(context.systemData.instinct.tooltip, {
-      secrets: this.document.isOwner,
-      async: true
-    });
-    context.presenceHTML = await foundry.applications.ux.TextEditor.implementation.enrichHTML(context.systemData.presence.tooltip, {
-      secrets: this.document.isOwner,
-      async: true
-    });
-    context.knowledgeHTML = await foundry.applications.ux.TextEditor.implementation.enrichHTML(context.systemData.knowledge.tooltip, {
-      secrets: this.document.isOwner,
-      async: true
-    }); */
+
+    // Enrich item descriptions
+    for (let item of context.data.items) {
+      item.system.enrichedDescription = await foundry.applications.ux.TextEditor.implementation.enrichHTML(item.system.description, {
+        secrets: this.document.isOwner,
+        async: true
+      });
+    }
     
     context.actor = this.actor; // Add this line to include the actor object in the context
     
@@ -641,7 +625,14 @@ export class NPCActorSheet extends SimpleActorSheet {
       secrets: this.document.isOwner,
       async: true
     });
-    
+
+    // Enrich item descriptions
+    for (let item of context.data.items) {
+      item.system.enrichedDescription = await foundry.applications.ux.TextEditor.implementation.enrichHTML(item.system.description, {
+        secrets: this.document.isOwner,
+        async: true
+      });
+    }
     
     context.actor = this.actor; // Add this line to include the actor object in the context
     

@@ -149,7 +149,7 @@
   align-items: center;
   overflow: hidden;
   max-height: 3em;
-  transition: max-height 250ms ease-out;
+  transition: max-height 250ms ease;
   border-radius: .5em;
   width: 100%;
   padding: 0em 0.5em;
@@ -177,7 +177,7 @@
 .worldbuilding .item-list .item .item-description {
   max-height: 0;
   overflow: hidden;
-  transition: max-height 250ms ease-out;
+  transition: max-height 250ms ease;
   padding: 0 0.5em;
 }
 

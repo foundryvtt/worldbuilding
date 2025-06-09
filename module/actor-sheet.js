@@ -100,6 +100,8 @@ export class SimpleActorSheet extends foundry.appv1.sheets.ActorSheet {
     html.find(".item-control").click(this._onItemControl.bind(this));
     html.find(".rollable").on("click", this._onItemRoll.bind(this));
     
+    // Handle toggling item description visibility
+    html.find(".item-name[data-action=\"toggle-description\"]").click(this._onToggleDescription.bind(this));
     
     //Cards System
     html.find('.remove-card').click(this._onRemoveCard.bind(this));
@@ -580,6 +582,19 @@ export class SimpleActorSheet extends foundry.appv1.sheets.ActorSheet {
       speaker: ChatMessage.getSpeaker({ token: this.actor }),
       flavor: finalFlavor
     });
+  }
+
+  async _onToggleDescription(event) {
+    event.preventDefault();
+    const li = event.currentTarget.closest(".item");
+    const descriptionDiv = li.querySelector(".item-description");
+    if (descriptionDiv) {
+      if (li.classList.contains("expanded")) {
+        li.classList.remove("expanded");
+      } else {
+        li.classList.add("expanded");
+      }
+    }
   }
 }
 

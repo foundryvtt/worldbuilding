@@ -90,6 +90,10 @@
 
 .worldbuilding p {
   font-size: 12px;
+  margin: 0.25em 1.75em;
+  margin-bottom: 1em;
+  padding-left: .5em;
+  border-left: solid 2px var(--dh-color-gold);
 }
 
 .prosemirror menu button {
@@ -140,24 +144,46 @@
 }
 .worldbuilding .item-list .item {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   gap: 0.25em;
   align-items: center;
+  overflow: hidden;
+  max-height: 3em;
+  transition: max-height 250ms ease-out;
+  border-radius: .5em;
+  width: 100%;
+  padding: 0em 0.5em;
+  background: rgba(0,0,0,0.2);
+}
+
+.worldbuilding .item-list .item.expanded {
+  max-height: 500px;
+  padding-bottom: 0.5em;
 }
 
 .worldbuilding .item-list .item .item-main-row {
   display: flex;
   align-items: center;
-  border-radius: .5em;
   width: 100%;
-  padding: 0em 0.5em;
-  background: rgba(0,0,0,0.2);
+  padding: 0;
   justify-content: space-between;
   min-height: 3em;
 }
 
-.worldbuilding .item-list .item:nth-child(even) .item-main-row {
+.worldbuilding .item-list .item:nth-child(even) {
     background: rgb(141 120 151 / 7%);
+}
+
+.worldbuilding .item-list .item .item-description {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 250ms ease-out;
+  padding: 0 0.5em;
+}
+
+.worldbuilding .item-list .item.expanded .item-description {
+  max-height: 200px;
+  padding-top: 0.5em;
 }
 
 .worldbuilding .item-list .item .item-top-row {
@@ -207,6 +233,9 @@
   border-radius: 0  0 10px 10px;
   border-top: none;
   position: relative;
+}
+.item .window-content {
+  padding: 1em 2em;
 }
 
 .actor .window-header, .npc .window-header, .item .window-header{

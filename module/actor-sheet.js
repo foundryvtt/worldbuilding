@@ -572,12 +572,26 @@ export class SimpleActorSheet extends foundry.appv1.sheets.ActorSheet {
     event.preventDefault();
     const li = event.currentTarget.closest(".item");
     const descriptionDiv = li.querySelector(".item-description");
-    if (descriptionDiv) {
-      if (li.classList.contains("expanded")) {
-        li.classList.remove("expanded");
-      } else {
-        li.classList.add("expanded");
-      }
+    
+    if (!descriptionDiv) return;
+    
+    if (li.classList.contains("expanded")) {
+      // Collapse: animate to height 0
+      descriptionDiv.style.height = descriptionDiv.scrollHeight + "px";
+      // Force a reflow to ensure the height is set before starting transition
+      descriptionDiv.offsetHeight;
+      descriptionDiv.style.height = "0px";
+      li.classList.remove("expanded");
+    } else {
+      // Expand: animate to content height
+      li.classList.add("expanded");
+      descriptionDiv.style.height = descriptionDiv.scrollHeight + "px";
+      // After animation completes, set height to auto for dynamic content
+      setTimeout(() => {
+        if (li.classList.contains("expanded")) {
+          descriptionDiv.style.height = "auto";
+        }
+      }, 150);
     }
   }
 }

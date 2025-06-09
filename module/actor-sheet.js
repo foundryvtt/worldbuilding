@@ -66,6 +66,14 @@ export class SimpleActorSheet extends foundry.appv1.sheets.ActorSheet {
   activateListeners(html) {
     super.activateListeners(html);
     
+    // Restore vault state on re-render
+    if (this._vaultOpen) {
+      const vaultList = html.find('.item-list[data-item-type="vault"]');
+      const icon = html.find('.vault-toggle i');
+      vaultList.show();
+      icon.removeClass('fa-chevron-down').addClass('fa-chevron-up');
+    }
+    
     // Everything below here is only needed if the sheet is editable
     if ( !this.isEditable ) return;
     
@@ -89,6 +97,9 @@ export class SimpleActorSheet extends foundry.appv1.sheets.ActorSheet {
     
     //Cards System
     html.find('.remove-card').click(this._onRemoveCard.bind(this));
+    
+    // Vault Toggle
+    html.find('.vault-toggle').click(this._onToggleVault.bind(this));
     
     // Add draggable for Macro creation
     html.find(".attributes a.attribute-roll").each((i, a) => {
@@ -153,7 +164,7 @@ export class SimpleActorSheet extends foundry.appv1.sheets.ActorSheet {
     switch (action) {
       case "create":
       const clsi = getDocumentClass("Item");
-      return clsi.create({name: "New Feature", type: type}, {parent: this.actor}); // Use the type variable here
+      return clsi.create({name: "New Ability", type: type}, {parent: this.actor}); // Use the type variable here
       case "create-item":
       const cls = getDocumentClass("Item");
       return cls.create({name: "New Item", type: type}, {parent: this.actor}); // Use the type variable here
@@ -566,6 +577,23 @@ export class SimpleActorSheet extends foundry.appv1.sheets.ActorSheet {
       speaker: ChatMessage.getSpeaker({ token: this.actor }),
       flavor: finalFlavor
     });
+  }
+
+  async _onToggleVault(event) {
+    event.preventDefault();
+    const button = $(event.currentTarget);
+    const icon = button.find('i');
+    const vaultList = this.element.find('.item-list[data-item-type="vault"]');
+
+    if (vaultList.is(':visible')) {
+        vaultList.slideUp();
+        icon.removeClass('fa-chevron-up').addClass('fa-chevron-down');
+        this._vaultOpen = false;
+    } else {
+        vaultList.slideDown();
+        icon.removeClass('fa-chevron-down').addClass('fa-chevron-up');
+        this._vaultOpen = true;
+    }
   }
 
   async _onToggleDescription(event) {

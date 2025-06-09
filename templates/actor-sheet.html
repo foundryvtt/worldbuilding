@@ -60,12 +60,12 @@
     </header>
     
     {{!-- Sheet Tab Navigation --}}
-    <!-- <div class="nav-gem"></div> -->
+    <!-- CASE SENSITIVE! -->
     <nav class="sheet-tabs tabs" data-group="primary">
         <a class="item active" data-tab="character">Character</a>
         <a class="item" data-tab="equipment">Equipment</a>
-        <a class="item" data-tab="abilities">Abilities</a>
-        <a class="item" data-tab="vault">Vault</a>
+        <div class="nav-gem"></div>
+        <a class="item" data-tab="loadout">Loadout</a>
         <a class="item" data-tab="biography">Biography</a>
     </nav>
     
@@ -74,24 +74,6 @@
         
         <div class="tab character" data-group="primary" data-tab="character">
             <section class="character-main-section">
-                <div class="character-details">
-                    <div class="char-detail-item">
-                        <label>Age</label>
-                        <input type="text" name="system.age" value="{{systemData.age}}" />
-                    </div>
-                    <div class="char-detail-item">
-                        <label>Pronouns</label>
-                        <input type="text" name="system.pronouns" value="{{systemData.pronouns}}" />
-                    </div>
-                    <div class="char-detail-item">
-                        <label>Residence</label>
-                        <input type="text" name="system.residence" value="{{systemData.residence}}" />
-                    </div>
-                    <div class="char-detail-item">
-                        <label>Nationality</label>
-                        <input type="text" name="system.nationality" value="{{systemData.nationality}}" />
-                    </div>
-                </div>
 
                 <section class="defenses">
                     <div class="armorslots">
@@ -277,7 +259,29 @@
 
         <div class="tab biography" data-group="primary" data-tab="biography">
             <div class="tab-title">Biography</div>
-            {{editor biographyHTML target="system.biography" button=true editable=editable engine="prosemirror"}}
+
+            <section class="character-main-section">                
+                <div class="character-details">
+                    <div class="char-detail-item">
+                        <label>Age</label>
+                        <input type="text" name="system.age" value="{{systemData.age}}" />
+                    </div>
+                    <div class="char-detail-item">
+                        <label>Pronouns</label>
+                        <input type="text" name="system.pronouns" value="{{systemData.pronouns}}" />
+                    </div>
+                    <div class="char-detail-item">
+                        <label>Residence</label>
+                        <input type="text" name="system.residence" value="{{systemData.residence}}" />
+                    </div>
+                    <div class="char-detail-item">
+                        <label>Nationality</label>
+                        <input type="text" name="system.nationality" value="{{systemData.nationality}}" />
+                    </div>
+                </div>
+
+                {{editor biographyHTML target="system.biography" button=true editable=editable engine="prosemirror"}}
+            </section>
         </div>
 
         <div class="tab equipment" data-group="primary" data-tab="equipment">
@@ -419,10 +423,10 @@
             </div>
         </div>
 
-        <div class="tab abilities" data-group="primary" data-tab="abilities">
+        <div class="tab loadout" data-group="primary" data-tab="loadout">
             {{!-- Owned Items Tab --}}
             <div class="features">
-                <div class="tab-title">Features & Domains</div>
+                <div class="tab-title">Loadout</div>
                 <div class="tab-category">Domains
                     <a class="item-control" title="{{ localize 'SIMPLE.ItemCreate' }}" data-action="create-domain"
                         data-type="domain">
@@ -456,10 +460,10 @@
                     {{/each}}
                 </ol>
 
-                <div class="tab-category">Features
+                <div class="tab-category">Abilities
                     <a class="item-control" title="{{ localize 'SIMPLE.ItemCreate' }}" data-action="create"
                         data-type="item">
-                        <i class="fas fa-plus"></i> Add Feature
+                        <i class="fas fa-plus"></i> Add Ability
                     </a>
                 </div>
                 <ol class="item-list" data-item-type="item">
@@ -486,21 +490,15 @@
                     {{/if}}
                     {{/each}}
                 </ol>
-            </div>        
-        </div>
 
-        <div class="tab vault" data-group="primary" data-tab="vault">
-            <div class="tab-title">Vault</div>
-
-            {{!-- Owned Inventory Tab --}}
-            <div class="inventory">
                 <div class="tab-category">Vault
                     <a class="item-control" title="{{ localize 'SIMPLE.ItemCreate' }}" data-action="create-item"
                         data-type="vault">
                         <i class="fas fa-plus"></i> Add Item
                     </a>
+                    <a class="item-control vault-toggle" title="Toggle Vault"><i class="fas fa-chevron-down"></i></a>
                 </div>
-                <ol class="item-list" data-item-type="vault">
+                <ol class="item-list" data-item-type="vault" style="display: none;">
                     {{#each data.items as |item id|}}
                     {{#if (eq item.type "vault")}}
                     <li class="item" data-item-id="{{item._id}}">
@@ -526,7 +524,7 @@
                     {{/if}}
                     {{/each}}
                 </ol>
-            </div>
+            </div>        
         </div>
     </section>
 </form>

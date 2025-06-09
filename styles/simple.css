@@ -80,12 +80,13 @@
 }
 
 .worldbuilding h1 {
-  font-size: 1.5em;
+  font-size: 1.2em;
   border-bottom: initial;
   text-transform: uppercase;
   letter-spacing: 5px;
   color: var(--dh-color-gold-dark);
   font-weight: 700;
+  margin-top: .75em;
 }
 
 .worldbuilding p {
@@ -131,6 +132,14 @@
 .worldbuilding .editor,
 .worldbuilding .editor-content {
   height: 100%;
+  width:95%;
+  margin: auto;
+}
+
+.worldbuilding .editor {
+  border: 1px solid #6d6795;
+  border-radius: 25px;
+  padding: 1em;
 }
 
 /* Item list */
@@ -176,6 +185,7 @@
   overflow: hidden;
   transition: height 150ms ease-in-out;
   padding: 0 0.5em;
+  min-width: 100%;
 }
 
 .worldbuilding .item-list .item .item-description > * {
@@ -227,6 +237,10 @@
 
 .worldbuilding .item-control{
   cursor: pointer;
+}
+
+.worldbuilding .vault-content .item-control {
+  display: flex;
 }
 
 /* General Sheet styling */
@@ -300,10 +314,10 @@
   flex-wrap: nowrap;
   justify-content: center;
   align-items: center;
-  padding: 1.5em 1.5em 0.5em;
-  gap: 2.5em;
+  padding: 0.5em 1.5em 0.5em;
+  gap: 1.5em;
   overflow: visible;
-  max-height: 28em;
+  max-height: 19em;
 }
 
 .npc .sheet-header {
@@ -314,7 +328,8 @@
   display: flex;
   justify-content: flex-end;
   width: 100%;
-  padding: 0 20px;
+  margin-top: 2em;
+  padding: 0em 2em;
   overflow: visible;
   max-height: 1em;
   align-content: center;
@@ -334,10 +349,10 @@
 .charlevel input {
   color: var(--dh-color-gold-dark);
   text-align: center;
-  font-size: 2.5rem;
+  font-size: 1.5rem;
   font-weight: 700;
   margin-top: 0px;
-  height: 2.5rem;
+  height: 1.5rem;
   border: none;
   background: transparent;
 }
@@ -427,7 +442,6 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 5px;
     margin-top: 0;
 }
 
@@ -441,6 +455,7 @@
   font-family: 'Cinzel', serif;
   background: transparent;
   width: 100%;
+  margin: auto;
 }
 
 .charname input:focus {
@@ -533,7 +548,7 @@
 
 .character-details {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 1em 2em;
   margin: auto;
   max-width: 500px;
@@ -1109,8 +1124,8 @@ input.trait-effects.resize-ta {
   top: 1.35em;
   left: -0.40rem;
   background-image: url(https://content.demiplane.com/nexus/daggerheart/dh-right-left-t.webp), url(https://content.demiplane.com/nexus/daggerheart/dh-right-right-t.webp), url(https://content.demiplane.com/nexus/daggerheart/dh-mid-bar.webp);
-  background-position: top left, top right, top -3px center;
-  background-size: 100px auto, 100px auto, calc(100% - 18px) 26px;
+  background-position: top left, top right, top -8px center;
+  background-size: 60px auto, 60px auto, calc(100% - 18px) 26px;
   background-repeat: no-repeat;
   pointer-events: none;
 }
@@ -1140,16 +1155,16 @@ input.trait-effects.resize-ta {
   color: #f0f0e0;
 }
 
-.item .sheet-header {
+.sheet-header {
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: center;
-  padding: 1.5em 1.5em 0.5em;
-  gap: 2.5em;
+  padding: 0.5em 1.5em 0.5em;
+  gap: 1.5em;
   overflow: visible;
-  max-height: 26.5em;
+  max-height: 22em;
 }
 
 .item .sheet-header .profile-img {

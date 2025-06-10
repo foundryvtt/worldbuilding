@@ -1411,7 +1411,6 @@ input.trait-effects.resize-ta {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
-  gap: .2em;
 }
 
 .daggerheart-roll-dialog .flex-col {
@@ -1510,12 +1509,17 @@ input.trait-effects.resize-ta {
   background: transparent;
   border: 1px solid #433f64;
   border-radius: .5em;
-  padding: 0.5em;
+  padding: 0.25em;
   color: white;
   text-align: center;
 }
 
 .daggerheart-roll-dialog select option {
-  background: var(--dh-color-dark-blue);
+  background: rgba(11, 10, 19, 0.85);
   color: var(--dh-color-off-white);
+}
+
+.daggerheart-roll-dialog select option:checked {
+  background: #433f64;
+  color: var(--dh-color-gold);
 }

@@ -94,7 +94,6 @@
   margin: 0.25em 1.75em;
   margin-bottom: 1em;
   padding-left: .5em;
-  border-left: solid 2px var(--dh-color-gold);
 }
 
 .prosemirror menu button {
@@ -184,8 +183,9 @@
   height: 0;
   overflow: hidden;
   transition: height 150ms ease-in-out;
-  padding: 0 0.5em;
+  margin: 0 0.5em;
   min-width: 100%;
+  border-left: solid 2px var(--dh-color-gold);
 }
 
 .worldbuilding .item-list .item .item-description > * {

@@ -742,6 +742,11 @@ input.trait-effects.resize-ta {
   word-wrap: normal;
 }
 
+.worldbuilding .trait-label-wrapper {
+  margin-bottom: -.5em;
+  z-index: 1;
+}
+
 
 /* Experience */
 .experience-group {

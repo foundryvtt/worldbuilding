@@ -475,7 +475,7 @@ export class SimpleActorSheet extends foundry.appv1.sheets.ActorSheet {
             buttons: {
                 roll: {
                     label: "Roll",
-                    icon: "<i class='fas fa-dice-d20'></i>",
+                    icon: "<i class='fas fa-dice-d12'></i>",
                     callback: (html) => {
                         const advantage = parseInt(html.find('#dualityDiceAdvantageInput').val()) || 0;
                         const disadvantage = parseInt(html.find('#dualityDiceDisadvantageInput').val()) || 0;

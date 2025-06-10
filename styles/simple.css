@@ -1580,3 +1580,11 @@ input.trait-effects.resize-ta {
 #token-hope-counter .counter-value {
   min-width: 60px; /* Slightly wider to accommodate "10/10" format */
 }
+
+body.game .app a.inline-roll {
+  background: rgba(11, 10, 19, 0.85);
+  border: 1px solid #433f64;
+  border-radius: .5em;
+  color: #f3c267;
+  font-weight: 600;
+}

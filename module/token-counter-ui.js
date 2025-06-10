@@ -52,6 +52,22 @@ export class TokenCounterUI {
   }
 
   /**
+   * Show or hide control buttons based on permissions
+   */
+  updateButtonVisibility(show) {
+    const actor = this.selectedToken?.actor;
+    const canModify = game.user.isGM || game.user.hasRole("ASSISTANT") || (actor && actor.isOwner);
+    const display = show && canModify ? 'flex' : 'none';
+
+    if (this.hpElement) {
+        this.hpElement.querySelectorAll('button').forEach(btn => btn.style.display = display);
+    }
+    if (this.hopeElement) {
+        this.hopeElement.querySelectorAll('button').forEach(btn => btn.style.display = display);
+    }
+  }
+
+  /**
    * Set the selected token and update the display
    */
   setSelectedToken(token) {
@@ -59,8 +75,10 @@ export class TokenCounterUI {
     if (token) {
       this.updateFromToken(token);
       this.show();
+      this.updateButtonVisibility(true);
     } else {
       this.hide();
+      this.updateButtonVisibility(false);
     }
   }
 
@@ -130,26 +148,19 @@ export class TokenCounterUI {
    * Render the token counter UI element
    */
   async render() {
-    // Check if the user can modify the counter (GM or Assistant GM)
-    const canModify = game.user.isGM || game.user.hasRole("ASSISTANT");
-    
     // Create HP counter HTML (to go before Fear)
     const hpHtml = `
       <div id="token-hp-counter" class="faded-ui counter-ui token-counter" style="position: relative; z-index: 9998; display: none;">
-        ${canModify ? `
         <button type="button" class="counter-minus hp-minus" title="Decrease HP" style="position: relative; z-index: 10000; pointer-events: all;">
           <i class="fas fa-minus"></i>
         </button>
-        ` : ''}
         <div class="counter-display">
           <div class="counter-value hp-value">0/0</div>
           <div class="counter-label">HP</div>
         </div>
-        ${canModify ? `
         <button type="button" class="counter-plus hp-plus" title="Increase HP" style="position: relative; z-index: 10000; pointer-events: all;">
           <i class="fas fa-plus"></i>
         </button>
-        ` : ''}
       </div>
     `;
     
@@ -157,20 +168,16 @@ export class TokenCounterUI {
     // Will display Hope for characters, Stress for NPCs/Adversaries
     const hopeStressHtml = `
       <div id="token-hope-counter" class="faded-ui counter-ui token-counter" style="position: relative; z-index: 9998; display: none;">
-        ${canModify ? `
         <button type="button" class="counter-minus hope-stress-minus" title="Decrease" style="position: relative; z-index: 10000; pointer-events: all;">
           <i class="fas fa-minus"></i>
         </button>
-        ` : ''}
         <div class="counter-display">
           <div class="counter-value hope-stress-value">0/0</div>
           <div class="counter-label hope-stress-label">Hope</div>
         </div>
-        ${canModify ? `
         <button type="button" class="counter-plus hope-stress-plus" title="Increase" style="position: relative; z-index: 10000; pointer-events: all;">
           <i class="fas fa-plus"></i>
         </button>
-        ` : ''}
       </div>
     `;
     
@@ -212,11 +219,9 @@ export class TokenCounterUI {
     this.element = { hp: this.hpElement, hope: this.hopeElement };
     
     // Activate listeners with a small delay to ensure DOM is ready
-    if (canModify) {
-      setTimeout(() => {
-        this.activateListeners();
-      }, 100);
-    }
+    setTimeout(() => {
+      this.activateListeners();
+    }, 100);
   }
 
   /**
@@ -264,13 +269,15 @@ export class TokenCounterUI {
   async modifyHP(delta) {
     if (!this.selectedToken || !this.selectedToken.actor) return;
     
+    const actor = this.selectedToken.actor;
+    const canModify = game.user.isGM || game.user.hasRole("ASSISTANT") || actor.isOwner;
+
     // Check permissions
-    if (!game.user.isGM && !game.user.hasRole("ASSISTANT")) {
-      console.warn("Only GMs and Assistant GMs can modify token values");
+    if (!canModify) {
+      console.warn("User does not have permission to modify token values");
+      ui.notifications.warn("You do not have permission to modify this token's values.");
       return;
     }
-    
-    const actor = this.selectedToken.actor;
     
     // Check if actor has health data
     if (!actor.system.health) {
@@ -293,13 +300,15 @@ export class TokenCounterUI {
   async modifyHopeOrStress(delta) {
     if (!this.selectedToken || !this.selectedToken.actor) return;
     
+    const actor = this.selectedToken.actor;
+    const canModify = game.user.isGM || game.user.hasRole("ASSISTANT") || actor.isOwner;
+
     // Check permissions
-    if (!game.user.isGM && !game.user.hasRole("ASSISTANT")) {
-      console.warn("Only GMs and Assistant GMs can modify token values");
+    if (!canModify) {
+      console.warn("User does not have permission to modify token values");
+      ui.notifications.warn("You do not have permission to modify this token's values.");
       return;
     }
-    
-    const actor = this.selectedToken.actor;
     
     // For characters, modify Hope
     if (this.actorType === 'character') {

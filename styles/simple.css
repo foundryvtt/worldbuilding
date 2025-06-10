@@ -1109,34 +1109,10 @@ input.trait-effects.resize-ta {
   width: 100%;
 }
 
-/*  .tab.biography .editor {
-    color: var(--dh-color-off-black);
-    text-shadow: none;
-    height: 100%;
-    border-radius: 10px;
-    border: 2px solid #f3c267;
-    padding: 6px;
-    background: var(--dh-color-off-white);
-}*/
-
 .tab.biography .editor .tox-edit-area {
     background: var(--dh-color-off-white);
 }
 
-/* .app.window-app.worldbuilding.sheet::after {
-  content: "";
-  display: block;
-  height: 120px;
-  width: calc(102%);
-  position: absolute;
-  top: 1.35em;
-  left: -0.40rem;
-  background-image: url(https://content.demiplane.com/nexus/daggerheart/dh-right-left-t.webp), url(https://content.demiplane.com/nexus/daggerheart/dh-right-right-t.webp), url(https://content.demiplane.com/nexus/daggerheart/dh-mid-bar.webp);
-  background-position: top left, top right, top -8px center;
-  background-size: 60px auto, 60px auto, calc(100% - 18px) 26px;
-  background-repeat: no-repeat;
-  pointer-events: none;
-} */
 
 .worldbuilding .click-rollable:hover, .worldbuilding .basic-rollable:hover {
     cursor: pointer;
@@ -1359,13 +1335,11 @@ input.trait-effects.resize-ta {
   transform: scale(0.95);
 }
 
-/* Adjust ui-bottom spacing when counter is present */
 #ui-bottom {
   flex-direction: column;
   gap: 0;
 }
 
-/* Ensure counter UI has proper stacking */
 #counter-ui {
   isolation: isolate;
 }
@@ -1532,13 +1506,11 @@ input.trait-effects.resize-ta {
   color: var(--dh-color-gold);
 }
 
-/* Token Counter UI Styles */
 .token-counter {
   margin-left: 0.5em;
   margin-right: 0.5em;
 }
 
-/* Wrapper to contain all counters in a row */
 #ui-bottom > .counter-ui {
   margin-left: 0.25em;
   margin-right: 0.25em;
@@ -1575,10 +1547,9 @@ input.trait-effects.resize-ta {
   margin-bottom: 0.5em;
 }
 
-/* Adjust counter value display for HP/Hope to accommodate fraction display */
 #token-hp-counter .counter-value,
 #token-hope-counter .counter-value {
-  min-width: 60px; /* Slightly wider to accommodate "10/10" format */
+  min-width: 60px;
 }
 
 body.game .app a.inline-roll {

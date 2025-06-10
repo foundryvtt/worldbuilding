@@ -1505,3 +1505,17 @@ input.trait-effects.resize-ta {
   content: "-";
   font-weight: 800;
 }
+
+.daggerheart-roll-dialog select {
+  background: transparent;
+  border: 1px solid #433f64;
+  border-radius: .5em;
+  padding: 0.5em;
+  color: white;
+  text-align: center;
+}
+
+.daggerheart-roll-dialog select option {
+  background: var(--dh-color-dark-blue);
+  color: var(--dh-color-off-white);
+}

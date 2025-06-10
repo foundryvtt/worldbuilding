@@ -420,6 +420,22 @@ export class SimpleActorSheet extends foundry.appv1.sheets.ActorSheet {
     const dialogContent = `
     <form>
     <div class="flex-col" style="align-items: stretch; gap: 2rem">
+        <div class="flex-row" style="justify-content: center; gap: 2rem;">
+            <div class="flex-col">
+                <span class="label-bar">Hope Die</span>
+                <select name="hopeDieSize" id="hopeDieSize">
+                    <option value="d12" selected>d12</option>
+                    <option value="d20">d20</option>
+                </select>
+            </div>
+            <div class="flex-col">
+                <span class="label-bar">Fear Die</span>
+                <select name="fearDieSize" id="fearDieSize">
+                    <option value="d12" selected>d12</option>
+                    <option value="d20">d20</option>
+                </select>
+            </div>
+        </div>
       <div class="flex-row">
         <div class="flex-col stepper-group">
           <span class="label-bar">Advantage</span>
@@ -464,7 +480,9 @@ export class SimpleActorSheet extends foundry.appv1.sheets.ActorSheet {
                         const advantage = parseInt(html.find('#dualityDiceAdvantageInput').val()) || 0;
                         const disadvantage = parseInt(html.find('#dualityDiceDisadvantageInput').val()) || 0;
                         const modifier = parseInt(html.find('#dualityDiceModifierInput').val()) || 0;
-                        resolve({ advantage, disadvantage, modifier });
+                        const hopeDieSize = html.find('#hopeDieSize').val();
+                        const fearDieSize = html.find('#fearDieSize').val();
+                        resolve({ advantage, disadvantage, modifier, hopeDieSize, fearDieSize });
                     }
                 },
                 cancel: {
@@ -509,11 +527,11 @@ export class SimpleActorSheet extends foundry.appv1.sheets.ActorSheet {
 
     if (!dialogChoice) { return; }
 
-    const { advantage, disadvantage, modifier } = dialogChoice;
+    const { advantage, disadvantage, modifier, hopeDieSize, fearDieSize } = dialogChoice;
     const totalAdvantage = advantage - disadvantage;
 
     let rollType = "Normal";
-    let coreFormula = "1d12 + 1d12";
+    let coreFormula = `1${hopeDieSize} + 1${fearDieSize}`;
     let flavorSuffix = "";
     if (totalAdvantage > 0) {
         coreFormula += ` + ${totalAdvantage}d6kh1`;
@@ -529,36 +547,28 @@ export class SimpleActorSheet extends foundry.appv1.sheets.ActorSheet {
     const fullRollFormula = `${coreFormula} + ${traitValue + modifier}`;
     const roll = await new Roll(fullRollFormula).roll();
 
-    let whiteDiceResult, blackDiceResult;
-    let d12_A_val, d12_B_val;
+    let hopeDieValue, fearDieValue;
     let isCrit = false;
 
     if (roll.dice.length >= 2) {
       roll.dice[0].options.flavor = "Hope";
-      d12_A_val = roll.dice[0].total;
+      hopeDieValue = roll.dice[0].total;
 
       roll.dice[1].options.flavor = "Fear";
-      d12_B_val = roll.dice[1].total;
+      fearDieValue = roll.dice[1].total;
 
-      isCrit = d12_A_val === d12_B_val;
+      isCrit = hopeDieValue === fearDieValue;
 
-      whiteDiceResult = d12_A_val;
-      blackDiceResult = d12_B_val;
-
-      if (rollType === "Advantage" && roll.dice.length >= 3) {
+      if (roll.dice.length >= 3) {
         roll.dice[2].options.flavor = "Modifier";
-        whiteDiceResult += roll.dice[2].total;
-      } else if (rollType === "Disadvantage" && roll.dice.length >= 3) {
-        roll.dice[2].options.flavor = "Modifier";
-        whiteDiceResult -= roll.dice[2].total;
       }
     } else {
       console.error(`Worldbuilding | Critical error during ${traitNamePrint} roll: Less than two primary dice terms found. Roll object:`, roll);
       return;
     }
 
-    const isHope = whiteDiceResult > blackDiceResult;
-    const isFear = whiteDiceResult < blackDiceResult;
+    const isHope = hopeDieValue > fearDieValue;
+    const isFear = hopeDieValue < fearDieValue;
 
     let finalFlavor = `${traitNamePrint}${flavorSuffix}`;
     if (modifier !== 0) {

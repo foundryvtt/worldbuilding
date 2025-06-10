@@ -63,20 +63,32 @@ export class CounterUI {
       </div>
     `;
     
-    // Find the ui-bottom element
-    const uiBottom = document.getElementById("ui-bottom");
-    if (!uiBottom) {
-      console.error("Could not find ui-bottom element");
-      return;
+    // Find or create the counters wrapper
+    let countersWrapper = document.getElementById("counters-wrapper");
+    if (!countersWrapper) {
+      // Create wrapper
+      const wrapperHtml = '<div id="counters-wrapper" class="counters-wrapper"></div>';
+      
+      // Find the ui-bottom element
+      const uiBottom = document.getElementById("ui-bottom");
+      if (!uiBottom) {
+        console.error("Could not find ui-bottom element");
+        return;
+      }
+      
+      // Insert the wrapper before the hotbar
+      const hotbar = document.getElementById("hotbar");
+      if (hotbar) {
+        hotbar.insertAdjacentHTML("beforebegin", wrapperHtml);
+      } else {
+        uiBottom.insertAdjacentHTML("afterbegin", wrapperHtml);
+      }
+      
+      countersWrapper = document.getElementById("counters-wrapper");
     }
     
-    // Insert the counter before the hotbar
-    const hotbar = document.getElementById("hotbar");
-    if (hotbar) {
-      hotbar.insertAdjacentHTML("beforebegin", html);
-    } else {
-      uiBottom.insertAdjacentHTML("afterbegin", html);
-    }
+    // Insert the counter into the wrapper
+    countersWrapper.insertAdjacentHTML("beforeend", html);
     
     // Store reference to the element
     this.element = document.getElementById("counter-ui");
@@ -97,8 +109,8 @@ export class CounterUI {
     // Add multiple event types to ensure we catch the interaction
     ["click", "mousedown", "pointerdown"].forEach(eventType => {
       document.body.addEventListener(eventType, async (e) => {
-        // Check if clicked element is the plus button
-        if (e.target.closest(".counter-ui .counter-plus")) {
+        // Check if clicked element is the plus button - use ID selector to be specific
+        if (e.target.closest("#counter-ui .counter-plus")) {
           e.preventDefault();
           e.stopPropagation();
           // console.log(`Plus button ${eventType}`);
@@ -106,8 +118,8 @@ export class CounterUI {
             await this.increase();
           }
         }
-        // Check if clicked element is the minus button
-        else if (e.target.closest(".counter-ui .counter-minus")) {
+        // Check if clicked element is the minus button - use ID selector to be specific
+        else if (e.target.closest("#counter-ui .counter-minus")) {
           e.preventDefault();
           e.stopPropagation();
           // console.log(`Minus button ${eventType}`);

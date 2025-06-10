@@ -1531,3 +1531,52 @@ input.trait-effects.resize-ta {
   background: #433f64;
   color: var(--dh-color-gold);
 }
+
+/* Token Counter UI Styles */
+.token-counter {
+  margin-left: 0.5em;
+  margin-right: 0.5em;
+}
+
+/* Wrapper to contain all counters in a row */
+#ui-bottom > .counter-ui {
+  margin-left: 0.25em;
+  margin-right: 0.25em;
+}
+
+#token-hp-counter {
+  margin-right: 0.5em;
+}
+
+#counter-ui {
+  margin-left: 0.5em;
+  margin-right: 0.5em;
+}
+
+#token-hope-counter {
+  margin-left: 0.5em;
+}
+
+/* Ensure all counters align properly */
+#ui-bottom {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+
+/* Create a wrapper for all counters */
+.counters-wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  margin-bottom: 0.5em;
+}
+
+/* Adjust counter value display for HP/Hope to accommodate fraction display */
+#token-hp-counter .counter-value,
+#token-hope-counter .counter-value {
+  min-width: 60px; /* Slightly wider to accommodate "10/10" format */
+}

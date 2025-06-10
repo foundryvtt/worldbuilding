@@ -7,6 +7,7 @@ import { preloadHandlebarsTemplates } from "./templates.js";
 import { createWorldbuildingMacro } from "./macro.js";
 import { SimpleToken, SimpleTokenDocument } from "./token.js";
 import { CounterUI } from "./counter-ui.js";
+import { TokenCounterUI } from "./token-counter-ui.js";
 
 /* -------------------------------------------- */
 /*  Foundry VTT Initialization                  */
@@ -139,6 +140,10 @@ Hooks.once("ready", async function() {
   // Initialize the counter UI
   game.worldbuilding.counter = new CounterUI();
   await game.worldbuilding.counter.initialize();
+  
+  // Initialize the token counter UI
+  game.worldbuilding.tokenCounter = new TokenCounterUI();
+  await game.worldbuilding.tokenCounter.initialize();
   
   console.log("Counter UI initialized and displayed above the hotbar.");
 });

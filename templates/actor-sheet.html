@@ -492,11 +492,13 @@
                 </ol>
 
                 <div class="tab-category">Vault
-                    <a class="item-control" title="{{ localize 'SIMPLE.ItemCreate' }}" data-action="create-item"
-                        data-type="vault">
-                        <i class="fas fa-plus"></i> Add Item
-                    </a>
-                    <a class="item-control vault-toggle" title="Toggle Vault"><i class="fas fa-chevron-down"></i></a>
+                    <div class="vault-controls">
+                        <a class="item-control" title="{{ localize 'SIMPLE.ItemCreate' }}" data-action="create-item"
+                            data-type="vault">
+                            <i class="fas fa-plus"></i> Add Item
+                        </a>
+                        <a class="item-control vault-toggle" title="Toggle Vault"><i class="fas fa-chevron-down"></i></a>
+                    </div>
                 </div>
                 <ol class="item-list" data-item-type="vault" style="display: none;">
                     {{#each data.items as |item id|}}

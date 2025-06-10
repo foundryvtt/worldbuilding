@@ -328,8 +328,6 @@
   display: flex;
   justify-content: flex-end;
   width: 100%;
-  margin-top: 2em;
-  padding: 0em 2em;
   overflow: visible;
   max-height: 1em;
   align-content: center;
@@ -621,11 +619,11 @@
 }
 
 .defense input[name="system.defenses.evasion.value"] {
-  background-image: url(https://content.demiplane.com/nexus/daggerheart/dh-evasion-bg.webp);
+  background-image: url("icons/Evade BG-2.png");
 }
 
 .defense input[name="system.defenses.armor.value"] {
-  background-image: url(https://content.demiplane.com/nexus/daggerheart/dh-armor-bg.webp);
+  background-image: url("icons/Shield BG-2.png");
 }
 
 .defense label {
@@ -702,17 +700,17 @@
   text-transform: uppercase;
   font-size: 10px;
   letter-spacing: 1px;
-  padding: 2px 6px;
-  background: var(--dh-color-off-black);
-  border: 2px solid var(--dh-color-gold);
-  border-radius: 0px 10px;
+  padding: .25em 0.25em;
+  background: rgba(11, 10, 19, 0.85);
+  border: 1px solid var(--dh-color-gold);
+  border-radius: .5em;
   z-index: 1;
 }
 
 .trait input {
   width: 80px;
   height: 64px;
-  background: url(https://content.demiplane.com/nexus/daggerheart/stat-box-bg.webp) no-repeat;
+  background: url("icons/Stats BG-2.png") no-repeat;
   background-size: contain;
   background-position: center center;
   border: none;
@@ -743,10 +741,9 @@ input.trait-effects.resize-ta {
 }
 
 .worldbuilding .trait-label-wrapper {
-  margin-bottom: -.5em;
+  margin-bottom: -.75em;
   z-index: 1;
 }
-
 
 /* Experience */
 .experience-group {
@@ -841,6 +838,12 @@ input.trait-effects.resize-ta {
   justify-content: space-between;
   align-items: center;
   text-shadow: none;
+}
+
+.vault-controls {
+    display: flex;
+    align-items: center;
+    gap: 1em;
 }
 
 .hidden-input {
@@ -1120,7 +1123,7 @@ input.trait-effects.resize-ta {
     background: var(--dh-color-off-white);
 }
 
-.app.window-app.worldbuilding.sheet::after {
+/* .app.window-app.worldbuilding.sheet::after {
   content: "";
   display: block;
   height: 120px;
@@ -1133,7 +1136,7 @@ input.trait-effects.resize-ta {
   background-size: 60px auto, 60px auto, calc(100% - 18px) 26px;
   background-repeat: no-repeat;
   pointer-events: none;
-}
+} */
 
 .worldbuilding .click-rollable:hover, .worldbuilding .basic-rollable:hover {
     cursor: pointer;

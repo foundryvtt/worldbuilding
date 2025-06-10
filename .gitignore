@@ -1,9 +1,0 @@
-# IDE
-.idea/
-.vs/
-
-# Node Modules
-node_modules/
-package-lock.json
-
-worldbuilding.lock

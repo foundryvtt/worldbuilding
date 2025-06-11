@@ -84,7 +84,6 @@ export class SimpleActorSheet extends foundry.appv1.sheets.ActorSheet {
     
     //Clickable Labels Block
     html.find(".traits").on("click", ".trait label", this._onTraitLabelClick.bind(this));
-    //html.find(".weapon-group").on("click", ".weapon-label", this._onWeaponLabelClick.bind(this));
     html.find(".click-rollable-group").on("click", ".click-rollable", this._onRollableClick.bind(this));
     html.find(".basic-rollable-group").on("click", ".basic-rollable", this._onBasicRollableClick.bind(this));
     
@@ -143,7 +142,7 @@ export class SimpleActorSheet extends foundry.appv1.sheets.ActorSheet {
     event.preventDefault();
     
     // Obtain event data
-    const button = event.currentTarget; // This is the element with data-action, e.g., the <img> or <a>
+    const button = event.currentTarget;
     const li = button.closest(".item");
     const item = this.actor.items.get(li?.dataset.itemId);
     const action = button.dataset.action;
@@ -156,7 +155,7 @@ export class SimpleActorSheet extends foundry.appv1.sheets.ActorSheet {
         speaker: ChatMessage.getSpeaker({ actor: this.actor }),
         content: chatMessage
       });
-      return; // Done, don't proceed to open edit sheet or other actions
+      return; // Done
     }
     
     const type = button.dataset.type; // Ensure type is read for create actions
@@ -260,19 +259,19 @@ export class SimpleActorSheet extends foundry.appv1.sheets.ActorSheet {
     // If the item comes from the same actor, it's a move.
     if (this.actor.items.has(item.id)) {
         const existingItem = this.actor.items.get(item.id);
-        // If it's the same type, do nothing.
+        // If it's the same type do nothing
         if (existingItem.type === newType) return;
 
         // Create a new item of the correct type with the old item's data.
         const newItemData = existingItem.toObject();
         newItemData.type = newType;
         
-        // Delete the old item and create the new one.
+        // Delete the old item and create the new one
         await existingItem.delete();
         return this.actor.createEmbeddedDocuments("Item", [newItemData]);
 
     } else {
-      // Otherwise, we are creating a new item from a drop.
+      // Otherwise, we are creating a new item from a drop
       const newItemData = item.toObject();
       newItemData.type = newType;
       return this.actor.createEmbeddedDocuments("Item", [newItemData]);
@@ -614,17 +613,13 @@ export class SimpleActorSheet extends foundry.appv1.sheets.ActorSheet {
     if (!descriptionDiv) return;
     
     if (li.classList.contains("expanded")) {
-      // Collapse: animate to height 0
       descriptionDiv.style.height = descriptionDiv.scrollHeight + "px";
-      // Force a reflow to ensure the height is set before starting transition
       descriptionDiv.offsetHeight;
       descriptionDiv.style.height = "0px";
       li.classList.remove("expanded");
     } else {
-      // Expand: animate to content height
       li.classList.add("expanded");
       descriptionDiv.style.height = descriptionDiv.scrollHeight + "px";
-      // After animation completes, set height to auto for dynamic content
       setTimeout(() => {
         if (li.classList.contains("expanded")) {
           descriptionDiv.style.height = "auto";
@@ -724,14 +719,12 @@ export class NPCActorSheet extends SimpleActorSheet {
       }, false);
     });
     
-    // Dealing with Input width
     let el = html.find(".input-wrap .input");
     let widthMachine = html.find(".input-wrap .width-machine");
     el.on("keyup", () => {
       widthMachine.html(el.val());
     });
     
-    // Dealing with Textarea Height
     function calcHeight(value) {
       let numberOfLineBreaks = (value.match(/\n/g) || []).length;
       // min-height + lines x line-height + padding + border
@@ -777,13 +770,8 @@ export class NPCActorSheet extends SimpleActorSheet {
     switch ( button.dataset.action ) {
       case "create":
       const cls = getDocumentClass("Item");
-      // NPCActorSheet specific item creation logic, ensure type is handled if necessary or use a default
-      // For simplicity, using "item" as default type as in original code.
-      // If NPC sheet items can have different types like 'feature', 'worn', 'inventory' via specific create buttons,
-      // this might need adjustment similar to SimpleActorSheet (reading button.dataset.type).
-      // Based on the provided code, NPCActorSheet only has a generic "create" with type "item".
       return cls.create({name: game.i18n.localize("SIMPLE.ItemNew"), type: "item"}, {parent: this.actor});
-      case "edit": // This will now only be reached if the image wasn't clicked (e.g., edit icon was clicked)
+      case "edit": 
         if (item) return item.sheet.render(true);
         break;
       case "delete":

@@ -19,6 +19,24 @@ import { TokenCounterUI } from "./token-counter-ui.js";
 Hooks.once("init", async function() {
   console.log(`Initializing Simple Worldbuilding System`);
 
+  CONFIG.statusEffects = [];
+
+  CONFIG.statusEffects.push({
+    id: "hidden",
+    label: "Hidden",
+    icon: "icons/svg/invisible.svg"
+  });
+  CONFIG.statusEffects.push({
+    id: "restrained",
+    label: "Restrained",
+    icon: "icons/svg/net.svg"
+  });
+  CONFIG.statusEffects.push({
+    id: "vulnerable",
+    label: "Vulnerable",
+    icon: "icons/svg/bones.svg"
+  });
+
   /**
    * Set an initiative formula for the system. This will be updated later.
    * @type {String}

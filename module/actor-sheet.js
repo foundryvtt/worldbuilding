@@ -609,10 +609,12 @@ export class SimpleActorSheet extends foundry.appv1.sheets.ActorSheet {
   }
 
   async _onToggleDescription(event) {
-    const itemHeader = $(event.currentTarget).closest('.item-header');
-    const item = itemHeader.closest('.item');
-    const description = item.find('.item-description');
+    event.preventDefault();
+    const li = event.currentTarget.closest(".item");
+    const descriptionDiv = li.querySelector(".item-description");
 
+    if (!descriptionDiv) return;
+    
     if (li.classList.contains("expanded")) {
       descriptionDiv.style.height = descriptionDiv.scrollHeight + "px";
       descriptionDiv.offsetHeight;

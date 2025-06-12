@@ -152,13 +152,32 @@ export class SimpleActorSheet extends foundry.appv1.sheets.ActorSheet {
 
     // If the clicked element is an IMG with data-action="edit" (the item's image)
     if (item && action === "edit" && button.tagName === 'IMG' && button.classList.contains('item-control')) {
-      const chatMessage = `@UUID[${item.uuid}]{${item.name}}`;
+      const itemData = item.system;
+      const description = await TextEditor.enrichHTML(itemData.description, {secrets: this.actor.isOwner, async: true});
+      const chatCard = `
+      <div class="item-card-chat" data-item-id="${item.id}" data-actor-id="${this.actor.id}">
+          <div class="card-image-container" style="background-image: url('${item.img}')">
+              <div class="card-header-text">
+                  <h3>${item.name}</h3>
+              </div>
+          </div>
+          <div class="card-content">
+              <div class="card-subtitle">
+                  <span>${itemData.category || ''} - ${itemData.rarity || ''}</span>
+              </div>
+              <div class="card-description">
+                  ${description}
+              </div>
+          </div>
+      </div>
+      `;
+
       ChatMessage.create({
-        user: game.user.id,
-        speaker: ChatMessage.getSpeaker({ actor: this.actor }),
-        content: chatMessage
+          user: game.user.id,
+          speaker: ChatMessage.getSpeaker({ actor: this.actor }),
+          content: chatCard
       });
-      return; // Done
+      return; // Done, don't proceed to open edit sheet
     }
     
     const type = button.dataset.type; // Ensure type is read for create actions
@@ -771,7 +790,7 @@ export class NPCActorSheet extends SimpleActorSheet {
   * @param event
   * @private
   */
-  _onItemControl(event) {
+  async _onItemControl(event) {
     event.preventDefault();
     
     // Obtain event data
@@ -782,11 +801,30 @@ export class NPCActorSheet extends SimpleActorSheet {
 
     // If the clicked element is an IMG with data-action="edit" (the item's image)
     if (item && action === "edit" && button.tagName === 'IMG' && button.classList.contains('item-control')) {
-      const chatMessage = `@UUID[${item.uuid}]{${item.name}}`;
+      const itemData = item.system;
+      const description = await TextEditor.enrichHTML(itemData.description, {secrets: this.actor.isOwner, async: true});
+      const chatCard = `
+      <div class="item-card-chat" data-item-id="${item.id}" data-actor-id="${this.actor.id}">
+          <div class="card-image-container" style="background-image: url('${item.img}')">
+              <div class="card-header-text">
+                  <h3>${item.name}</h3>
+              </div>
+          </div>
+          <div class="card-content">
+              <div class="card-subtitle">
+                  <span>${itemData.category || ''} - ${itemData.rarity || ''}</span>
+              </div>
+              <div class="card-description">
+                  ${description}
+              </div>
+          </div>
+      </div>
+      `;
+
       ChatMessage.create({
-        user: game.user.id,
-        speaker: ChatMessage.getSpeaker({ actor: this.actor }),
-        content: chatMessage
+          user: game.user.id,
+          speaker: ChatMessage.getSpeaker({ actor: this.actor }),
+          content: chatCard
       });
       return; // Done, don't proceed to open edit sheet
     }

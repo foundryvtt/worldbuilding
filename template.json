@@ -152,6 +152,24 @@
       "groups": {},
       "backpack": {
         "items": []
+      },
+      "treasure": {
+        "coins": {
+          "value": 0,
+          "tooltip": "Individual coins"
+        },
+        "handfuls": {
+          "value": 0,
+          "tooltip": "Handfuls of coins"
+        },
+        "bags": {
+          "value": 0,
+          "tooltip": "Bags of treasure"
+        },
+        "chests": {
+          "value": 0,
+          "tooltip": "Chests of treasure"
+        }
       }
     },
     "npc": {
@@ -168,7 +186,7 @@
     }
   },
   "Item": {
-    "types": ["item", "inventory", "worn", "domain", "vault"],
+    "types": ["item", "inventory", "worn", "domain", "vault", "ancestry", "community", "class", "subclass"],
     "htmlFields": ["description"],
     "item": {
       "description": "",
@@ -198,6 +216,51 @@
       "groups": {}
     },
     "worn": {
+      "description": "",
+      "category": "",
+      "rarity": "",
+      "quantity": 1,
+      "weight": 0,
+      "attributes": {},
+      "groups": {}
+    },
+    "vault": {
+      "description": "",
+      "category": "",
+      "rarity": "",
+      "quantity": 1,
+      "weight": 0,
+      "attributes": {},
+      "groups": {}
+    },
+    "ancestry": {
+      "description": "",
+      "category": "",
+      "rarity": "",
+      "quantity": 1,
+      "weight": 0,
+      "attributes": {},
+      "groups": {}
+    },
+    "community": {
+      "description": "",
+      "category": "",
+      "rarity": "",
+      "quantity": 1,
+      "weight": 0,
+      "attributes": {},
+      "groups": {}
+    },
+    "class": {
+      "description": "",
+      "category": "",
+      "rarity": "",
+      "quantity": 1,
+      "weight": 0,
+      "attributes": {},
+      "groups": {}
+    },
+    "subclass": {
       "description": "",
       "category": "",
       "rarity": "",

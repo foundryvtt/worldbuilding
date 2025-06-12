@@ -30,7 +30,10 @@
   "ITEM.TypeWorn": "Worn",
   "ITEM.TypeDomain": "Domain",
   "ITEM.Vault": "Vault",
-
+  "ITEM.TypeAncestry": "Ancestry",
+  "ITEM.TypeCommunity": "Community",
+  "ITEM.TypeClass": "Class",
+  "ITEM.TypeSubclass": "Subclass",
 
   "SHEET.Actor.character": "Character Sheet",
   "SHEET.Actor.npc": "Adversary Sheet",

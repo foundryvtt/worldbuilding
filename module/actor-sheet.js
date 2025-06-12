@@ -192,6 +192,18 @@ export class SimpleActorSheet extends foundry.appv1.sheets.ActorSheet {
       case "create-domain":
       const clsd = getDocumentClass("Item");
       return clsd.create({name: "New Domain", type: type}, {parent: this.actor}); // Use the type variable here
+      case "create-ancestry":
+      const clsa = getDocumentClass("Item");
+      return clsa.create({name: "New Ancestry", type: type}, {parent: this.actor}); // Use the type variable here
+      case "create-community":
+      const clscom = getDocumentClass("Item");
+      return clscom.create({name: "New Community", type: type}, {parent: this.actor}); // Use the type variable here
+      case "create-class":
+      const clscl = getDocumentClass("Item");
+      return clscl.create({name: "New Class", type: type}, {parent: this.actor}); // Use the type variable here
+      case "create-subclass":
+      const clssc = getDocumentClass("Item");
+      return clssc.create({name: "New Subclass", type: type}, {parent: this.actor}); // Use the type variable here
       case "edit": // This will now only be reached if the image wasn't clicked (e.g., edit icon was clicked)
         if (item) return item.sheet.render(true);
         break;
@@ -199,7 +211,7 @@ export class SimpleActorSheet extends foundry.appv1.sheets.ActorSheet {
         if (item) return item.delete();
         break;
       case "send-to-vault":
-        if (item && item.type === "domain") {
+        if (item) {
           // Create a new vault item with the same data
           const itemData = {
             name: item.name,
@@ -382,7 +394,7 @@ export class SimpleActorSheet extends foundry.appv1.sheets.ActorSheet {
     const rollValue = rollProfInput + rollValueInput.value;
 
     console.log("Current value: ", rollValue);
-
+    
     await this._rollBasic(rollName, rollValue);
   }
   

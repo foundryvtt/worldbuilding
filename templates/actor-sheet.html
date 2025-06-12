@@ -16,31 +16,43 @@
 
         <div class="header-main-container">
             <div class="resource health">
-                <div class="resource-box">
-                    <input type="text" name="system.health.value" value="{{systemData.health.value}}" />
-                    <span class="sep">/</span>
-                    <input type="text" name="system.health.max" value="{{systemData.health.max}}" />
+                <div class="resource-content">
+                    <a class="resource-control" data-action="decrement" data-field="health.value"><i class="fas fa-minus"></i></a>
+                    <div class="resource-box">
+                        <input type="text" name="system.health.value" value="{{systemData.health.value}}" />
+                        <span class="sep">/</span>
+                        <input type="text" name="system.health.max" value="{{systemData.health.max}}" />
+                    </div>
+                    <a class="resource-control" data-action="increment" data-field="health.value"><i class="fas fa-plus"></i></a>
                 </div>
-                <label>Health</label>
+                <label>Hit Points</label>
             </div>
 
             <div class="portrait-container">
                 <img class="profile-img" src="{{data.img}}" data-edit="img" title="{{data.name}}" />
                 <div class="resource hope">
-                    <div class="resource-box">
-                        <input type="text" name="system.hope.value" value="{{systemData.hope.value}}" />
-                        <span class="sep">/</span>
-                        <input type="text" name="system.hope.max" value="{{systemData.hope.max}}" />
+                    <div class="resource-content">
+                        <a class="resource-control" data-action="decrement" data-field="hope.value"><i class="fas fa-minus"></i></a>
+                        <div class="resource-box">
+                            <input type="text" name="system.hope.value" value="{{systemData.hope.value}}" />
+                            <span class="sep">/</span>
+                            <input type="text" name="system.hope.max" value="{{systemData.hope.max}}" />
+                        </div>
+                        <a class="resource-control" data-action="increment" data-field="hope.value"><i class="fas fa-plus"></i></a>
                     </div>
                     <label>Hope</label>
                 </div>
             </div>
 
             <div class="resource stress">
-                <div class="resource-box">
-                    <input type="text" name="system.stress.value" value="{{systemData.stress.value}}" />
-                    <span class="sep">/</span>
-                    <input type="text" name="system.stress.max" value="{{systemData.stress.max}}" />
+                <div class="resource-content">
+                    <a class="resource-control" data-action="decrement" data-field="stress.value"><i class="fas fa-minus"></i></a>
+                    <div class="resource-box">
+                        <input type="text" name="system.stress.value" value="{{systemData.stress.value}}" />
+                        <span class="sep">/</span>
+                        <input type="text" name="system.stress.max" value="{{systemData.stress.max}}" />
+                    </div>
+                    <a class="resource-control" data-action="increment" data-field="stress.value"><i class="fas fa-plus"></i></a>
                 </div>
                 <label>Stress</label>
             </div>
@@ -84,17 +96,21 @@
                                     value="{{systemData.defenses.armor-slots.value}}" />
                                 <a class="trait-effects">Used</a>
                             </div>
-                            <div class="resource-group">
+                            <!-- <div class="resource-group">
                                 <input type="number" name="system.defenses.armor-slots.max"
                                     value="{{systemData.defenses.armor-slots.max}}" />
                                 <a class="trait-effects">Max</a>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                     <div class="defense" data-trait="armor">
                         <input type="number" name="system.defenses.armor.value"
                             value="{{systemData.defenses.armor.value}}" />
-                        <label for="system.defenses.armor.value">Armor</label>
+                        <div class="armor-controls">
+                            <!-- <a class="resource-control" data-action="decrement" data-field="defenses.armor.value"><i class="fas fa-minus"></i></a> -->
+                            <label for="system.defenses.armor.value">Armor</label>
+                            <!-- <a class="resource-control" data-action="increment" data-field="defenses.armor.value"><i class="fas fa-plus"></i></a> -->  
+                        </div>
                     </div>
                     <div class="defense" data-trait="evasion">
                         <input type="number" name="system.defenses.evasion.value"
@@ -103,20 +119,24 @@
                     </div>
                     <div class="armorslots">
                         <!-- Reusing armorslots for threshold for styling -->
-                        <label>threshold</label>
+                        <label>Threshold</label>
                         <div class="values">
+                            <!-- <span class="threshold-text">Mark<br>1 HP</span> -->
                             <div class="resource-group">
                                 <input type="number" name="system.threshold.major"
                                     value="{{systemData.threshold.major}}" />
                                 <a class="trait-effects">Major</a>
                             </div>
+                            <!-- <span class="threshold-text">Mark<br>2 HP</span> -->
                             <div class="resource-group">
                                 <input type="number" name="system.threshold.severe"
                                     value="{{systemData.threshold.severe}}" />
                                 <a class="trait-effects">Severe</a>
                             </div>
+                            <!-- <span class="threshold-text">Mark<br>3 HP</span> -->
                         </div>
                     </div>
+
                 </section>
 
                 <section class="traits">

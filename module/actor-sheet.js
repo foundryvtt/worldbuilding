@@ -77,6 +77,9 @@ export class SimpleActorSheet extends foundry.appv1.sheets.ActorSheet {
     // Everything below here is only needed if the sheet is editable
     if ( !this.isEditable ) return;
     
+    // Resource Management
+    html.find(".resource-control").click(this._onResourceControl.bind(this));
+
     // Attribute Management
     html.find(".attributes").on("click", ".attribute-control", EntitySheetHelper.onClickAttributeControl.bind(this));
     html.find(".groups").on("click", ".group-control", EntitySheetHelper.onClickAttributeGroupControl.bind(this));
@@ -606,12 +609,10 @@ export class SimpleActorSheet extends foundry.appv1.sheets.ActorSheet {
   }
 
   async _onToggleDescription(event) {
-    event.preventDefault();
-    const li = event.currentTarget.closest(".item");
-    const descriptionDiv = li.querySelector(".item-description");
-    
-    if (!descriptionDiv) return;
-    
+    const itemHeader = $(event.currentTarget).closest('.item-header');
+    const item = itemHeader.closest('.item');
+    const description = item.find('.item-description');
+
     if (li.classList.contains("expanded")) {
       descriptionDiv.style.height = descriptionDiv.scrollHeight + "px";
       descriptionDiv.offsetHeight;
@@ -625,6 +626,28 @@ export class SimpleActorSheet extends foundry.appv1.sheets.ActorSheet {
           descriptionDiv.style.height = "auto";
         }
       }, 150);
+    }
+  }
+
+  async _onResourceControl(event) {
+    event.preventDefault();
+    const a = event.currentTarget;
+    const action = a.dataset.action;
+    const field = a.dataset.field;
+
+    const value = foundry.utils.getProperty(this.actor.system, field);
+    let updateValue;
+
+    if (action === 'increment') {
+      updateValue = Number(value) + 1;
+    } else if (action === 'decrement') {
+      updateValue = Number(value) - 1;
+    }
+
+    if (updateValue !== undefined) {
+      this.actor.update({
+        [`system.${field}`]: updateValue
+      });
     }
   }
 }
@@ -822,8 +845,9 @@ export class NPCActorSheet extends SimpleActorSheet {
   /** @inheritdoc */
   _getSubmitData(updateData) {
     let formData = super._getSubmitData(updateData);
-    formData = EntitySheetHelper.updateAttributes(formData, this.object);
-    formData = EntitySheetHelper.updateGroups(formData, this.object);
+    if (this.actor.type === "npc") {
+      formData["system.isNPC"] = true;
+    }
     return formData;
   }
 }

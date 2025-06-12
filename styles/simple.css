@@ -392,10 +392,10 @@
 }
 
 .resource.hope {
-    position: absolute;
-    bottom: -20px;
-    left: 50%;
-    transform: translateX(-50%);
+  position: absolute;
+  bottom: -25px;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .resource .resource-box {
@@ -1558,4 +1558,47 @@ body.game .app a.inline-roll {
   border-radius: .5em;
   color: #f3c267;
   font-weight: 600;
+}
+
+/* Resource Controls on Actor Sheet */
+.resource-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.resource-content .resource-box {
+    margin: 0 5px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.resource-control {
+    color: var(--dh-color-off-white);
+    text-decoration: none;
+    font-size: 1.2em;
+    padding: 0 5px;
+    cursor: pointer;
+}
+
+.armor-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    margin-top: -15px;
+    position: relative;
+    z-index: 1;
+}
+
+.defense .armor-controls label {
+    margin-top: 0;
+}
+
+.threshold-text {
+    color: var(--dh-color-off-white);
+    font-size: 0.8em;
+    text-transform: uppercase;
+    opacity: 0.7;
+    text-align: center;
+    line-height: 1.1;
 }
